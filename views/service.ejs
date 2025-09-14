@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KMRL - Service Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="nav-left">
+                <div class="logo">
+                    <i class="fas fa-subway"></i>
+                    <span>KMRL</span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="http://localhost:3000/dashboard" class="nav-link" data-page="dashboard"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+                    <li><a href="http://localhost:3000/service" class="nav-link active" data-page="service"><i class="fas fa-cogs"></i> Service</a></li>
+                    <li><a href="http://localhost:3000/standby" class="nav-link" data-page="standby"><i class="fas fa-pause-circle"></i> Standby</a></li>
+                    <li><a href="http://localhost:3000/maintenance" class="nav-link" data-page="maintenance"><i class="fas fa-tools"></i> Maintenance</a></li>
+                    <li><a href="http://localhost:3000/alerts" class="nav-link" data-page="alerts"><i class="fas fa-bell"></i> Alerts</a></li>
+                </ul>
+            </div>
+            
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <div class="nav-right">
+                <div class="user-profile">
+                    <div class="user-info">
+                        <div class="user-name">Admin User</div>
+                        <div class="user-role">System Administrator</div>
+                    </div>
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" class="user-photo">
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="main-container">
+        <aside class="sidebar">
+            <ul class="sidebar-menu">
+                <li><a href="http://localhost:3000/service" class="sidebar-link active" data-page="service"><i class="fas fa-cogs"></i> Service</a></li>
+                <li><a href="http://localhost:3000/standby" class="sidebar-link" data-page="standby"><i class="fas fa-pause-circle"></i> Standby</a></li>
+                <li><a href="http://localhost:3000/maintenance" class="sidebar-link" data-page="maintenance"><i class="fas fa-tools"></i> Maintenance</a></li>
+                <li><a href="http://localhost:3000/alerts" class="sidebar-link" data-page="alerts"><i class="fas fa-bell"></i> Alerts</a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <div class="page-content active" id="service-page">
+                <div class="page-header">
+                    <h1 class="page-title"><i class="fas fa-cogs"></i> Service Ready Trains</h1>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary"><i class="fas fa-file-export"></i> Export</button>
+                    </div>
+                </div>
+
+                <section>
+                    <h2><i class="fas fa-filter"></i> Filters</h2>
+                    <div class="filters">
+                        <div class="filter-group">
+                            <label for="bay-filter">Bay</label>
+                            <select id="bay-filter">
+                                <option value="">All Bays</option>
+                                <option value="A1">Bay A1</option>
+                                <option value="A2">Bay A2</option>
+                                <option value="B1">Bay B1</option>
+                                <option value="B2">Bay B2</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="branding-filter">Branding Priority</label>
+                            <select id="branding-filter">
+                                <option value="">All Priorities</option>
+                                <option value="high">High</option>
+                                <option value="medium">Medium</option>
+                                <option value="low">Low</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="mileage-filter">Mileage Status</label>
+                            <select id="mileage-filter">
+                                <option value="">All Status</option>
+                                <option value="low">Low</option>
+                                <option value="medium">Medium</option>
+                                <option value="high">High</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="search">Search</label>
+                            <input type="text" id="search" placeholder="Train ID...">
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Train ID</th>
+                                    <th>Bay Position</th>
+                                    <th>Mileage Counter</th>
+                                    <th>Fitness Certificate</th>
+                                    <th>Branding Priority</th>
+                                    <th>Cleaning Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>TR-07</td>
+                                    <td>A1</td>
+                                    <td class="mileage-indicator">
+                                        <span class="mileage-dot mileage-low"></span>
+                                        12,450 km
+                                    </td>
+                                    <td><span class="status-indicator status-service">Valid until 09/15</span></td>
+                                    <td>High</td>
+                                    <td><span class="status-indicator status-service">Completed</span></td>
+                                    <td class="action-buttons">
+                                        <button class="btn btn-secondary btn-sm"><i class="fas fa-exchange-alt"></i> Reassign</button>
+                                        <button class="btn btn-warning btn-sm"><i class="fas fa-pause"></i> Mark Standby</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>TR-12</td>
+                                    <td>A2</td>
+                                    <td class="mileage-indicator">
+                                        <span class="mileage-dot mileage-medium"></span>
+                                        23,780 km
+                                    </td>
+                                    <td><span class="status-indicator status-service">Valid until 10/22</span></td>
+                                    <td>Medium</td>
+                                    <td><span class="status-indicator status-service">Completed</span></td>
+                                    <td class="action-buttons">
+                                        <button class="btn btn-secondary btn-sm"><i class="fas fa-exchange-alt"></i> Reassign</button>
+                                        <button class="btn btn-warning btn-sm"><i class="fas fa-pause"></i> Mark Standby</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>TR-18</td>
+                                    <td>B1</td>
+                                    <td class="mileage-indicator">
+                                        <span class="mileage-dot mileage-high"></span>
+                                        35,200 km
+                                    </td>
+                                    <td><span class="status-indicator status-warning">Valid until 08/25</span></td>
+                                    <td>High</td>
+                                    <td><span class="status-indicator status-service">Completed</span></td>
+                                    <td class="action-buttons">
+                                        <button class="btn btn-secondary btn-sm"><i class="fas fa-exchange-alt"></i> Reassign</button>
+                                        <button class="btn btn-warning btn-sm"><i class="fas fa-pause"></i> Mark Standby</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>TR-22</td>
+                                    <td>B2</td>
+                                    <td class="mileage-indicator">
+                                        <span class="mileage-dot mileage-low"></span>
+                                        8,900 km
+                                    </td>
+                                    <td><span class="status-indicator status-service">Valid until 11/05</span></td>
+                                    <td>Low</td>
+                                    <td><span class="status-indicator status-warning">Pending</span></td>
+                                    <td class="action-buttons">
+                                        <button class="btn btn-secondary btn-sm"><i class="fas fa-exchange-alt"></i> Reassign</button>
+                                        <button class="btn btn-warning btn-sm"><i class="fas fa-pause"></i> Mark Standby</button>
+                                        <button class="btn btn-primary btn-sm"><i class="fas fa-soap"></i> Clean</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

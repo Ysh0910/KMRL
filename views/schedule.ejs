@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KMRL - Schedule</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="schedule_style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="nav-left">
+                <div class="logo">
+                    <i class="fas fa-subway"></i>
+                    <span>KMRL</span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="http://localhost:3000/dashboard" class="nav-link" data-page="dashboard"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+                    <li><a href="http://localhost:3000/service" class="nav-link" data-page="service"><i class="fas fa-cogs"></i> Service</a></li>
+                    <li><a href="http://localhost:3000/standby" class="nav-link" data-page="standby"><i class="fas fa-pause-circle"></i> Standby</a></li>
+                    <li><a href="http://localhost:3000/maintenance" class="nav-link" data-page="maintenance"><i class="fas fa-tools"></i> Maintenance</a></li>
+                    <li><a href="http://localhost:3000/alerts" class="nav-link" data-page="alerts"><i class="fas fa-bell"></i> Alerts</a></li>
+                    <li><a href="http://localhost:3000/schedule" class="nav-link active" data-page="schedule"><i class="fas fa-calendar-alt"></i> Schedule</a></li>
+                    <li><a href="http://localhost:3000/staff" class="nav-link" data-page="staff"><i class="fas fa-users"></i> Staff</a></li>
+                </ul>
+            </div>
+            
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <div class="nav-right">
+                <div class="user-profile">
+                    <div class="user-info">
+                        <div class="user-name">Admin User</div>
+                        <div class="user-role">System Administrator</div>
+                    </div>
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" class="user-photo">
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="main-container">
+        <aside class="sidebar">
+            <ul class="sidebar-menu">
+                <li><a href="http://localhost:3000/service" class="sidebar-link" data-page="service"><i class="fas fa-cogs"></i> Service</a></li>
+                <li><a href="http://localhost:3000/standby" class="sidebar-link" data-page="standby"><i class="fas fa-pause-circle"></i> Standby</a></li>
+                <li><a href="http://localhost:3000/maintenance" class="sidebar-link" data-page="maintenance"><i class="fas fa-tools"></i> Maintenance</a></li>
+                <li><a href="http://localhost:3000/alerts" class="sidebar-link" data-page="alerts"><i class="fas fa-bell"></i> Alerts</a></li>
+                <li><a href="http://localhost:3000/schedule" class="sidebar-link active" data-page="schedule"><i class="fas fa-calendar-alt"></i> Schedule</a></li>
+                <li><a href="http://localhost:3000/staff" class="sidebar-link" data-page="staff"><i class="fas fa-users"></i> Staff</a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <div class="page-content active" id="schedule-page">
+                <div class="page-header">
+                    <h1 class="page-title"><i class="fas fa-calendar-alt"></i> Schedule Planning</h1>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary"><i class="fas fa-magic"></i> Generate Schedule</button>
+                        <button class="btn btn-secondary"><i class="fas fa-save"></i> Save Draft</button>
+                        <button class="btn btn-success"><i class="fas fa-lock"></i> Finalize</button>
+                        <button class="btn btn-primary"><i class="fas fa-file-export"></i> Export</button>
+                    </div>
+                </div>
+
+                <section>
+                    <h2><i class="fas fa-filter"></i> Date Selection</h2>
+                    <div class="filters">
+                        <div class="filter-group">
+                            <label for="date-select">Select Date</label>
+                            <select id="date-select">
+                                <option value="today">Tonight (August 28, 2023)</option>
+                                <option value="tomorrow">Tomorrow (August 29, 2023)</option>
+                                <option value="custom">Custom Date</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="custom-date">Custom Date</label>
+                            <input type="date" id="custom-date" value="2023-08-28">
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2><i class="fas fa-chart-pie"></i> Schedule Overview</h2>
+                    <div class="schedule-overview">
+                        <div class="overview-card">
+                            <div class="overview-icon">✅</div>
+                            <div class="overview-title">Scheduled for Service</div>
+                            <div class="overview-value">18</div>
+                        </div>
+                        <div class="overview-card">
+                            <div class="overview-icon">🅿️</div>
+                            <div class="overview-title">Standby Assigned</div>
+                            <div class="overview-value">4</div>
+                        </div>
+                        <div class="overview-card">
+                            <div class="overview-icon">🛠️</div>
+                            <div class="overview-title">Under Maintenance</div>
+                            <div class="overview-value">3</div>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <div class="view-toggle">
+                        <button class="toggle-btn active" data-view="table">Table View</button>
+                        <button class="toggle-btn" data-view="timeline">Timeline View</button>
+                    </div>
+
+                    <h2><i class="fas fa-train"></i> Train Scheduling</h2>
+                    
+                    <div class="conflict-alert critical">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <div>
+                            <strong>Conflict Detected:</strong> TR-09 has an expired fitness certificate but is scheduled for service.
+                            <a href="#" style="color: #3498db; margin-left: 10px;">Auto-resolve</a>
+                        </div>
+                    </div>
+                    
+                    <div class="conflict-alert">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <div>
+                            <strong>Warning:</strong> TR-18 has high mileage (35,200 km). Consider rotating with a lower mileage train.
+                        </div>
+                    </div>
+
+                    <div class="filters">
+                        <div class="filter-group">
+                            <label for="status-filter">Status</label>
+                            <select id="status-filter">
+                                <option value="">All Status</option>
+                                <option value="service">Service</option>
+                                <option value="standby">Standby</option>
+                                <option value="maintenance">Maintenance</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="bay-filter">Bay</label>
+                            <select id="bay-filter">
+                                <option value="">All Bays</option>
+                                <option value="A1">Bay A1</option>
+                                <option value="A2">Bay A2</option>
+                                <option value="B1">Bay B1</option>
+                                <option value="B2">Bay B2</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="search-schedule">Search</label>
+                            <input type="text" id="search-schedule" placeholder="Train ID...">
+                        </div>
+                    </div>
+
+                    <div class="table-container" id="table-view">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Train ID</th>
+                                    <th>Assigned Status</th>
+                                    <th>Bay Position</th>
+                                    <th>Mileage Reading</th>
+                                    <th>Branding Priority</th>
+                                    <th>Cleaning Status</th>
+                                    <th>Last Maintenance</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>TR-07</td>
+                                    <td><span class="status-indicator status-service">Service</span></td>
+                                    <td>A1</td>
+                                    <td>12,450 km</td>
+                                    <td>High</td>
+                                    <td>Completed</td>
+                                    <td>Aug 25, 2023</td>
+                                    <td class="action-buttons">
+                                        <button class="btn btn-secondary btn-sm"><i class="fas fa-exchange-alt"></i> Reassign</button>
+                                        <button class="btn btn-warning btn-sm"><i class="fas fa-comment"></i> Comment</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>TR-12</td>
+                                    <td><span class="status-indicator status-service">Service</span></td>
+                                    <td>A2</td>
+                                    <td>23,780 km</td>
+                                    <td>Medium</td>
+                                    <td>Completed</td>
+                                    <td>Aug 20, 2023</td>
+                                    <td class="action-buttons">
+                                        <button class="btn btn-secondary btn-sm"><i class="fas fa-exchange-alt"></i> Reassign</button>
+                                        <button class="btn btn-warning btn-sm"><i class="fas fa-comment"></i> Comment</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>TR-09</td>
+                                    <td><span class="status-indicator status-service">Service</span></td>
+                                    <td>B1</td>
+                                    <td>32,100 km</td>
+                                    <td>Low</td>
+                                    <td>Pending</td>
+                                    <td>Jul 15, 2023</td>
+                                    <td class="action-buttons">
+                                        <button class="btn btn-secondary btn-sm"><i class="fas fa-exchange-alt"></i> Reassign</button>
+                                        <button class="btn btn-warning btn-sm"><i class="fas fa-comment"></i> Comment</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>TR-18</td>
+                                    <td><span class="status-indicator status-standby">Standby</span></td>
+                                    <td>B2</td>
+                                    <td>35,200 km</td>
+                                    <td>High</td>
+                                    <td>Completed</td>
+                                    <td>Aug 22, 2023</td>
+                                    <td class="action-buttons">
+                                        <button class="btn btn-secondary btn-sm"><i class="fas fa-exchange-alt"></i> Reassign</button>
+                                        <button class="btn btn-warning btn-sm"><i class="fas fa-comment"></i> Comment</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>TR-21</td>
+                                    <td><span class="status-indicator status-maintenance">Maintenance</span></td>
+                                    <td>M1</td>
+                                    <td>28,450 km</td>
+                                    <td>Medium</td>
+                                    <td>N/A</td>
+                                    <td>Jun 30, 2023</td>
+                                    <td class="action-buttons">
+                                        <button class="btn btn-secondary btn-sm"><i class="fas fa-exchange-alt"></i> Reassign</button>
+                                        <button class="btn btn-warning btn-sm"><i class="fas fa-comment"></i> Comment</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="timeline-view" id="timeline-view">
+                        <div class="timeline-header">
+                            <div>Train ID</div>
+                            <div>06:00-10:00</div>
+                            <div>10:00-14:00</div>
+                            <div>14:00-18:00</div>
+                            <div>18:00-22:00</div>
+                        </div>
+                        <div class="timeline-row">
+                            <div>TR-07</div>
+                            <div class="timeline-slot slot-service">Service</div>
+                            <div class="timeline-slot slot-service">Service</div>
+                            <div class="timeline-slot slot-standby">Standby</div>
+                            <div class="timeline-slot slot-service">Service</div>
+                        </div>
+                        <div class="timeline-row">
+                            <div>TR-12</div>
+                            <div class="timeline-slot slot-service">Service</div>
+                            <div class="timeline-slot slot-service">Service</div>
+                            <div class="timeline-slot slot-service">Service</div>
+                            <div class="timeline-slot slot-maintenance">Maintenance</div>
+                        </div>
+                        <div class="timeline-row">
+                            <div>TR-09</div>
+                            <div class="timeline-slot slot-standby">Standby</div>
+                            <div class="timeline-slot slot-service">Service</div>
+                            <div class="timeline-slot slot-service">Service</div>
+                            <div class="timeline-slot slot-service">Service</div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metro Rail - System Settings</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/settings_style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <h1><i class="fas fa-subway"></i> KMRL</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="http://localhost:3000/trains"><i class="fas fa-train"></i> Trains</a></li>
+                <li><a href="http://localhost:3000/reports"><i class="fas fa-chart-bar"></i> Reports</a></li>
+                <li><a href="http://localhost:3000/settings" class="active"><i class="fas fa-cog"></i> Settings</a></li>
+                <li><a href="http://localhost:3000/alerts"><i class="fas fa-bell"></i> Alerts</a></li>
+                <li><a href="http://localhost:3000/schedule"><i class="fas fa-calendar-alt"></i> Schedule</a></li>
+                <li><a href="http://localhost:3000/maintenance"><i class="fas fa-tools"></i> Maintenance</a></li>
+                <li><a href="http://localhost:3000/staff"><i class="fas fa-user"></i> Staff</a></li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="header">
+                <h2 class="page-title">System Settings</h2>
+                <div class="user-info">
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User">
+                    <span>Admin User</span>
+                </div>
+            </div>
+
+            <div class="settings-cards">
+                <!-- Optimization Priorities -->
+                <div class="settings-card">
+                    <div class="card-header">Optimization Priorities</div>
+                    
+                    <div class="priority-item">
+                        <div class="priority-header">
+                            <div class="priority-name">Operational Efficiency</div>
+                            <div class="priority-value">40%</div>
+                        </div>
+                        <div class="slider-container">
+                            <div class="slider-fill" style="width: 40%"></div>
+                            <div class="slider-handle" style="left: 40%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="priority-item">
+                        <div class="priority-header">
+                            <div class="priority-name">Maintenance Cost</div>
+                            <div class="priority-value">25%</div>
+                        </div>
+                        <div class="slider-container">
+                            <div class="slider-fill" style="width: 25%"></div>
+                            <div class="slider-handle" style="left: 25%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="priority-item">
+                        <div class="priority-header">
+                            <div class="priority-name">Branding Priority</div>
+                            <div class="priority-value">20%</div>
+                        </div>
+                        <div class="slider-container">
+                            <div class="slider-fill" style="width: 20%"></div>
+                            <div class="slider-handle" style="left: 20%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="priority-item">
+                        <div class="priority-header">
+                            <div class="priority-name">Energy Efficiency</div>
+                            <div class="priority-value">15%</div>
+                        </div>
+                        <div class="slider-container">
+                            <div class="slider-fill" style="width: 15%"></div>
+                            <div class="slider-handle" style="left: 15%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="priority-total">
+                        <span>Total Weight</span>
+                        <span>100%</span>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="btn btn-secondary">Reset</button>
+                        <button class="btn btn-primary">Save Changes</button>
+                    </div>
+                </div>
+
+                <!-- Alert & Thresholds -->
+                <div class="settings-card">
+                    <div class="card-header">Alert & Thresholds</div>
+                    
+                    <div class="threshold-item">
+                        <div class="threshold-info">
+                            <div class="threshold-name">Mileage Threshold</div>
+                            <div class="threshold-desc">Alert when train exceeds mileage limit</div>
+                        </div>
+                        <div class="threshold-value">
+                            <div class="value-display">10,000 km</div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="threshold-item">
+                        <div class="threshold-info">
+                            <div class="threshold-name">Health Score Alert</div>
+                            <div class="threshold-desc">Alert when health score drops below threshold</div>
+                        </div>
+                        <div class="threshold-value">
+                            <div class="value-display">50%</div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="threshold-item">
+                        <div class="threshold-info">
+                            <div class="threshold-name">Open Job Card Duration</div>
+                            <div class="threshold-desc">Alert when job card remains open too long</div>
+                        </div>
+                        <div class="threshold-value">
+                            <div class="value-display">7 days</div>
+                            <label class="toggle-switch">
+                                <input type="checkbox">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="threshold-item">
+                        <div class="threshold-info">
+                            <div class="threshold-name">Energy Consumption</div>
+                            <div class="threshold-desc">Alert when energy use exceeds normal range</div>
+                        </div>
+                        <div class="threshold-value">
+                            <div class="value-display">4.0 kWh/km</div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="btn btn-secondary">Reset</button>
+                        <button class="btn btn-primary">Save Changes</button>
+                    </div>
+                </div>
+
+                <!-- System Status -->
+                <div class="settings-card">
+                    <div class="card-header">System Status</div>
+                    
+                    <div class="status-item">
+                        <div class="status-info">
+                            <div class="status-name">Optimization Algorithm</div>
+                            <div class="status-desc">Last run: 2023-08-25 03:45:12</div>
+                        </div>
+                        <div class="status-indicator">
+                            <span class="status-badge online">Online</span>
+                        </div>
+                    </div>
+                    
+                    <div class="status-item">
+                        <div class="status-info">
+                            <div class="status-name">API Connections</div>
+                            <div class="status-desc">Connected to 4 of 4 external services</div>
+                        </div>
+                        <div class="status-indicator">
+                            <span class="status-badge online">Online</span>
+                        </div>
+                    </div>
+                    
+                    <div class="status-item">
+                        <div class="status-info">
+                            <div class="status-name">Data Storage</div>
+                            <div class="status-desc">4.2GB of 10GB used</div>
+                        </div>
+                        <div class="status-indicator">
+                            <span class="status-badge warning">Warning</span>
+                        </div>
+                    </div>
+                    
+                    <div class="status-item">
+                        <div class="status-info">
+                            <div class="status-name">Sensor Network</div>
+                            <div class="status-desc">Receiving data from 98% of sensors</div>
+                        </div>
+                        <div class="status-indicator">
+                            <span class="status-badge online">Online</span>
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="btn btn-primary">Refresh Status</button>
+                    </div>
+                </div>
+
+                <!-- User Management -->
+                <div class="settings-card">
+                    <div class="card-header">User Management</div>
+                    
+                    <div class="threshold-item">
+                        <div class="threshold-info">
+                            <div class="threshold-name">Admin Users</div>
+                            <div class="threshold-desc">Users with full system access</div>
+                        </div>
+                        <div class="threshold-value">
+                            <div class="value-display">3 users</div>
+                        </div>
+                    </div>
+                    
+                    <div class="threshold-item">
+                        <div class="threshold-info">
+                            <div class="threshold-name">Maintenance Team</div>
+                            <div class="threshold-desc">Technicians with limited access</div>
+                        </div>
+                        <div class="threshold-value">
+                            <div class="value-display">24 users</div>
+                        </div>
+                    </div>
+                    
+                    <div class="threshold-item">
+                        <div class="threshold-info">
+                            <div class="threshold-name">Login Security</div>
+                            <div class="threshold-desc">Two-factor authentication settings</div>
+                        </div>
+                        <div class="threshold-value">
+                            <label class="toggle-switch">
+                                <input type="checkbox">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="threshold-item">
+                        <div class="threshold-info">
+                            <div class="threshold-name">Session Timeout</div>
+                            <div class="threshold-desc">Automatic logout after inactivity</div>
+                        </div>
+                        <div class="threshold-value">
+                            <div class="value-display">30 minutes</div>
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="btn btn-primary">Manage Users</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simple functionality for the sliders
+        document.querySelectorAll('.slider-handle').forEach(handle => {
+            handle.addEventListener('mousedown', function(e) {
+                e.preventDefault();
+                const container = this.parentElement;
+                const valueDisplay = this.closest('.priority-item').querySelector('.priority-value');
+                
+                const mouseMoveHandler = function(e) {
+                    const rect = container.getBoundingClientRect();
+                    let x = e.clientX - rect.left;
+                    x = Math.max(0, Math.min(x, rect.width));
+                    const percent = Math.round((x / rect.width) * 100);
+                    
+                    handle.style.left = percent + '%';
+                    container.querySelector('.slider-fill').style.width = percent + '%';
+                    valueDisplay.textContent = percent + '%';
+                    
+                    updateTotal();
+                };
+                
+                const mouseUpHandler = function() {
+                    document.removeEventListener('mousemove', mouseMoveHandler);
+                    document.removeEventListener('mouseup', mouseUpHandler);
+                };
+                
+                document.addEventListener('mousemove', mouseMoveHandler);
+                document.addEventListener('mouseup', mouseUpHandler);
+            });
+        });
+        
+        function updateTotal() {
+            let total = 0;
+            document.querySelectorAll('.priority-value').forEach(display => {
+                total += parseInt(display.textContent);
+            });
+            
+            document.querySelector('.priority-total span:last-child').textContent = total + '%';
+            
+            if (total !== 100) {
+                document.querySelector('.priority-total span:last-child').style.color = '#e74c3c';
+            } else {
+                document.querySelector('.priority-total span:last-child').style.color = 'inherit';
+            }
+        }
+    </script>
+</body>
+</html>

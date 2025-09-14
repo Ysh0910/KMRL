@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metro Rail - Train Management</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/trains_style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <h1><i class="fas fa-subway"></i> KMRL</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="http://localhost:3000/trains" class="active"><i class="fas fa-train"></i> Trains</a></li>
+                <li><a href="http://localhost:3000/reports"><i class="fas fa-chart-bar"></i> Reports</a></li>
+                <li><a href="http://localhost:3000/settings"><i class="fas fa-cog"></i> Settings</a></li>
+                <li><a href="http://localhost:3000/alerts"><i class="fas fa-bell"></i> Alerts</a></li>
+                <li><a href="http://localhost:3000/schedule"><i class="fas fa-calendar-alt"></i> Schedule</a></li>
+                <li><a href="http://localhost:3000/maintenance"><i class="fas fa-tools"></i> Maintenance</a></li>
+                <li><a href="http://localhost:3000/staff"><i class="fas fa-user"></i> Staff</a></li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="header">
+                <h2 class="page-title">Train Fleet Management</h2>
+                <div class="user-info">
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User">
+                    <span>Admin User</span>
+                </div>
+            </div>
+
+            <!-- Status Cards -->
+            <div class="status-cards">
+                <div class="card status-card operational">
+                    <div class="value">42</div>
+                    <div class="label">Operational</div>
+                </div>
+                <div class="card status-card maintenance">
+                    <div class="value">8</div>
+                    <div class="label">Maintenance</div>
+                </div>
+                <div class="card status-card fault">
+                    <div class="value">3</div>
+                    <div class="label">Fault</div>
+                </div>
+                <div class="card status-card retired">
+                    <div class="value">5</div>
+                    <div class="label">Retired</div>
+                </div>
+            </div>
+
+            <!-- Filters -->
+            <div class="filters">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search by Train ID">
+                </div>
+                <select class="filter-select">
+                    <option>All Status</option>
+                    <option>Operational</option>
+                    <option>Maintenance</option>
+                    <option>Fault</option>
+                    <option>Retired</option>
+                </select>
+                <select class="filter-select">
+                    <option>All Health Scores</option>
+                    <option>High (80-100%)</option>
+                    <option>Medium (50-79%)</option>
+                    <option>Low (0-49%)</option>
+                </select>
+            </div>
+
+            <!-- Train Table -->
+            <div class="train-table-container">
+                <table class="train-table">
+                    <thead>
+                        <tr>
+                            <th>Train ID</th>
+                            <th>Status</th>
+                            <th>Health Score</th>
+                            <th>Last Service</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>TR-204</td>
+                            <td><span class="status-indicator status-operational"></span> Operational</td>
+                            <td class="health-score">
+                                <div class="progress-bar">
+                                    <div class="progress-fill high" style="width: 92%"></div>
+                                </div>
+                                <span>92%</span>
+                            </td>
+                            <td>15 Aug 2023</td>
+                            <td class="actions"><button>View Details</button></td>
+                        </tr>
+                        <tr>
+                            <td>TR-119</td>
+                            <td><span class="status-indicator status-maintenance"></span> Maintenance</td>
+                            <td class="health-score">
+                                <div class="progress-bar">
+                                    <div class="progress-fill medium" style="width: 65%"></div>
+                                </div>
+                                <span>65%</span>
+                            </td>
+                            <td>22 Jul 2023</td>
+                            <td class="actions"><button>View Details</button></td>
+                        </tr>
+                        <tr>
+                            <td>TR-056</td>
+                            <td><span class="status-indicator status-fault"></span> Fault</td>
+                            <td class="health-score">
+                                <div class="progress-bar">
+                                    <div class="progress-fill low" style="width: 32%"></div>
+                                </div>
+                                <span>32%</span>
+                            </td>
+                            <td>05 Jun 2023</td>
+                            <td class="actions"><button>View Details</button></td>
+                        </tr>
+                        <tr>
+                            <td>TR-182</td>
+                            <td><span class="status-indicator status-operational"></span> Operational</td>
+                            <td class="health-score">
+                                <div class="progress-bar">
+                                    <div class="progress-fill high" style="width: 88%"></div>
+                                </div>
+                                <span>88%</span>
+                            </td>
+                            <td>10 Aug 2023</td>
+                            <td class="actions"><button>View Details</button></td>
+                        </tr>
+                        <tr>
+                            <td>TR-033</td>
+                            <td><span class="status-indicator status-retired"></span> Retired</td>
+                            <td class="health-score">
+                                <div class="progress-bar">
+                                    <div class="progress-fill low" style="width: 15%"></div>
+                                </div>
+                                <span>15%</span>
+                            </td>
+                            <td>12 Dec 2022</td>
+                            <td class="actions"><button>View Details</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Train Details Panel -->
+            <div class="train-details">
+                <div class="details-header">
+                    <div class="train-id">TR-204 - Detailed View</div>
+                    <div class="status"><span class="status-indicator status-operational"></span> Operational</div>
+                </div>
+
+                <div class="details-tabs">
+                    <div class="tab active">Overview</div>
+                    <div class="tab">Sensor Data</div>
+                    <div class="tab">Service History</div>
+                    <div class="tab">Job Cards</div>
+                </div>
+
+                <div class="metrics">
+                    <div class="metric-card">
+                        <div class="metric-title">Health Score</div>
+                        <div class="metric-value">92%</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-title">Total Mileage</div>
+                        <div class="metric-value">124,582 km</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-title">Days Since Last Service</div>
+                        <div class="metric-value">42 days</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-title">Energy Consumption</div>
+                        <div class="metric-value">3.2 kWh/km</div>
+                    </div>
+                </div>
+
+                <h3>Open Job Cards</h3>
+                <div class="job-cards">
+                    <div class="job-card">
+                        <div class="job-header">
+                            <div class="job-title">Routine Inspection</div>
+                            <div class="job-status in-progress">In Progress</div>
+                        </div>
+                        <div class="job-details">
+                            Assigned to: Technician Rodriguez · Started: 18 Aug 2023
+                        </div>
+                    </div>
+                    <div class="job-card">
+                        <div class="job-header">
+                            <div class="job-title">Brake System Check</div>
+                            <div class="job-status open">Open</div>
+                        </div>
+                        <div class="job-details">
+                            Assigned to: Technician Smith · Created: 20 Aug 2023
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simple functionality for the page
+        document.querySelectorAll('.actions button').forEach(button => {
+            button.addEventListener('click', function() {
+                const trainId = this.closest('tr').querySelector('td:first-child').textContent;
+                document.querySelector('.train-id').textContent = trainId + ' - Detailed View';
+            });
+        });
+
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

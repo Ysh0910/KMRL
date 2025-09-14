@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metro Rail - Reports & Analytics</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="/reports_style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <a href="http://localhost:3000/dashboard">
+                <div class="logo">
+                    <h1><i class="fas fa-subway"></i> KMRL</h1>
+                </div>
+            </a>
+            <ul class="nav-links">
+                <li><a href="http://localhost:3000/trains"><i class="fas fa-train"></i> Trains</a></li>
+                <li><a href="http://localhost:3000/reports" class="active"><i class="fas fa-chart-bar"></i> Reports</a></li>
+                <li><a href="http://localhost:3000/settings"><i class="fas fa-cog"></i> Settings</a></li>
+                <li><a href="http://localhost:3000/alerts"><i class="fas fa-bell"></i> Alerts</a></li>
+                <li><a href="http://localhost:3000/schedule"><i class="fas fa-calendar-alt"></i> Schedule</a></li>
+                <li><a href="http://localhost:3000/maintenance"><i class="fas fa-tools"></i> Maintenance</a></li>
+                <li><a href="http://localhost:3000/staff"><i class="fas fa-user"></i> Staff</a></li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="header">
+                <h2 class="page-title">Reports & Analytics</h2>
+                <div class="user-info">
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User">
+                    <span>Admin User</span>
+                </div>
+            </div>
+
+            <!-- Report Tabs -->
+            <div class="report-tabs">
+                <div class="report-tab active">Performance</div>
+                <div class="report-tab">Maintenance</div>
+                <div class="report-tab">Branding</div>
+                <div class="report-tab">Energy</div>
+                <div class="report-tab">Operational</div>
+            </div>
+
+            <!-- Charts -->
+            <div class="charts-container">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div class="chart-title">Fleet Availability Over Time</div>
+                        <div class="chart-actions">
+                            <button><i class="fas fa-download"></i></button>
+                            <button><i class="fas fa-expand"></i></button>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="availabilityChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div class="chart-title">Maintenance Cost per Component</div>
+                        <div class="chart-actions">
+                            <button><i class="fas fa-download"></i></button>
+                            <button><i class="fas fa-expand"></i></button>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="costChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div class="chart-title">Train Utilization Rate</div>
+                        <div class="chart-actions">
+                            <button><i class="fas fa-download"></i></button>
+                            <button><i class="fas fa-expand"></i></button>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="utilizationChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div class="chart-title">Energy Consumption Trend</div>
+                        <div class="chart-actions">
+                            <button><i class="fas fa-download"></i></button>
+                            <button><i class="fas fa-expand"></i></button>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="energyChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Report Builder -->
+            <div class="report-builder">
+                <div class="builder-header">Custom Report Builder</div>
+                <div class="builder-form">
+                    <div class="form-group">
+                        <label for="date-range">Date Range</label>
+                        <select id="date-range">
+                            <option>Last 7 days</option>
+                            <option>Last 30 days</option>
+                            <option>Last 90 days</option>
+                            <option>Last 6 months</option>
+                            <option>Custom Range</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="train-select">Train</label>
+                        <select id="train-select">
+                            <option>All Trains</option>
+                            <option>TR-204</option>
+                            <option>TR-119</option>
+                            <option>TR-056</option>
+                            <option>TR-182</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="report-type">Report Type</label>
+                        <select id="report-type">
+                            <option>Performance Summary</option>
+                            <option>Maintenance History</option>
+                            <option>Energy Consumption</option>
+                            <option>Fault Analysis</option>
+                            <option>Branding Exposure</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="generate-btn">Generate Report</button>
+            </div>
+
+            <!-- Report Output -->
+            <div class="report-output">
+                <div class="output-header">
+                    <div class="output-title">Generated Report: Performance Summary</div>
+                    <div class="output-actions">
+                        <button><i class="fas fa-download"></i> Download PDF</button>
+                        <button><i class="fas fa-share-alt"></i> Share</button>
+                    </div>
+                </div>
+                <div class="output-content">
+                    <table class="report-table">
+                        <thead>
+                            <tr>
+                                <th>Train ID</th>
+                                <th>Availability</th>
+                                <th>Health Score</th>
+                                <th>Mileage</th>
+                                <th>Energy Efficiency</th>
+                                <th>Fault Incidents</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>TR-204</td>
+                                <td>98.2%</td>
+                                <td>92%</td>
+                                <td>124,582 km</td>
+                                <td>3.2 kWh/km</td>
+                                <td>2</td>
+                            </tr>
+                            <tr>
+                                <td>TR-119</td>
+                                <td>87.5%</td>
+                                <td>65%</td>
+                                <td>98,451 km</td>
+                                <td>3.5 kWh/km</td>
+                                <td>5</td>
+                            </tr>
+                            <tr>
+                                <td>TR-056</td>
+                                <td>72.3%</td>
+                                <td>32%</td>
+                                <td>156,892 km</td>
+                                <td>3.8 kWh/km</td>
+                                <td>12</td>
+                            </tr>
+                            <tr>
+                                <td>TR-182</td>
+                                <td>96.8%</td>
+                                <td>88%</td>
+                                <td>108,765 km</td>
+                                <td>3.3 kWh/km</td>
+                                <td>3</td>
+                            </tr>
+                            <tr>
+                                <td>TR-033</td>
+                                <td>0%</td>
+                                <td>15%</td>
+                                <td>201,456 km</td>
+                                <td>4.2 kWh/km</td>
+                                <td>23</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize charts
+        document.addEventListener('DOMContentLoaded', function() {
+            // Availability Chart
+            const availabilityCtx = document.getElementById('availabilityChart').getContext('2d');
+            new Chart(availabilityCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
+                    datasets: [{
+                        label: 'Fleet Availability %',
+                        data: [92, 94, 89, 96, 95, 97, 98, 99],
+                        borderColor: '#3498db',
+                        backgroundColor: 'rgba(52, 152, 219, 0.1)',
+                        tension: 0.3,
+                        fill: true
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            min: 80,
+                            max: 100
+                        }
+                    }
+                }
+            });
+
+            // Cost Chart
+            const costCtx = document.getElementById('costChart').getContext('2d');
+            new Chart(costCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Brakes', 'Engines', 'Doors', 'Electronics', 'HVAC', 'Exterior'],
+                    datasets: [{
+                        label: 'Cost (in $ thousands)',
+                        data: [12, 19, 8, 15, 10, 7],
+                        backgroundColor: [
+                            'rgba(52, 152, 219, 0.7)',
+                            'rgba(46, 204, 113, 0.7)',
+                            'rgba(155, 89, 182, 0.7)',
+                            'rgba(241, 196, 15, 0.7)',
+                            'rgba(230, 126, 34, 0.7)',
+                            'rgba(231, 76, 60, 0.7)'
+                        ]
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+
+            // Utilization Chart
+            const utilizationCtx = document.getElementById('utilizationChart').getContext('2d');
+            new Chart(utilizationCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['High Utilization', 'Medium Utilization', 'Low Utilization'],
+                    datasets: [{
+                        data: [45, 35, 20],
+                        backgroundColor: [
+                            'rgba(46, 204, 113, 0.7)',
+                            'rgba(241, 196, 15, 0.7)',
+                            'rgba(231, 76, 60, 0.7)'
+                        ]
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+
+            // Energy Chart
+            const energyCtx = document.getElementById('energyChart').getContext('2d');
+            new Chart(energyCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
+                    datasets: [{
+                        label: 'kWh/km',
+                        data: [3.8, 3.7, 3.6, 3.5, 3.4, 3.3, 3.3, 3.2],
+                        borderColor: '#2ecc71',
+                        backgroundColor: 'rgba(46, 204, 113, 0.1)',
+                        tension: 0.3,
+                        fill: true
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+        });
+
+        // Tab functionality
+        document.querySelectorAll('.report-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.report-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

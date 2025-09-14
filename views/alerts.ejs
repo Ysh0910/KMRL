@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KMRL - Alerts Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="nav-left">
+                <div class="logo">
+                    <i class="fas fa-subway"></i>
+                    <span>KMRL</span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="http://localhost:3000/dashboard" class="nav-link" data-page="dashboard"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+                    <li><a href="http://localhost:3000/service" class="nav-link" data-page="service"><i class="fas fa-cogs"></i> Service</a></li>
+                    <li><a href="http://localhost:3000/standby" class="nav-link" data-page="standby"><i class="fas fa-pause-circle"></i> Standby</a></li>
+                    <li><a href="http://localhost:3000/maintenance" class="nav-link" data-page="maintenance"><i class="fas fa-tools"></i> Maintenance</a></li>
+                    <li><a href="http://localhost:3000/alerts" class="nav-link active" data-page="alerts"><i class="fas fa-bell"></i> Alerts</a></li>
+                </ul>
+            </div>
+            
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <div class="nav-right">
+                <div class="user-profile">
+                    <div class="user-info">
+                        <div class="user-name">Admin User</div>
+                        <div class="user-role">System Administrator</div>
+                    </div>
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" class="user-photo">
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="main-container">
+        <aside class="sidebar">
+            <ul class="sidebar-menu">
+                <li><a href="http://localhost:3000/service" class="sidebar-link" data-page="service"><i class="fas fa-cogs"></i> Service</a></li>
+                <li><a href="http://localhost:3000/standby" class="sidebar-link" data-page="standby"><i class="fas fa-pause-circle"></i> Standby</a></li>
+                <li><a href="http://localhost:3000/maintenance" class="sidebar-link" data-page="maintenance"><i class="fas fa-tools"></i> Maintenance</a></li>
+                <li><a href="http://localhost:3000/alerts" class="sidebar-link active" data-page="alerts"><i class="fas fa-bell"></i> Alerts</a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <div class="page-content active" id="alerts-page">
+                <div class="page-header">
+                    <h1 class="page-title"><i class="fas fa-bell"></i> Alerts</h1>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary"><i class="fas fa-sliders-h"></i> Manage Alerts</button>
+                    </div>
+                </div>
+
+                <section>
+                    <h2><i class="fas fa-list"></i> Alert Categories</h2>
+                    <div class="alert-categories">
+                        <div class="alert-category">
+                            <div class="alert-icon">🚨</div>
+                            <div class="alert-content">
+                                <div class="alert-title">Fitness Certificate Expired</div>
+                                <div class="alert-count">3 alerts</div>
+                            </div>
+                        </div>
+                        <div class="alert-category">
+                            <div class="alert-icon">🛠️</div>
+                            <div class="alert-content">
+                                <div class="alert-title">Job Card Pending</div>
+                                <div class="alert-count">5 alerts</div>
+                            </div>
+                        </div>
+                        <div class="alert-category">
+                            <div class="alert-icon">📢</div>
+                            <div class="alert-content">
+                                <div class="alert-title">Branding Hours Violation</div>
+                                <div class="alert-count">1 alert</div>
+                            </div>
+                        </div>
+                        <div class="alert-category">
+                            <div class="alert-icon">⚡</div>
+                            <div class="alert-content">
+                                <div class="alert-title">Mileage Imbalance</div>
+                                <div class="alert-count">2 alerts</div>
+                            </div>
+                        </div>
+                        <div class="alert-category">
+                            <div class="alert-icon">🧹</div>
+                            <div class="alert-content">
+                                <div class="alert-title">Cleaning Not Done</div>
+                                <div class="alert-count">4 alerts</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2><i class="fas fa-filter"></i> Filters</h2>
+                    <div class="filters">
+                        <div class="filter-group">
+                            <label for="severity-filter">Severity</label>
+                            <select id="severity-filter">
+                                <option value="">All Severities</option>
+                                <option value="critical">Critical</option>
+                                <option value="warning">Warning</option>
+                                <option value="info">Info</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="type-filter-alerts">Issue Type</label>
+                            <select id="type-filter-alerts">
+                                <option value="">All Types</option>
+                                <option value="fitness">Fitness Certificate</option>
+                                <option value="jobcard">Job Card</option>
+                                <option value="branding">Branding</option>
+                                <option value="mileage">Mileage</option>
+                                <option value="cleaning">Cleaning</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="search-alerts">Search</label>
+                            <input type="text" id="search-alerts" placeholder="Train ID or Issue...">
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Train ID</th>
+                                    <th>Issue Description</th>
+                                    <th>Severity</th>
+                                    <th>Suggested Action</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>TR-09</td>
+                                    <td>Fitness certificate has expired. Train not operational.</td>
+                                    <td><span class="status-indicator status-critical">Critical</span></td>
+                                    <td>Schedule immediate inspection and renewal</td>
+                                    <td class="action-buttons">
+                                        <button class="btn btn-primary btn-sm"><i class="fas fa-check"></i> Acknowledge</button>
+                                        <button class="btn btn-success btn-sm"><i class="fas fa-wrench"></i> Assign</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>TR-21</td>
+                                    <td>3 job cards pending beyond scheduled time</td>
+                                    <td><span class="status-indicator status-warning">Warning</span></td>
+                                    <td>Prioritize job cards or reassign to available team</td>
+                                    <td class="action-buttons">
+                                        <button class="btn btn-primary btn-sm"><i class="fas fa-check"></i> Acknowledge</button>
+                                        <button class="btn btn-success btn-sm"><i class="fas fa-wrench"></i> Assign</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>TR-05</td>
+                                    <td>Branding hours exceeded contractual limits</td>
+                                    <td><span class="status-indicator status-warning">Warning</span></td>
+                                    <td>Adjust schedule to comply with branding agreements</td>
+                                    <td class="action-buttons">
+                                        <button class="btn btn-primary btn-sm"><i class="fas fa-check"></i> Acknowledge</button>
+                                        <button class="btn btn-success btn-sm"><i class="fas fa-wrench"></i> Assign</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>TR-18</td>
+                                    <td>Mileage significantly higher than other trains in class</td>
+                                    <td><span class="status-indicator status-info">Info</span></td>
+                                    <td>Consider rotating with lower mileage train</td>
+                                    <td class="action-buttons">
+                                        <button class="btn btn-primary btn-sm"><i class="fas fa-check"></i> Acknowledge</button>
+                                        <button class="btn btn-success btn-sm"><i class="fas fa-wrench"></i> Assign</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>TR-22</td>
+                                    <td>Cleaning not completed after last service</td>
+                                    <td><span class="status-indicator status-warning">Warning</span></td>
+                                    <td>Schedule cleaning before next deployment</td>
+                                    <td class="action-buttons">
+                                        <button class="btn btn-primary btn-sm"><i class="fas fa-check"></i> Acknowledge</button>
+                                        <button class="btn btn-success btn-sm"><i class="fas fa-wrench"></i> Assign</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

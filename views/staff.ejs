@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KMRL - Staff</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="staff_style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="nav-left">
+                <div class="logo">
+                    <i class="fas fa-subway"></i>
+                    <span>KMRL</span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="http://localhost:3000/dashboard" class="nav-link" data-page="dashboard"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+                    <li><a href="http://localhost:3000/service" class="nav-link" data-page="service"><i class="fas fa-cogs"></i> Service</a></li>
+                    <li><a href="http://localhost:3000/standby" class="nav-link" data-page="standby"><i class="fas fa-pause-circle"></i> Standby</a></li>
+                    <li><a href="http://localhost:3000/maintenance" class="nav-link" data-page="maintenance"><i class="fas fa-tools"></i> Maintenance</a></li>
+                    <li><a href="http://localhost:3000/alerts" class="nav-link" data-page="alerts"><i class="fas fa-bell"></i> Alerts</a></li>
+                    <li><a href="http://localhost:3000/schedule" class="nav-link" data-page="schedule"><i class="fas fa-calendar-alt"></i> Schedule</a></li>
+                    <li><a href="http://localhost:3000/staff" class="nav-link active" data-page="staff"><i class="fas fa-users"></i> Staff</a></li>
+                </ul>
+            </div>
+            
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <div class="nav-right">
+                <div class="user-profile">
+                    <div class="user-info">
+                        <div class="user-name">Admin User</div>
+                        <div class="user-role">System Administrator</div>
+                    </div>
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" class="user-photo">
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="main-container">
+        <aside class="sidebar">
+            <ul class="sidebar-menu">
+                <li><a href="http://localhost:3000/service" class="sidebar-link" data-page="service"><i class="fas fa-cogs"></i> Service</a></li>
+                <li><a href="http://localhost:3000/standby" class="sidebar-link" data-page="standby"><i class="fas fa-pause-circle"></i> Standby</a></li>
+                <li><a href="http://localhost:3000/maintenance" class="sidebar-link" data-page="maintenance"><i class="fas fa-tools"></i> Maintenance</a></li>
+                <li><a href="http://localhost:3000/alerts" class="sidebar-link" data-page="alerts"><i class="fas fa-bell"></i> Alerts</a></li>
+                <li><a href="http://localhost:3000/schedule" class="sidebar-link" data-page="schedule"><i class="fas fa-calendar-alt"></i> Schedule</a></li>
+                <li><a href="http://localhost:3000/staff" class="sidebar-link active" data-page="staff"><i class="fas fa-users"></i> Staff</a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <div class="page-content active" id="staff-page">
+                <div class="page-header">
+                    <h1 class="page-title"><i class="fas fa-users"></i> Staff Management</h1>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary"><i class="fas fa-plus"></i> Add Staff</button>
+                        <button class="btn btn-primary"><i class="fas fa-file-export"></i> Export</button>
+                    </div>
+                </div>
+
+                <section>
+                    <h2><i class="fas fa-filter"></i> Filters</h2>
+                    <div class="filters">
+                        <div class="filter-group">
+                            <label for="role-filter">Role</label>
+                            <select id="role-filter">
+                                <option value="">All Roles</option>
+                                <option value="technician">Technician</option>
+                                <option value="cleaner">Cleaner</option>
+                                <option value="supervisor">Supervisor</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="dept-filter">Department</label>
+                            <select id="dept-filter">
+                                <option value="">All Departments</option>
+                                <option value="maintenance">Maintenance</option>
+                                <option value="rolling">Rolling Stock</option>
+                                <option value="cleaning">Cleaning</option>
+                                <option value="branding">Branding</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="shift-filter">Shift</label>
+                            <select id="shift-filter">
+                                <option value="">All Shifts</option>
+                                <option value="night">Night</option>
+                                <option value="day">Day</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="search-staff">Search</label>
+                            <input type="text" id="search-staff" placeholder="Name or ID...">
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2><i class="fas fa-id-badge"></i> Staff Directory</h2>
+                    
+                    <div class="conflict-alert">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <div>
+                            <strong>Understaffed:</strong> Night shift has only 2 technicians available (4 required).
+                            <a href="#" style="color: #3498db; margin-left: 10px;">View Details</a>
+                        </div>
+                    </div>
+
+                    <div class="staff-cards">
+                        <div class="staff-card">
+                            <div class="staff-header">
+                                <img src="https://randomuser.me/api/portraits/men/41.jpg" alt="Staff" class="staff-photo">
+                                <div class="staff-info">
+                                    <div class="staff-name">Robert Johnson</div>
+                                    <div class="staff-role">Senior Technician</div>
+                                </div>
+                            </div>
+                            <div class="staff-details">
+                                <div class="detail-item">
+                                    <span class="detail-label">Staff ID</span>
+                                    <span class="detail-value">ST-1042</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Department</span>
+                                    <span class="detail-value">Maintenance</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Shift</span>
+                                    <span class="detail-value">Night</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Availability</span>
+                                    <span class="detail-value" style="color: #27ae60;">Available</span>
+                                </div>
+                            </div>
+                            <div class="staff-skills">
+                                <span class="skill-tag">Brake Systems</span>
+                                <span class="skill-tag">HVAC</span>
+                                <span class="skill-tag">Electronics</span>
+                            </div>
+                            <div class="staff-performance">
+                                <div class="performance-item">
+                                    <div class="performance-value">12</div>
+                                    <div class="performance-label">Tasks Completed</div>
+                                </div>
+                                <div class="performance-item">
+                                    <div class="performance-value">2</div>
+                                    <div class="performance-label">Pending Jobs</div>
+                                </div>
+                                <div class="performance-item">
+                                    <div class="performance-value">78%</div>
+                                    <div class="performance-label">Utilization</div>
+                                </div>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn btn-primary btn-sm"><i class="fas fa-tasks"></i> Assign Task</button>
+                                <button class="btn btn-secondary btn-sm"><i class="fas fa-edit"></i> Edit</button>
+                            </div>
+                        </div>
+
+                        <div class="staff-card">
+                            <div class="staff-header">
+                                <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Staff" class="staff-photo">
+                                <div class="staff-info">
+                                    <div class="staff-name">Sarah Williams</div>
+                                    <div class="staff-role">Cleaning Supervisor</div>
+                                </div>
+                            </div>
+                            <div class="staff-details">
+                                <div class="detail-item">
+                                    <span class="detail-label">Staff ID</span>
+                                    <span class="detail-value">ST-2087</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Department</span>
+                                    <span class="detail-value">Cleaning</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Shift</span>
+                                    <span class="detail-value">Day</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Availability</span>
+                                    <span class="detail-value" style="color: #e74c3c;">On Leave</span>
+                                </div>
+                            </div>
+                            <div class="staff-skills">
+                                <span class="skill-tag">Sanitization</span>
+                                <span class="skill-tag">Team Management</span>
+                                <span class="skill-tag">Quality Control</span>
+                            </div>
+                            <div class="staff-performance">
+                                <div class="performance-item">
+                                    <div class="performance-value">8</div>
+                                    <div class="performance-label">Tasks Completed</div>
+                                </div>
+                                <div class="performance-item">
+                                    <div class="performance-value">0</div>
+                                    <div class="performance-label">Pending Jobs</div>
+                                </div>
+                                <div class="performance-item">
+                                    <div class="performance-value">65%</div>
+                                    <div class="performance-label">Utilization</div>
+                                </div>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn btn-primary btn-sm" disabled><i class="fas fa-tasks"></i> Assign Task</button>
+                                <button class="btn btn-secondary btn-sm"><i class="fas fa-edit"></i> Edit</button>
+                            </div>
+                        </div>
+
+                        <div class="staff-card">
+                            <div class="staff-header">
+                                <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="Staff" class="staff-photo">
+                                <div class="staff-info">
+                                    <div class="staff-name">Michael Chen</div>
+                                    <div class="staff-role">Technician</div>
+                                </div>
+                            </div>
+                            <div class="staff-details">
+                                <div class="detail-item">
+                                    <span class="detail-label">Staff ID</span>
+                                    <span class="detail-value">ST-3056</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Department</span>
+                                    <span class="detail-value">Rolling Stock</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Shift</span>
+                                    <span class="detail-value">Night</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Availability</span>
+                                    <span class="detail-value" style="color: #f39c12;">Busy</span>
+                                </div>
+                            </div>
+                            <div class="staff-skills">
+                                <span class="skill-tag">Signalling</span>
+                                <span class="skill-tag">Door Systems</span>
+                                <span class="skill-tag">Diagnostics</span>
+                            </div>
+                            <div class="staff-performance">
+                                <div class="performance-item">
+                                    <div class="performance-value">15</div>
+                                    <div class="performance-label">Tasks Completed</div>
+                                </div>
+                                <div class="performance-item">
+                                    <div class="performance-value">3</div>
+                                    <div class="performance-label">Pending Jobs</div>
+                                </div>
+                                <div class="performance-item">
+                                    <div class="performance-value">92%</div>
+                                    <div class="performance-label">Utilization</div>
+                                </div>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn btn-primary btn-sm"><i class="fas fa-tasks"></i> Reassign</button>
+                                <button class="btn btn-secondary btn-sm"><i class="fas fa-edit"></i> Edit</button>
+                            </div>
+                        </div>
+
+                        <div class="staff-card">
+                            <div class="staff-header">
+                                <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="Staff" class="staff-photo">
+                                <div class="staff-info">
+                                    <div class="staff-name">Lisa Rodriguez</div>
+                                    <div class="staff-role">Branding Specialist</div>
+                                </div>
+                            </div>
+                            <div class="staff-details">
+                                <div class="detail-item">
+                                    <span class="detail-label">Staff ID</span>
+                                    <span class="detail-value">ST-4091</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Department</span>
+                                    <span class="detail-value">Branding</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Shift</span>
+                                    <span class="detail-value">Day</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Availability</span>
+                                    <span class="detail-value" style="color: #27ae60;">Available</span>
+                                </div>
+                            </div>
+                            <div class="staff-skills">
+                                <span class="skill-tag">Vinyl Application</span>
+                                <span class="skill-tag">Design</span>
+                                <span class="skill-tag">Quality Assurance</span>
+                            </div>
+                            <div class="staff-performance">
+                                <div class="performance-item">
+                                    <div class="performance-value">6</div>
+                                    <div class="performance-label">Tasks Completed</div>
+                                </div>
+                                <div class="performance-item">
+                                    <div class="performance-value">1</div>
+                                    <div class="performance-label">Pending Jobs</div>
+                                </div>
+                                <div class="performance-item">
+                                    <div class="performance-value">45%</div>
+                                    <div class="performance-label">Utilization</div>
+                                </div>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn btn-primary btn-sm"><i class="fas fa-tasks"></i> Assign Task</button>
+                                <button class="btn btn-secondary btn-sm"><i class="fas fa-edit"></i> Edit</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

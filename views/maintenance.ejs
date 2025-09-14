@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KMRL - Maintenance Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="nav-left">
+                <div class="logo">
+                    <i class="fas fa-subway"></i>
+                    <span>KMRL</span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="http://localhost:3000/dashboard" class="nav-link" data-page="dashboard"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+                    <li><a href="http://localhost:3000/service" class="nav-link" data-page="service"><i class="fas fa-cogs"></i> Service</a></li>
+                    <li><a href="http://localhost:3000/standby" class="nav-link" data-page="standby"><i class="fas fa-pause-circle"></i> Standby</a></li>
+                    <li><a href="http://localhost:3000/maintenance" class="nav-link active" data-page="maintenance"><i class="fas fa-tools"></i> Maintenance</a></li>
+                    <li><a href="http://localhost:3000/alerts" class="nav-link" data-page="alerts"><i class="fas fa-bell"></i> Alerts</a></li>
+                </ul>
+            </div>
+            
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <div class="nav-right">
+                <div class="user-profile">
+                    <div class="user-info">
+                        <div class="user-name">Admin User</div>
+                        <div class="user-role">System Administrator</div>
+                    </div>
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" class="user-photo">
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="main-container">
+        <aside class="sidebar">
+            <ul class="sidebar-menu">
+                <li><a href="http://localhost:3000/service" class="sidebar-link" data-page="service"><i class="fas fa-cogs"></i> Service</a></li>
+                <li><a href="http://localhost:3000/standby" class="sidebar-link" data-page="standby"><i class="fas fa-pause-circle"></i> Standby</a></li>
+                <li><a href="http://localhost:3000/maintenance" class="sidebar-link active" data-page="maintenance"><i class="fas fa-tools"></i> Maintenance</a></li>
+                <li><a href="http://localhost:3000/alerts" class="sidebar-link" data-page="alerts"><i class="fas fa-bell"></i> Alerts</a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <div class="page-content active" id="maintenance-page">
+                <div class="page-header">
+                    <h1 class="page-title"><i class="fas fa-tools"></i> Maintenance</h1>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary"><i class="fas fa-plus"></i> New Job Card</button>
+                        <button class="btn btn-primary"><i class="fas fa-file-export"></i> Export</button>
+                    </div>
+                </div>
+
+                <section>
+                    <h2><i class="fas fa-filter"></i> Filters</h2>
+                    <div class="filters">
+                        <div class="filter-group">
+                            <label for="type-filter">Maintenance Type</label>
+                            <select id="type-filter">
+                                <option value="">All Types</option>
+                                <option value="minor">Minor</option>
+                                <option value="major">Major</option>
+                                <option value="cleaning">Cleaning</option>
+                                <option value="branding">Branding</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="tech-filter">Technician</label>
+                            <select id="tech-filter">
+                                <option value="">All Technicians</option>
+                                <option value="team-a">Team A</option>
+                                <option value="team-b">Team B</option>
+                                <option value="team-c">Team C</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="search-maintenance">Search</label>
+                            <input type="text" id="search-maintenance" placeholder="Train ID or Job Card...">
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Train ID</th>
+                                    <th>Job Card</th>
+                                    <th>Type</th>
+                                    <th>Description</th>
+                                    <th>Estimated Completion</th>
+                                    <th>Assigned To</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>TR-09</td>
+                                    <td>JC-2087</td>
+                                    <td><span class="maintenance-type type-major">Major</span></td>
+                                    <td>Engine overhaul and brake system replacement</td>
+                                    <td>2 days</td>
+                                    <td>Team B</td>
+                                    <td class="action-buttons">
+                                        <button class="btn btn-primary btn-sm"><i class="fas fa-upload"></i> Upload</button>
+                                        <button class="btn btn-success btn-sm"><i class="fas fa-check"></i> Complete</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>TR-13</td>
+                                    <td>JC-2091</td>
+                                    <td><span class="maintenance-type type-cleaning">Cleaning</span></td>
+                                    <td>Interior deep cleaning and sanitization</td>
+                                    <td>4 hours</td>
+                                    <td>Team C</td>
+                                    <td class="action-buttons">
+                                        <button class="btn btn-primary btn-sm"><i class="fas fa-upload"></i> Upload</button>
+                                        <button class="btn btn-success btn-sm"><i class="fas fa-check"></i> Complete</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>TR-17</td>
+                                    <td>JC-2095</td>
+                                    <td><span class="maintenance-type type-branding">Branding</span></td>
+                                    <td>Apply new advertising wraps</td>
+                                    <td>1 day</td>
+                                    <td>Team A</td>
+                                    <td class="action-buttons">
+                                        <button class="btn btn-primary btn-sm"><i class="fas fa-upload"></i> Upload</button>
+                                        <button class="btn btn-success btn-sm"><i class="fas fa-check"></i> Complete</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>TR-21</td>
+                                    <td>JC-2098</td>
+                                    <td><span class="maintenance-type type-minor">Minor</span></td>
+                                    <td>Door mechanism adjustment and lubrication</td>
+                                    <td>6 hours</td>
+                                    <td>Team A</td>
+                                    <td class="action-buttons">
+                                        <button class="btn btn-primary btn-sm"><i class="fas fa-upload"></i> Upload</button>
+                                        <button class="btn btn-success btn-sm"><i class="fas fa-check"></i> Complete</button>
+                                        <button class="btn btn-warning btn-sm"><i class="fas fa-box"></i> Request Parts</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
