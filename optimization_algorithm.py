@@ -1,27 +1,56 @@
 import random
 import numpy as np
 from deap import base, creator, tools
+from datetime import date
+import pandas as pd
 
 # ----- 1. Problem Setup -----
 NUM_TRAINS = 25
 ACTIONS = ["SERVICE", "STANDBY", "MAINTENANCE"]
+TRAIN_NAMES = [
+    "KRISHNA",
+    "TAPTI",
+    "NILA",
+    "SARAYU",
+    "ARUTH",
+    "VAIGAI",
+    "JHANAVI",
+    "DHWANIL",
+    "BHAVANI",
+    "PADMA",
+    "MANDAKINI",
+    "YAMUNA",
+    "PERIYAR",
+    "KABANI",
+    "VAAYU",
+    "KAVERI",
+    "SHIRIYA",
+    "PAMPA",
+    "NARMADA",
+    "MAHE",
+    "MAARUT",
+    "SABARMATHI",
+    "GODHAVARI",
+    "GANGA",
+    "PAVAN"
+]
 
-# Example external data (would come from depot systems in real life)
-fitness_certificates = {i: random.choice([True, True, True, False]) for i in range(NUM_TRAINS)}
-job_cards = {i: random.choice(["COMPLETED", "INPROGRESS"]) for i in range(NUM_TRAINS)}
-branding_priority = {i: random.randint(0, 3) for i in range(NUM_TRAINS)}
+# # Example external data (would come from depot systems in real life)
+# fitness_certificates = {i: random.choice([True, True, True, False]) for i in range(NUM_TRAINS)}
+# job_cards = {i: random.choice(["COMPLETED","COMPLETED","INPROGRESS"]) for i in range(NUM_TRAINS)}
+# branding_priority = {i: random.randint(0, 3) for i in range(NUM_TRAINS)}
 
-# Current mileage (in km) for each train
-current_mileage = {i: random.randint(10000, 50000) for i in range(NUM_TRAINS)}
+# # Current mileage (in km) for each train
+# current_mileage = {i: random.randint(10000, 50000) for i in range(NUM_TRAINS)}
 
 random.seed(42)
 np.random.seed(42)
 
 
-# fitness_certificates = {0: True, 1: True, 2: True, 3: True, 4: True, 5: False, 6: True, 7: True, 8: False, 9: True, 10: True, 11: True, 12: False, 13: True, 14: True, 15: True, 16: False, 17: True, 18: False, 19: True, 20: True, 21: True, 22: True, 23: True, 24: False}
-# job_cards = {0: 'COMPLETED', 1: 'INPROGRESS', 2: 'COMPLETED', 3: 'INPROGRESS', 4: 'COMPLETED', 5: 'COMPLETED', 6: 'COMPLETED', 7: 'COMPLETED', 8: 'COMPLETED', 9: 'COMPLETED', 10: 'INPROGRESS', 11: 'COMPLETED', 12: 'INPROGRESS', 13: 'COMPLETED', 14: 'INPROGRESS', 15: 'COMPLETED', 16: 'COMPLETED', 17: 'COMPLETED', 18: 'COMPLETED', 19: 'COMPLETED', 20: 'COMPLETED', 21: 'COMPLETED', 22: 'INPROGRESS', 23: 'INPROGRESS', 24: 'COMPLETED'}
-# branding_priority = {0: 2, 1: 3, 2: 3, 3: 3, 4: 1, 5: 3, 6: 3, 7: 0, 8: 3, 9: 3, 10: 0, 11: 3, 12: 0, 13: 1, 14: 2, 15: 1, 16: 1, 17: 0, 18: 1, 19: 0, 20: 3, 21: 2, 22: 0, 23: 2, 24: 1}
-# current_mileage = {0: 11794, 1: 14108, 2: 34759, 3: 43713, 4: 24540, 5: 46170, 6: 20618, 7: 44674, 8: 38474, 9: 25519, 10: 14670, 11: 43083, 12: 46581, 13: 16176, 14: 14787, 15: 40948, 16: 12268, 17: 40026, 18: 42357, 19: 20693, 20: 25369, 21: 32165, 22: 43456, 23: 43912, 24: 44504}
+fitness_certificates = {0: True, 1: True, 2: True, 3: True, 4: True, 5: False, 6: True, 7: True, 8: False, 9: True, 10: True, 11: True, 12: False, 13: True, 14: True, 15: True, 16: False, 17: True, 18: False, 19: True, 20: True, 21: True, 22: True, 23: True, 24: False}
+job_cards = {0: 'COMPLETED', 1: 'INPROGRESS', 2: 'COMPLETED', 3: 'INPROGRESS', 4: 'COMPLETED', 5: 'COMPLETED', 6: 'COMPLETED', 7: 'COMPLETED', 8: 'COMPLETED', 9: 'COMPLETED', 10: 'INPROGRESS', 11: 'COMPLETED', 12: 'INPROGRESS', 13: 'COMPLETED', 14: 'INPROGRESS', 15: 'COMPLETED', 16: 'COMPLETED', 17: 'COMPLETED', 18: 'COMPLETED', 19: 'COMPLETED', 20: 'COMPLETED', 21: 'COMPLETED', 22: 'INPROGRESS', 23: 'INPROGRESS', 24: 'COMPLETED'}
+branding_priority = {0: 2, 1: 3, 2: 3, 3: 3, 4: 1, 5: 3, 6: 3, 7: 0, 8: 3, 9: 3, 10: 0, 11: 3, 12: 0, 13: 1, 14: 2, 15: 1, 16: 1, 17: 0, 18: 1, 19: 0, 20: 3, 21: 2, 22: 0, 23: 2, 24: 1}
+current_mileage = {0: 11794, 1: 14108, 2: 34759, 3: 43713, 4: 24540, 5: 46170, 6: 20618, 7: 44674, 8: 38474, 9: 25519, 10: 14670, 11: 43083, 12: 46581, 13: 16176, 14: 14787, 15: 40948, 16: 12268, 17: 40026, 18: 42357, 19: 20693, 20: 25369, 21: 32165, 22: 43456, 23: 43912, 24: 44504}
 
 
 # Cleaning bay limit per night
@@ -122,25 +151,62 @@ def run_ga():
     best = tools.selBest(pop, 1)[0]
     return best, best.fitness.values
 
+def time_table(best_plain:list):
+    l=[]
+    for i in range(len(best_plan)):
+        if best_plan[i] == 'SERVICE' or  best_plan[i] == 'STANDBY':
+            l.append([i,best_plan[i],fitness_certificates[i],job_cards[i],branding_priority[i],current_mileage[i]])            
+    
+    
+    standby_pool = sorted([t for t in l if t[1]=="STANDBY" and t[2]==True and t[3]=='COMPLETED'], key=lambda x: x[5])
+    service_pool = sorted([t for t in l if t[1]=="SERVICE" and t[2]==True and t[3]=='COMPLETED'], key=lambda x: x[5])
+
+    active = service_pool[:8]
+    standby = standby_pool + service_pool[8:]
+
+    day=date.today()
+    if day.weekday()==6:
+        slots = pd.date_range("06:00", "22:30", freq="60min").strftime("%H:%M").tolist()
+    else:
+        slots = pd.date_range("08:00", "22:30", freq="60min").strftime("%H:%M").tolist()
+    timetable = []
+    for slot in slots:
+        timetable.append((slot, [t[0] for t in active]))  # record active trains
+        
+        # Increase mileage by ~27 km per hour (Kochi Metro line length)
+        active = [(tid, "SERVICE", fit, job, brand, m+27) for tid,_,fit,job,brand,m in active]
+        
+        # Check if any train needs rotation (>500 km in the day or mileage > 48000)
+        for idx, (tid,_,fit,job,brand,m) in enumerate(active):
+            if (m - [x for x in l if x[0]==tid][0][5]) > 500 or m > 48000:
+                if standby:
+                    replacement = standby.pop(0)
+                    active[idx] = (replacement[0],"SERVICE",replacement[2],replacement[3],replacement[4],replacement[5])
+
+    # ----- Output -----
+    df = pd.DataFrame(timetable, columns=["Time", "Active_Trains"])
+    print(df.to_string(index=False))
+
 if __name__ == "__main__":
     best_plan, score = run_ga()
+    time_table(best_plain=best_plan)
     # print("Best Plan:", best_plan)
-    a,b,c,d,e=0,0,0,0,0
-    for i in range(len(best_plan)):
-        print(i,best_plan[i],fitness_certificates[i],job_cards[i],branding_priority[i],current_mileage[i])
-        if fitness_certificates[i]==True and job_cards[i]== 'COMPLETED':
-            a+=1
-        if best_plan[i]=='SERVICE' and fitness_certificates[i]==True and job_cards[i]== 'COMPLETED':
-            b+=1
-        if best_plan[i]=='STANDBY' and fitness_certificates[i]==True and job_cards[i]== 'COMPLETED':
-            e+=1    
-        if fitness_certificates[i]==False and job_cards[i]== 'INPROGRESS':
-            c+=1
-        if best_plan[i]=='MAINTENANCE' and fitness_certificates[i]==False and job_cards[i]== 'INPROGRESS':
-            d+=1
-    print(a,b)
-    print(e)
-    print(c,d)
+    # a,b,c,d,e=0,0,0,0,0
+    # for i in range(len(best_plan)):
+    #     print(i,best_plan[i],fitness_certificates[i],job_cards[i],branding_priority[i],current_mileage[i])
+    #     if fitness_certificates[i]==True and job_cards[i]== 'COMPLETED':
+    #         a+=1
+    #     if best_plan[i]=='SERVICE' and fitness_certificates[i]==True and job_cards[i]== 'COMPLETED':
+    #         b+=1
+    #     if best_plan[i]=='STANDBY' and fitness_certificates[i]==True and job_cards[i]== 'COMPLETED':
+    #         e+=1    
+    #     if fitness_certificates[i]==False and job_cards[i]== 'INPROGRESS':
+    #         c+=1
+    #     if best_plan[i]=='MAINTENANCE' and fitness_certificates[i]==False and job_cards[i]== 'INPROGRESS':
+    #         d+=1
+    # print(a,b)
+    # print(e)
+    # print(c,d)
     print('SERVICE',best_plan.count('SERVICE'),'STANDBY',best_plan.count('STANDBY'),'MAINTENANCE',best_plan.count('MAINTENANCE'))
     print(score)
 
