@@ -29,20 +29,26 @@ current_mileage = {0: 46799, 1: 35244, 2: 47254, 3: 23343, 4: 45072, 5: 34619, 6
 # Cleaning bay limit per night
 MAX_CLEANING_SLOTS = 5
 
+def custom_mutate(individual):
+    for i in range(len(individual)):
+        if random.random() < 0.1:  # mutation probability
+            individual[i] = random.choice(ACTIONS)
+    return individual
+
 # ----- 2. Fitness Function -----
 def evaluate(individual):
-    maintainence_count = sum(1 for action in individual if action == "MAINTENANCE")
+    service_count = sum(1 for action in individual if action == "SERVICE")
     
     penalty = 0
 
-    # Constraint 1: must have at least 20 trains in service
-    if maintainence_count < 15:
-        penalty += (15 - maintainence_count) * 50
+    # Constraint 1: must have at least 15 trains in service
+    if service_count < 15:
+        penalty += (15 - service_count) * 40
 
     # Constraint 2: fitness certificate check
     for i, action in enumerate(individual):
         if action == "SERVICE" and not fitness_certificates[i]:
-            penalty += 100  # very high penalty
+            penalty += 100
 
     # Constraint 3: job card status
     for i, action in enumerate(individual):
@@ -55,18 +61,16 @@ def evaluate(individual):
             penalty += 30
 
     # Constraint 6: mileage balancing
-    # Add extra mileage for SERVICE trains
     mileage_after = []
     for i, action in enumerate(individual):
         if action == "SERVICE":
-            mileage_after.append(current_mileage[i] + 300)  # e.g., 300 km/day
+            mileage_after.append(current_mileage[i] + 300)
         else:
             mileage_after.append(current_mileage[i])
-    # Penalize variance (spread must be even)
-    penalty += np.var(mileage_after) * 0.01  # scaling factor
+    penalty += np.var(mileage_after) * 0.01
 
     # Objective = maximize service, minimize penalty
-    return maintainence_count * 100 - penalty,
+    return service_count * 100 - penalty,
 
 # ----- 3. GA Setup -----
 creator.create("FitnessMax", base.Fitness, weights=(1.0,))
@@ -78,7 +82,7 @@ toolbox.register("individual", tools.initRepeat, creator.Individual, toolbox.att
 toolbox.register("population", tools.initRepeat, list, toolbox.individual)
 
 toolbox.register("mate", tools.cxTwoPoint)
-toolbox.register("mutate", tools.mutUniformInt, low=0, up=len(ACTIONS)-1, indpb=0.1)
+toolbox.register("mutate", custom_mutate)
 toolbox.register("select", tools.selTournament, tournsize=3)
 toolbox.register("evaluate", evaluate)
 
@@ -119,4 +123,5 @@ if __name__ == "__main__":
     # print("Best Plan:", best_plan)
     for i in range(len(best_plan)):
         print(i,best_plan[i])
+    print('SERVICE',best_plan.count('SERVICE'),'STANDBY',best_plan.count('STANDBY'),'MAINTENANCE',best_plan.count('MAINTENANCE'))
     print("Score:", score)
