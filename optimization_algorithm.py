@@ -171,10 +171,10 @@ def time_table(best_plain:list):
         slots = pd.date_range("08:00", "22:30", freq="60min").strftime("%H:%M").tolist()
     timetable = []
     for slot in slots:
-        timetable.append((slot, [t[0] for t in active]))  # record active trains
+        timetable.append((slot, [TRAIN_NAMES[t[0]] for t in active]))  # record active trains
         
         # Increase mileage by ~27 km per hour (Kochi Metro line length)
-        active = [(tid, "SERVICE", fit, job, brand, m+27) for tid,_,fit,job,brand,m in active]
+        active = [(tid, "SERVICE", fit, job, brand, m+54) for tid,_,fit,job,brand,m in active]
         
         # Check if any train needs rotation (>500 km in the day or mileage > 48000)
         for idx, (tid,_,fit,job,brand,m) in enumerate(active):
