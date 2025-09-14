@@ -209,4 +209,4 @@ if __name__ == "__main__":
     # print(c,d)
     print('SERVICE',best_plan.count('SERVICE'),'STANDBY',best_plan.count('STANDBY'),'MAINTENANCE',best_plan.count('MAINTENANCE'))
     print(score)
-
+'new branch'
