@@ -12,6 +12,7 @@ urlpatterns =[
     path("feedf/", SendFitnessCertificates.as_view(), name = "feed_trains"),
     path('fitness_certificates/', SendFitnessCeritificates.as_view(), name = "send_fitness_certificates"),
     path('joboards/', SendMaintenance.as_view(), name="send_maintenance"),
+    path('branding/', SendB.as_view(), name="send_branding"),
     #path('upload/fitness', )
 ]
 

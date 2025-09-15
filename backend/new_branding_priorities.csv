@@ -1,0 +1,26 @@
+Train ID,Branding Contract ID,Advertiser,Contract Start Date,Contract End Date,Revenue per Day/Run,Impressions per Run
+Train-1,f6a4b8e0-2c9d-4b1a-9a71-9e6a3b8c2d7f,Metro Foods Pvt Ltd,2021-03-15,2023-03-14,12450.75,56780
+Train-2,5a6b7c8d-9e0f-1a2b-3c4d-5e6f7a8b9c0d,Orbit Mobile,2023-01-15,2025-12-31,15240.25,61220
+Train-3,ece1f3a2-5d4b-4f7a-9b6a-3d9e1a2a7b8e,GreenLine Foods,2021-03-15,2023-03-14,12500.75,45000
+Train-4,7b2a6a9d-4f3f-4e6a-87c2-1d5a9f9c3a6b,AquaPure Bottling,2022-07-01,2024-06-30,9800.5,32000
+Train-5,a9f5d1c4-8b2a-4e9e-9c3a-2f7b1e8d6c9f,UrbanWear Metro,2023-01-20,2025-01-19,15675.25,52000
+Train-6,2d7e9b4a-6f3c-4a8d-9e2b-7f1c2a9e3d4b,Pulse Coffee,2021-11-03,2023-11-02,7400.4,21000
+Train-7,f6e2a1b9-3d4f-4a8b-9c2a-1f3c6e7d8a9f,Sunrise Properties,2024-02-10,2026-02-09,10250.95,38000
+Train-8,d4f7a6c2-2a3e-4d9b-8c1a-6e5b2f9a1e7c,Nimbus Banks,2021-05-22,2023-05-21,13240.0,41000
+Train-9,e4a9b7d6-8f2c-4a3d-9e5f-3a7b1c2d9e6f,MetroBike Rentals,2022-09-18,2024-09-17,8900.3,27000
+Train-10,c1d2e3f4-5a6b-7c8d-9e0f-1a2b3c4d5e6f,EcoHome Furnishings,2023-04-05,2025-04-04,15250.6,52000
+Train-11,b3a7c1d2-4e5f-6a7b-8c9d-0e1f2a3b4c5d,HealthyMe Clinics,2021-12-12,2023-12-11,6800.25,18000
+Train-12,a0b1c2d3-4e5f-6a7b-8c9d-0e1f2a3b4c5d,CityCraft Furniture,2022-02-28,2024-02-27,7300.45,24000
+Train-13,f1e2d3c4-5b6a-7c8d-9e0f-1a2b3c4d5e6f,AeroTech Labs,2023-07-14,2025-07-13,16420.9,56000
+Train-14,d1e2f3a4-5b6c-7d8e-9f0a-1b2c3d4e5f6a,PetroVault,2021-08-01,2023-07-31,9100.75,30000
+Train-15,a7b8c9d0-1e2f-3a4b-5c6d-7e8f9a0b1c2d,SilkRoad Textiles,2022-03-09,2024-03-08,12550.2,43000
+Train-16,e2f3a4b5-6c7d-8e9f-0a1b-2c3d4e5f6a7b,BlueSky Airlines,2023-06-25,2025-06-24,19875.4,65000
+Train-17,c4d5e6f7-8a9b-0c1d-2e3f-4a5b6c7d8e9f,Garden Grove,2021-04-14,2023-04-13,7100.0,19000
+Train-18,b9a8c7d6-5e4f-3a2b-1c0d-9e8f7a6b5c4d,Nova Pharm,2024-01-02,2026-01-01,12275.55,47000
+Train-19,a1b2c3d4-5e6f-7a8b-9c0d-1e2f3a4b5c6d,Harbor Foods,2022-10-11,2024-10-10,9700.8,32000
+Train-20,d9e8f7a6-5b4c-3d2e-1f0a-9b8c7a6e5d4f,NextGen Robotics,2021-09-09,2023-09-08,14400.1,48000
+Train-21,e5f6a7b8-9c0d-1e2f-3a4b-5c6d7e8f9a0b,Peak Energy,2023-01-15,2025-01-14,11950.45,41000
+Train-22,f2a3b4c5-6d7e-8f9a-0b1c-2d3e4f5a6b7c,Lumen Hotels,2022-05-05,2024-05-04,10320.7,35000
+Train-23,8a1f9e4b-2a3b-4d5e-9c1f-2a3b4c5d6e7f,Apex Mobility,2021-03-15,2023-12-31,15230.45,84210
+Train-24,3f4e5d6c-7b8a-9c0d-1e2f-3a4b5c6d7e8f,Crest Bank,2023-03-21,2026-03-31,19875.4,98000
+Train-25,c4f8a2d9-3b1e-4a2a-a3f0-9d2b3c8a1e5f,Aurora Electronics,2021-03-15,2023-12-31,24500.5,78000

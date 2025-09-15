@@ -89,11 +89,11 @@ class Maintenance(models.Model):
         return f'{self.train.train_id} maintenance is {self.progress}'
     
 class BrandingContract(models.Model):
-    train = models.ManyToManyField(Train, related_name = "branding_contracts")
+    train = models.ForeignKey(Train, default="", on_delete=models.CASCADE, related_name = "branding_contracts")
     branding_firm = models.CharField(max_length = 100, null = True, blank = True)
     impressions = models.DecimalField(max_digits = 15, decimal_places=2)
-    start_date = models.DateField(null = True)
-    end_date = models.DateField(null = True)
+    start_date = models.CharField(max_length=20,null = True)
+    end_date = models.CharField(max_length=20,null = True)
     description = models.TextField(null = True, blank = True)
     revenue = models.DecimalField(max_digits=15, decimal_places=2, null=True, blank = True)
     created_at = models.DateTimeField(auto_now_add=True)
