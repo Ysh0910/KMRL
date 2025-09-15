@@ -3,6 +3,9 @@ import numpy as np
 from deap import base, creator, tools
 from datetime import date
 import pandas as pd
+# from rest_framework.response import Response
+# from rest_framework import status
+# from rest_framework.views import APIView
 
 # ----- 1. Problem Setup -----
 NUM_TRAINS = 25
@@ -193,26 +196,29 @@ def time_table(best_plain:list):
     df = pd.DataFrame(timetable, columns=["Time", "Active_Trains","Standby_Trains"])
     print(df.to_string(index=False))
 
+# class TrainScheduleAPIView(APIView):
+#      """Django APIView that accepts JSON input with fitness_certificates, 
+#         job_cards, branding_priority, and current_mileage."""
+#      def post(self, request, *args, **kwargs):
+#         # Extract input JSON
+#         try:
+#             fitness_certificates = request.data["fitness_certificates"]
+#             job_cards = request.data["job_cards"]
+#             branding_priority = request.data["branding_priority"]
+#             current_mileage = request.data["current_mileage"]
+#         except KeyError as e:
+#             return Response(
+#                 {"error": f"Missing field {str(e)}"},
+#                 status=status.HTTP_400_BAD_REQUEST
+#             )
+#         fitness_certificates = {int(k): v for k, v in fitness_certificates.items()}
+#         job_cards = {int(k): v for k, v in job_cards.items()}
+#         branding_priority = {int(k): v for k, v in branding_priority.items()}
+#         current_mileage = {int(k): v for k, v in current_mileage.items()} 
+
 if __name__ == "__main__":
     best_plan, score = run_ga()
     time_table(best_plain=best_plan)
-    # print("Best Plan:", best_plan)
-    # a,b,c,d,e=0,0,0,0,0
-    # for i in range(len(best_plan)):
-    #     print(i,best_plan[i],fitness_certificates[i],job_cards[i],branding_priority[i],current_mileage[i])
-    #     if fitness_certificates[i]==True and job_cards[i]== 'COMPLETED':
-    #         a+=1
-    #     if best_plan[i]=='SERVICE' and fitness_certificates[i]==True and job_cards[i]== 'COMPLETED':
-    #         b+=1
-    #     if best_plan[i]=='STANDBY' and fitness_certificates[i]==True and job_cards[i]== 'COMPLETED':
-    #         e+=1    
-    #     if fitness_certificates[i]==False and job_cards[i]== 'INPROGRESS':
-    #         c+=1
-    #     if best_plan[i]=='MAINTENANCE' and fitness_certificates[i]==False and job_cards[i]== 'INPROGRESS':
-    #         d+=1
-    # print(a,b)
-    # print(e)
-    # print(c,d)
     print('SERVICE',best_plan.count('SERVICE'),'STANDBY',best_plan.count('STANDBY'),'MAINTENANCE',best_plan.count('MAINTENANCE'))
     print(score)
     'hhi'
