@@ -9,3 +9,4 @@ djangorestframework-simplejwt
 deap
 pandas
 numpy
+requests
