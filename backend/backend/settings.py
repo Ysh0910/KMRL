@@ -116,9 +116,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'postgres',
-        'USER': 'postgres',
+        'USER': 'postgres.ilgmeoxrrakzcomlhdbv',
         'PASSWORD': 'Kochirailways@123',
-        'HOST': 'db.ilgmeoxrrakzcomlhdbv.supabase.co',
+        'HOST': 'aws-1-ap-south-1.pooler.supabase.com',
         'PORT':'5432',
     }
 }
@@ -162,5 +162,13 @@ STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+MEDIA_ROOT = BASE_DIR / 'media'
+
+MEDIA_URL = '/media/'
+
+X_FRAME_OPTIONS = 'ALLOWALL'
+
+CORS_ALLOW_ALL_ORIGINS = True

@@ -51,12 +51,13 @@ class FitnessDepartment(models.Model):
     fitness_cerficate = models.ImageField(upload_to = 'fitness_certificates/')
     train = models.ForeignKey(Train, on_delete = models.CASCADE, related_name="fitness_records")
     rolling_stock = models.BooleanField(default=False)
-    signalling = models.BooleanField(default=False)
-    telecom = models.BooleanField(default=False)
+    structural_integrity = models.BooleanField(default=False)
+    braking = models.BooleanField(default=False)
     issue_date = models.DateField(null=True)
     expiry_date = models.DateField(null = True)
     validy = models.BooleanField(default = False)
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now = True)
 
     class Meta:
         ordering = ['-created_at']
@@ -82,7 +83,7 @@ class Maintenance(models.Model):
     maintaince_certificate = models.ImageField(upload_to="maintenance_certificates/")
     date_start = models.DateField(null = False)
     date_end = models.DateField(null = True)
-    progress = models.CharField(choices=PROGRESS_CHOICES,default = 'waiting')
+    status = models.CharField(choices=PROGRESS_CHOICES,default = 'waiting')
     bay = models.ForeignKey(Bay, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -101,6 +102,7 @@ class BrandingContract(models.Model):
     description = models.TextField(null = False, blank = False)
     revenue = models.DecimalField(max_digits=15, decimal_places=2)
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now = True)
 
     class Meta:
         ordering = ['-created_at']
@@ -120,7 +122,7 @@ class StableDepartment(models.Model):
     entry_time = models.DateTimeField(null = False)
     exit_time = models.DateTimeField(null = True)
     first_trip  = models.DateTimeField(null=True)
-    kilometers_ran = models.DecimalField(max_digits=10, decimal_places=2, null=False)
+    kilometers_ran = models.DecimalField(max_digits=10, decimal_places=2, null=False, default=0)
     recently_maintained = models.BooleanField(default = False)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -130,3 +132,5 @@ class StableDepartment(models.Model):
     def __str__(self):
         return f'{self.train} was in stable {self.stable}'
 
+class TestImage(models.Model):
+    image = models.ImageField(upload_to = 'test_images/')

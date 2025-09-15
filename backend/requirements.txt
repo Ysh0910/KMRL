@@ -1,8 +1,8 @@
+pillow
 django
 djangorestframework
 djoser
 drf-yasg
 django-cors-headers
-psycopg2
 psycopg2-binary
 djangorestframework-simplejwt
