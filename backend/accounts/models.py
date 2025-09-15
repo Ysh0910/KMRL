@@ -72,17 +72,14 @@ class Bay(models.Model):
         return self.bay_id
 
 class Maintenance(models.Model):
-    PROGRESS_CHOICES = (
-        ('COMPLETED', 'completed'),
-        ('INPROGRESS', 'inprogress'),
-    )
     train = models.ForeignKey(Train, on_delete=models.CASCADE, related_name="maintenance_records")
     description = models.TextField(null=True, blank = True)
     maintaince_certificate = models.ImageField(upload_to="maintenance_certificates/")
-    date_start = models.DateField(null = True)
-    date_end = models.DateField(null = True)
-    status = models.CharField(choices=PROGRESS_CHOICES,default = 'waiting')
-    bay = models.ForeignKey(Bay, on_delete=models.CASCADE)
+    date_start = models.CharField(max_length=20,null = True)
+    date_end = models.CharField(max_length = 20,null = True)
+    status = models.CharField(max_length=100)
+    parts_used = models.CharField(max_length = 100 ,null = True, blank = True)
+    technician = models.CharField(max_length=50, null = True, blank = True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

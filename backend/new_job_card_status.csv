@@ -1,0 +1,26 @@
+Job Card ID,Train ID,Task Description,Date Created,Status,Technician Assigned,Parts Used,Time to Complete
+d2e3f4a5-6b7c-8d9e-0f1a-2b3c4d5e6f7g,Train-1,Check air filter and coolant levels,2020-01-15,Pending,Rajeev Menon,"AIR-FLTR-02, COLD-01",2
+e1a2f3b4-6d7c-4a9e-9f3b-2c1a5b7d8e9f,Train-2,Inspect brake system and test alarms,2021-03-15,Completed,Arun K.,"BRK001, SENSOR12",5
+a1c9e8b4-4f2d-4a9b-8c3e-2d7a1f5b9d2a,Train-3,Calibrate door sensors and lubrication,2020-11-02,Completed,Meera Nair,DOORSENS-12,3
+f1b2c3d4-5e6f-4a7b-8c9d-1e2f3a4b5c6d,Train-4,Replace cabin air filter and seals,2023-10-02,Pending,Anita Pillai,"FILT-01,SEAL-09",4
+e4f8b1a2-3d6f-4c9b-9b7a-1a2b3c4d5e6f,Train-5,Inspect braking system and replace worn pads,2021-05-12,Completed,Arjun Menon,"BRK-01, PAD-22",6
+e5f6a7b8-9c0d-1e2f-3a4b-5c6d7e8f9a0b,Train-6,Realign track sensors and calibrate beacon,2020-03-08,Completed,Anita Varma,"SENS-21, BEAC-08",7
+f3a9a6c4-1b2c-4d9e-9a3e-1f2d0a9c5b7e,Train-7,Inspect brake system and report anomalies,2021-05-14,Completed,Arun Kumar,"BRK-XL1, PAD-YG3",6
+c4d5e6f7-8a9b-0c1d-2e3f-4a5b6c7d8e9f,Train-8,Calibrate traction control thresholds,2021-03-03,In Progress,Sunita Pillai,CTRL-TR4,11
+a1b2c3d4-e5f6-7a89-0b1c-2d3e4f5a6b7c,Train-9,Check brake alignment and torque bolts,2021-03-14,Completed,Ravi Kumar,"BRK-01,TSK-02",5
+e1f2a3b4-c5d6-7e89-0f1a-2b3c4d5e6f7a,Train-10,Check emergency brakes and valve operation,2020-08-25,Completed,Anu Thomas,"BRK-03,VAL-02",4
+a2f9c3d4-7e5a-4b1a-9c3d-1f8e2a5b6c7d,Train-11,Inspect brakes and replace worn pads,2021-03-14,Completed,Liam Carter,"BRKPAD-12, DISC-45",6
+a1b2c3d4-5e6f-7a89-b0c1-d2e3f4a5b6c7,Train-12,Inspect track alignment and brake system,2022-03-14,Completed,Rahul Menon,"BRA-01, DISC-22",6
+a4f8e3d2-1c6b-4a9d-8e2f-3a1b6c7d8e9f,Train-13,Replace faulty traction motor sensor,2021-12-11,Completed,Kiran Pillai,"SNR-TM5, IDX-SR1",7
+a1b2c3d4-5e6f-7a89-b0c1-d2e3f4a5b6d8,Train-14,Calibrate wheel flange alignment system,2020-11-05,In Progress,Suresh Nair,"WHEEL-ALN-04, FLNG-SET-01",12
+e1f5c2d0-3a4b-4f6a-9b2d-2a7f1c8e9b3d,Train-15,Inspect brake system for wear and calibration,2021-05-14,Completed,Arun Kumar,"BRK-203,RES-101,CPU-77",6
+a9d7f6e8-2c4b-4f9a-9d3e-7b1f8a2e6c3d,Train-16,Inspect HVAC system for leakage,2023-08-18,In Progress,Sunita Varma,HVAC-LEK-SET,6
+e1a2b3c4-d5f6-7a89-0b1c-2d3e4f5a6b7c,Train-17,Inspect brake system and replace worn pads,2021-03-15,Completed,Aarav Menon,"BRKPAD1,MINCLP,REGBR",6
+c5f6g7h8-i9j0-1k23-4l5m-6n7o8p9q0r1t,Train-18,Verify signaling panel firmware version,2023-02-18,Pending,Kiran Varma,FWUPD1,2
+b1c2d3e4-5f6a-7b8c-9d0e-1f2a3b4c5d6e,Train-19,Inspect and tighten pantograph mounting,2021-08-05,In Progress,Grace Kim,PANT-MNT;SCREW-04,4
+6a3f2e1b-9d4c-4f3b-8f2b-1e7a9e3a7b2f,Train-20,Inspect brake system and report issues,2021-03-14,Completed,A. Kumar,"BRK-01,DISC-09",5
+a9b8c7d6-5e4f-3a2b-1c0d-9e8f7a6b5c4d,Train-21,Inspect traction inverter cooling fans,2023-08-02,In Progress,S. Varghese,FAN889,8
+e4f2a3b6-9c1d-4f2a-9b3a-1f6a2c5b9d3e,Train-22,Inspect brake system and adjust wear,2021-05-14,Completed,Arun Kumar,"BRK-01, PAD-47",5
+g7h8i9j0-2k3l-4m5n-6o7p-8q9r0s1t2u3v,Train-23,Overhaul traction motor and inspect windings,2020-01-20,Pending,Dhanya Raj,"TRC-12, WIND-03",15
+f1a2b3c4-5d6e-7f89-0a1b-2c3d4e5f6a7b,Train-24,Inspect brake system and replace worn pads,2021-03-14,Completed,Ravi Kumar,"BRK-AXL, PAD-ROD",8
+e5f6a7b8-9c0d-1e2f-3a4b-5c6d7e8f9a0b,Train-25,Replace worn brake pad assemblies,2023-12-01,Completed,Lekhya Menon,"BRK02, PAD05",7

@@ -1,7 +1,7 @@
 from djoser.serializers import UserCreateSerializer
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
-from .models import TestImage, FitnessDepartment
+from .models import *
 User = get_user_model()
 
 class ImageSerializer(serializers.ModelSerializer):
@@ -29,3 +29,8 @@ class FitnessSendSerializer(serializers.ModelSerializer):
     class Meta:
         model = FitnessDepartment
         fields = [ 'train_id', 'signal', 'braking', 'structural_integrity', 'expiry_date']
+
+class MaintenanceSendSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Maintenance
+        fields = ['id','train', 'date_start','status']

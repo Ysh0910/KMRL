@@ -63,20 +63,20 @@ class FitnessUploadView(APIView):
             return Response(serializer.data, status = 201)
         return Response(serializer.errors, status=400)
     
-# class SendFitnessCertificates(APIView):
-#     def get(self, request, *args, **kwargs):
-#         objs = []
-#         reader = csv.DictReader(open('new_fitness_certificates.csv'))
-#         for row in reader:
-#             objs.append(FitnessDepartment(
-#                 train = Train(train_id = row['Train ID']),
-#                 signal = row['Signaling'],
-#                 structural_integrity = row['Structural Integrity'],
-#                 braking = row['Braking'],
-#                 expiry_date = row['Expiry Date']
-#             ))
-#         FitnessDepartment.objects.bulk_create(objs)
-#         return Response({'message':'fitness certificates uploaded succesfully'})
+class SendFitnessCertificates(APIView):
+    def get(self, request, *args, **kwargs):
+        objs = []
+        reader = csv.DictReader(open('new_job_card_status.csv'))
+        for row in reader:
+            objs.append(Maintenance(
+                train = Train(train_id = row['Train ID']),
+                description = row['Task Description'],
+                status = row['Status'],
+                technician = row['Technician Assigned'],
+                parts_used = row['Parts Used'],
+            ))
+        Maintenance.objects.bulk_create(objs)
+        return Response({'message':'Mcertificates uploaded succesfully'})
 
 # class FeedTrains(APIView):
 #     def get(self, request, *args, **kwargs):
@@ -93,4 +93,12 @@ class FitnessUploadView(APIView):
 class SendFitnessCeritificates(APIView):
     def get(self, request, *args, **kwargs):
         serializer = FitnessSendSerializer(FitnessDepartment.objects.all(), many = True)
+        return Response(serializer.data)
+
+
+
+
+class SendMaintenance(APIView):
+    def get(self, request, *args, **kwargs):
+        serializer = MaintenanceSendSerializer(Maintenance.objects.all(), many = True)
         return Response(serializer.data)
