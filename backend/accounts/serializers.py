@@ -24,3 +24,8 @@ class FitnessUploadSerializer(serializers.ModelSerializer):
     class Meta:
         model = FitnessDepartment
         fields = '__all__'
+
+class FitnessSendSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FitnessDepartment
+        fields = [ 'train_id', 'signal', 'braking', 'structural_integrity', 'expiry_date']

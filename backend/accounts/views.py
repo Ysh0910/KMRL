@@ -3,8 +3,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
 from .serializers import *
-from .models import TestImage
+from .models import *
 from rest_framework.permissions import IsAuthenticated
+import csv
 # Create your views here.
 
   
@@ -61,3 +62,35 @@ class FitnessUploadView(APIView):
             serializer.save()
             return Response(serializer.data, status = 201)
         return Response(serializer.errors, status=400)
+    
+# class SendFitnessCertificates(APIView):
+#     def get(self, request, *args, **kwargs):
+#         objs = []
+#         reader = csv.DictReader(open('new_fitness_certificates.csv'))
+#         for row in reader:
+#             objs.append(FitnessDepartment(
+#                 train = Train(train_id = row['Train ID']),
+#                 signal = row['Signaling'],
+#                 structural_integrity = row['Structural Integrity'],
+#                 braking = row['Braking'],
+#                 expiry_date = row['Expiry Date']
+#             ))
+#         FitnessDepartment.objects.bulk_create(objs)
+#         return Response({'message':'fitness certificates uploaded succesfully'})
+
+# class FeedTrains(APIView):
+#     def get(self, request, *args, **kwargs):
+#         try:
+#             objs = []
+#             reader = csv.DictReader(open('new_fitness_certificates.csv'))
+#             for row in reader:
+#                 objs.append(Train(train_id = row['Train ID']))
+#             Train.objects.bulk_create(objs)
+#             return Response({"message":'trains inputed successfully'})
+#         except Exception as e:
+#             return Response({"error":f'some error occured {e}'}, status=400)
+
+class SendFitnessCeritificates(APIView):
+    def get(self, request, *args, **kwargs):
+        serializer = FitnessSendSerializer(FitnessDepartment.objects.all(), many = True)
+        return Response(serializer.data)

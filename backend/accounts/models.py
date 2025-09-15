@@ -41,7 +41,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     
 
 class Train(models.Model):
-    train_id = models.CharField(max_length = 20, unique = True)
+    train_id = models.CharField(max_length = 20, unique = True, primary_key=True)
     train_name = models.CharField(max_length=50)
 
     def __str__(self):
@@ -50,12 +50,11 @@ class Train(models.Model):
 class FitnessDepartment(models.Model):
     fitness_cerficate = models.ImageField(upload_to = 'fitness_certificates/')
     train = models.ForeignKey(Train, on_delete = models.CASCADE, related_name="fitness_records")
-    rolling_stock = models.BooleanField(default=False)
-    structural_integrity = models.BooleanField(default=False)
-    braking = models.BooleanField(default=False)
-    issue_date = models.DateField(null=True)
-    expiry_date = models.DateField(null = True)
-    validy = models.BooleanField(default = False)
+    signal = models.CharField(max_length=20,null = True)
+    structural_integrity = models.CharField(max_length=20,null = True)
+    braking = models.CharField(max_length=20,null = True)
+    issue_date = models.CharField(max_length=20,null=True)
+    expiry_date = models.CharField(max_length=20,null = True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now = True)
 
@@ -74,14 +73,13 @@ class Bay(models.Model):
 
 class Maintenance(models.Model):
     PROGRESS_CHOICES = (
-        ('completed', 'Completed'),
-        ('waiting', 'waiting'),
-        ('in_progress', 'In Progress')
+        ('COMPLETED', 'completed'),
+        ('INPROGRESS', 'inprogress'),
     )
     train = models.ForeignKey(Train, on_delete=models.CASCADE, related_name="maintenance_records")
-    description = models.TextField(null=False, blank = False)
+    description = models.TextField(null=True, blank = True)
     maintaince_certificate = models.ImageField(upload_to="maintenance_certificates/")
-    date_start = models.DateField(null = False)
+    date_start = models.DateField(null = True)
     date_end = models.DateField(null = True)
     status = models.CharField(choices=PROGRESS_CHOICES,default = 'waiting')
     bay = models.ForeignKey(Bay, on_delete=models.CASCADE)
@@ -95,12 +93,12 @@ class Maintenance(models.Model):
     
 class BrandingContract(models.Model):
     train = models.ManyToManyField(Train, related_name = "branding_contracts")
-    branding_firm = models.CharField(max_length = 100, null = False, blank = False)
+    branding_firm = models.CharField(max_length = 100, null = True, blank = True)
     impressions = models.DecimalField(max_digits = 15, decimal_places=2)
-    start_date = models.DateField(null = False)
-    end_date = models.DateField(null = False)
-    description = models.TextField(null = False, blank = False)
-    revenue = models.DecimalField(max_digits=15, decimal_places=2)
+    start_date = models.DateField(null = True)
+    end_date = models.DateField(null = True)
+    description = models.TextField(null = True, blank = True)
+    revenue = models.DecimalField(max_digits=15, decimal_places=2, null=True, blank = True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now = True)
 
@@ -119,10 +117,10 @@ class Stable(models.Model):
 class StableDepartment(models.Model):
     train = models.ForeignKey(Train, on_delete=models.CASCADE, related_name="stable_records")
     stable = models.ForeignKey(Stable, on_delete=models.CASCADE)
-    entry_time = models.DateTimeField(null = False)
+    entry_time = models.DateTimeField(null = True)
     exit_time = models.DateTimeField(null = True)
     first_trip  = models.DateTimeField(null=True)
-    kilometers_ran = models.DecimalField(max_digits=10, decimal_places=2, null=False, default=0)
+    kilometers_ran = models.DecimalField(max_digits=10, decimal_places=2, null=True, default=0)
     recently_maintained = models.BooleanField(default = False)
     created_at = models.DateTimeField(auto_now_add=True)
 
