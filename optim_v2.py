@@ -3,6 +3,9 @@ import numpy as np
 from deap import base, creator, tools
 from datetime import date
 import pandas as pd
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.views import APIView
 class GA():
     def __init__(self,fitness_certificates,job_cards,branding_priority,current_mileage):
         self.fitness_certificates = fitness_certificates
@@ -137,7 +140,78 @@ class GA():
 
         best = tools.selBest(pop, 1)[0]
         return best, best.fitness.values
-    
+
+    def time_table(self,best_plain:list):
+        l=[]
+        for i in range(len(best_plan)):
+            if best_plan[i] == 'SERVICE' or  best_plan[i] == 'STANDBY':
+                l.append([i,best_plan[i],fitness_certificates[i],job_cards[i],branding_priority[i],current_mileage[i]])            
+        
+        
+        standby_pool = sorted([t for t in l if t[1]=="STANDBY" and t[2]==True and t[3]=='COMPLETED'], key=lambda x: x[5])
+        service_pool = sorted([t for t in l if t[1]=="SERVICE" and t[2]==True and t[3]=='COMPLETED'], key=lambda x: x[5])
+
+        active = service_pool[:8]
+        standby = standby_pool + service_pool[8:]
+
+        day=date.today()
+        if day.weekday()==6:
+            slots = pd.date_range("06:00", "22:30", freq="60min").strftime("%H:%M").tolist()
+        else:
+            slots = pd.date_range("08:00", "22:30", freq="60min").strftime("%H:%M").tolist()
+        timetable = []
+
+        for slot in slots:
+            timetable.append((slot, [self.TRAIN_NAMES[t[0]] for t in active],[self.TRAIN_NAMES[t[0]] for t in standby]))  # record active trains
+            # Increase mileage by ~27 km per hour (Kochi Metro line length)
+            active = [(tid, "SERVICE", fit, job, brand, m+45) for tid,_,fit,job,brand,m in active]
+            
+            # Check if any train needs rotation (>500 km in the day or mileage > 48000)
+            for idx, (tid,_,fit,job,brand,m) in enumerate(active):
+                if (m - [x for x in l if x[0]==tid][0][5]) > 500 or m > 48000:
+                    for idx, (tid,_,fit,job,brand,m) in enumerate(standby):
+                        if (m - [x for x in l if x[0]==tid][0][5]) > 500 or m > 48000:
+                            replacement = standby.pop(0)
+                            standby.append((tid,"STANDBY",fit,job,brand,m))
+                            active[idx] = (replacement[0],"SERVICE",replacement[2],replacement[3],replacement[4],replacement[5])
+
+        for idx, (tid,_,fit,job,brand,m) in enumerate(active): 
+            print(self.TRAIN_NAMES[idx],m)
+        for idx, (tid,_,fit,job,brand,m) in enumerate(standby): 
+            print(self.TRAIN_NAMES[idx],m)
+        # ----- Output -----
+        df = pd.DataFrame(timetable, columns=["Time", "Active_Trains","Standby_Trains"])
+        return df
+
+class TrainScheduleAPIView(APIView):
+     """Django APIView that accepts JSON input with fitness_certificates, 
+        job_cards, branding_priority, and current_mileage."""
+     def post(self, request, *args, **kwargs):
+        # Extract input JSON
+        try:
+            fitness_certificates = request.data["fitness_certificates"]
+            job_cards = request.data["job_cards"]
+            branding_priority = request.data["branding_priority"]
+            current_mileage = request.data["current_mileage"]
+        except KeyError as e:
+            return Response(
+                {"error": f"Missing field {str(e)}"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        fitness_certificates = {int(k): v for k, v in fitness_certificates.items()}
+        job_cards = {int(k): v for k, v in job_cards.items()}
+        branding_priority = {int(k): v for k, v in branding_priority.items()}
+        current_mileage = {int(k): v for k, v in current_mileage.items()}
+
+        obj=GA(fitness_certificates=fitness_certificates,job_cards=job_cards,branding_priority=branding_priority,current_mileage=current_mileage)
+        obj.GA_setup()
+        best_plan, score = obj.run_ga()
+        df=obj.time_table(best_plan) 
+
+        return Response({
+            "best_schedule": df,
+        }, status=status.HTTP_200_OK)
 
 if __name__=='__main__':
     fitness_certificates = {0: True, 1: True, 2: True, 3: True, 4: True, 5: False, 6: True, 7: True, 8: False, 9: True, 10: True, 11: True, 12: False, 13: True, 14: True, 15: True, 16: False, 17: True, 18: False, 19: True, 20: True, 21: True, 22: True, 23: True, 24: False}
@@ -147,4 +221,7 @@ if __name__=='__main__':
     obj=GA(fitness_certificates=fitness_certificates,job_cards=job_cards,branding_priority=branding_priority,current_mileage=current_mileage)
     obj.GA_setup()
     best_plan, score = obj.run_ga()
-    print(best_plan)
+    df=obj.time_table(best_plan)
+    # print(df.to_string(index=False))
+    
+    
