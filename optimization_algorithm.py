@@ -170,21 +170,27 @@ def time_table(best_plain:list):
     else:
         slots = pd.date_range("08:00", "22:30", freq="60min").strftime("%H:%M").tolist()
     timetable = []
+
     for slot in slots:
-        timetable.append((slot, [TRAIN_NAMES[t[0]] for t in active]))  # record active trains
-        
+        timetable.append((slot, [TRAIN_NAMES[t[0]] for t in active],[TRAIN_NAMES[t[0]] for t in standby]))  # record active trains
         # Increase mileage by ~27 km per hour (Kochi Metro line length)
-        active = [(tid, "SERVICE", fit, job, brand, m+54) for tid,_,fit,job,brand,m in active]
+        active = [(tid, "SERVICE", fit, job, brand, m+45) for tid,_,fit,job,brand,m in active]
         
         # Check if any train needs rotation (>500 km in the day or mileage > 48000)
         for idx, (tid,_,fit,job,brand,m) in enumerate(active):
             if (m - [x for x in l if x[0]==tid][0][5]) > 500 or m > 48000:
-                if standby:
-                    replacement = standby.pop(0)
-                    active[idx] = (replacement[0],"SERVICE",replacement[2],replacement[3],replacement[4],replacement[5])
+                for idx, (tid,_,fit,job,brand,m) in enumerate(standby):
+                     if (m - [x for x in l if x[0]==tid][0][5]) > 500 or m > 48000:
+                        replacement = standby.pop(0)
+                        standby.append((tid,"STANDBY",fit,job,brand,m))
+                        active[idx] = (replacement[0],"SERVICE",replacement[2],replacement[3],replacement[4],replacement[5])
 
+    for idx, (tid,_,fit,job,brand,m) in enumerate(active): 
+        print(TRAIN_NAMES[idx],m)
+    for idx, (tid,_,fit,job,brand,m) in enumerate(standby): 
+        print(TRAIN_NAMES[idx],m)
     # ----- Output -----
-    df = pd.DataFrame(timetable, columns=["Time", "Active_Trains"])
+    df = pd.DataFrame(timetable, columns=["Time", "Active_Trains","Standby_Trains"])
     print(df.to_string(index=False))
 
 if __name__ == "__main__":
@@ -209,4 +215,3 @@ if __name__ == "__main__":
     # print(c,d)
     print('SERVICE',best_plan.count('SERVICE'),'STANDBY',best_plan.count('STANDBY'),'MAINTENANCE',best_plan.count('MAINTENANCE'))
     print(score)
-'new branch'
