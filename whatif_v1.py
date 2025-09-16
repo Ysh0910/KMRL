@@ -135,7 +135,6 @@ class SimulationAPIView(APIView):
             obj.GA_setup()
             best_plan, score = obj.run_ga()
             df=obj.time_table(best_plan)
-            action = request.data.get("action")
             failures = request.data.get("failures", [])
             criteria = request.data.get("criteria", None)
             obj2=sim(df=df)
