@@ -45,7 +45,7 @@ PIPELINE_CONFIG = {
   },
   "output": {
     "destination_api": {
-      "url": "http://localhost:8000/postmodeldata",
+      "url": "http://localhost:8000/postmodeldata/",
       "method": "POST",
       "headers": {
         "Content-Type": "application/json"
@@ -96,7 +96,23 @@ def process_data(all_data):
         "branding_priorities": [],
         "mileage": []
     }
-    today = datetime.now().date()
+    branding_data = all_data.get('branding_priorities', [])
+    
+    # Calculate the mean of all dates
+    all_dates = []
+    for brand in branding_data:
+        try:
+            all_dates.append(datetime.strptime(brand['start_date'], '%Y-%m-%d').date())
+            all_dates.append(datetime.strptime(brand['end_date'], '%Y-%m-%d').date())
+        except (ValueError, KeyError) as e:
+            print(f"Skipping branding record in date calculation due to error: {e} - Record: {brand}")
+            continue
+    
+    if all_dates:
+        avg_timestamp = sum(d.toordinal() for d in all_dates) / len(all_dates)
+        today = datetime.fromordinal(int(avg_timestamp)).date()
+    else:
+        today = datetime.now().date()
 
     # 1. Process Fitness Certificates
     fitness_data = all_data.get('fitness_certificates', [])
@@ -133,34 +149,47 @@ def process_data(all_data):
 
     # 3. Process Branding Priorities
     branding_data = all_data.get('branding_priorities', [])
+    
+    # Find max revenue and impressions for normalization
+    max_revenue = 0
+    max_impressions = 0
     for brand in branding_data:
+        try:
+            max_revenue = max(max_revenue, float(brand.get('revenue', 0)))
+            max_impressions = max(max_impressions, float(brand.get('impressions', 0)))
+        except (ValueError, KeyError) as e:
+            print(f"Skipping branding record in max value calculation due to error: {e} - Record: {brand}")
+            continue
+
+    for brand in branding_data:
+        score = 0
         try:
             start_date = datetime.strptime(brand['start_date'], '%Y-%m-%d').date()
             end_date = datetime.strptime(brand['end_date'], '%Y-%m-%d').date()
 
             if start_date <= today <= end_date:
-                revenue = float(brand.get('perday_revenue', 0))
-                impression = float(brand.get('impression', 0))
+                revenue = float(brand.get('revenue', 0))
+                impression = float(brand.get('impressions', 0))
 
-                # Scoring logic:
-                # A simple weighted score. Assumes max revenue of 10000 and max impression of 100000 for normalization.
-                # Revenue is weighted 70%, Impression 30%.
-                # The final score is scaled to be between 1 and 5.
-                norm_revenue = min(revenue / 10000, 1.0)
-                norm_impression = min(impression / 100000, 1.0)
+                # Normalization
+                norm_revenue = revenue / max_revenue if max_revenue > 0 else 0
+                norm_impression = impression / max_impressions if max_impressions > 0 else 0
                 
+                # Weighted score (70% revenue, 30% impressions)
                 combined_score = (0.7 * norm_revenue) + (0.3 * norm_impression)
-                final_score = math.ceil(combined_score * 5)
-                if final_score == 0 and (revenue > 0 or impression > 0):
-                    final_score = 1
+                
+                # Scale to 1-5
+                final_score = 1 + (combined_score * 4)
+                score = int(round(final_score))
 
-                processed_output["branding_priorities"].append({
-                    "train_id": brand.get("train"),
-                    "score": int(final_score)
-                })
+
         except (ValueError, KeyError) as e:
             print(f"Skipping branding record due to error: {e} - Record: {brand}")
-            continue
+        
+        processed_output["branding_priorities"].append({
+            "train_id": brand.get("train"),
+            "score": score
+        })
 
     # 4. Process Mileage
     mileage_data = all_data.get('mileage', [])
@@ -178,30 +207,15 @@ def process_data(all_data):
     return processed_output
 
 def send_to_ml_api(data):
-    """Sends processed data to the ML model API."""
-    api_config = PIPELINE_CONFIG["output"]["destination_api"]
-    url = api_config["url"]
-    headers = api_config["headers"]
-    method = api_config["method"]
-    attempts = PIPELINE_CONFIG["error_handling"]["retry_attempts"]
-    delay = PIPELINE_CONFIG["error_handling"]["retry_delay_seconds"]
+    try:
+        print(requests.post(PIPELINE_CONFIG["output"]["destination_api"]["url"], json=data))
+        print("Data sent to ML model API.")
+        return True
+    except Exception as e:
+        print(f"Error sending data to ML model API: {e}")
+        return False
 
-    payload = {"data": data}
-
-    for attempt in range(attempts):
-        try:
-            response = requests.request(method, url, headers=headers, json=payload, timeout=10)
-            response.raise_for_status()
-            print("Successfully sent data to ML model API.")
-            return True
-        except requests.exceptions.RequestException as e:
-            if PIPELINE_CONFIG["error_handling"]["log_errors"]:
-                print(f"Error sending data to ML API (attempt {attempt + 1}/{attempts}): {e}")
-            if attempt < attempts - 1:
-                time.sleep(delay)
-            else:
-                print(f"Failed to send data to ML API after {attempts} attempts.")
-                return False
+   
 
 def fallback_storage(data):
     """Stores data locally as a fallback."""
@@ -235,7 +249,7 @@ def run_pipeline():
     if not all_fetched_data:
         print("No data fetched. Exiting pipeline.")
         return
-    #print(all_fetched_data)
+    print(all_fetched_data)
 
     print("Processing data...")
     processed_data = process_data(all_fetched_data)

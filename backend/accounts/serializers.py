@@ -44,3 +44,8 @@ class MileageSendSerializer(serializers.ModelSerializer):
     class Meta:
         model = Mileage
         fields = ['train', 'total_kilometers']
+
+class ModelChacheSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ModelChache
+        fields = '__all__'

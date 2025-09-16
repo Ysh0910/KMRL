@@ -268,7 +268,7 @@ class TrainScheduleAPIView(APIView):
         }, status=status.HTTP_200_OK)
 
 if __name__=='__main__':
-    DATA_URL = "http://localhost:8000/postmodeldata"
+    DATA_URL = "http://localhost:8000/postmodeldata/"
 
     def fetch_and_process_data(url):
         try:
