@@ -148,7 +148,7 @@ class GA():
         best = tools.selBest(pop, 1)[0]
         return best, best.fitness.values
 
-    def time_table(self,best_plain:list):
+    def time_table(self,best_plan:list):
         l=[]
         for i in range(len(best_plan)):
             if best_plan[i] == 'SERVICE' or  best_plan[i] == 'STANDBY':
