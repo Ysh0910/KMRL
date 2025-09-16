@@ -1,2 +1,5 @@
 # .gitignore file
 node_modules/
+__pycache__/
+*.pyc
+.vscode/

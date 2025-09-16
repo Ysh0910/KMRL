@@ -3,9 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up</title>
+    <title>Sign Up - Railway Management</title>
+    <link rel="stylesheet" href="/signup_style.css">
 </head>
 <body>
-    <p>Here comes the signup page</p>
+    <div class="signup-container">
+        <div class="signup-header">
+            <h1>Create Account</h1>
+            <p>Fill in your details to create a new account</p>
+        </div>
+
+        <% if (locals.error) { %>
+            <div class="error-message">
+                <%= error %>
+            </div>
+        <% } %>
+
+        <% if (locals.success) { %>
+            <div class="success-message">
+                <%= success %>
+            </div>
+        <% } %>
+
+        <form action="/signup" method="POST" id="signupForm">
+            <div class="form-group">
+                <label for="userid">User ID</label>
+                <input type="text" id="userid" name="userid" placeholder="Enter your user ID" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Create a password" required>
+                <div class="password-requirements">
+                    Must be at least 8 characters with uppercase, lowercase, and number
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="role">Select Role</label>
+                <select id="role" name="role" required>
+                    <option value="">Select a role</option>
+                    <option value="Operations Controller">Operations Controller</option>
+                    <option value="Station Master">Station Master</option>
+                    <option value="Train Driver">Train Driver</option>
+                    <option value="Maintenance Staff">Maintenance Staff</option>
+                    <option value="Safety Officer">Safety Officer</option>
+                    <option value="Dispatcher">Dispatcher</option>
+                    <option value="Supervisor">Supervisor</option>
+                    <option value="Administrator">Administrator</option>
+                </select>
+            </div>
+
+            <button type="submit" class="signup-btn">Create Account</button>
+        </form>
+
+        <div class="login-link">
+            Already have an account? <a href="/login">Log in</a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            const password = document.getElementById('password').value;
+            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+            
+            if (!passwordRegex.test(password)) {
+                e.preventDefault();
+                alert('Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one number.');
+                return false;
+            }
+        });
+
+        // Real-time password validation
+        document.getElementById('password').addEventListener('input', function(e) {
+            const password = e.target.value;
+            const requirements = document.querySelector('.password-requirements');
+            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+            
+            if (password.length === 0) {
+                requirements.style.color = '#666';
+                requirements.textContent = 'Must be at least 8 characters with uppercase, lowercase, and number';
+            } else if (passwordRegex.test(password)) {
+                requirements.style.color = '#198754';
+                requirements.textContent = '✓ Password meets requirements';
+            } else {
+                requirements.style.color = '#d63384';
+                requirements.textContent = '✗ Password does not meet requirements';
+            }
+        });
+    </script>
 </body>
 </html>

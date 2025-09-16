@@ -3,9 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Login - Railway Management</title>
+    <link rel="stylesheet" href="/login_style.css">
 </head>
 <body>
-    <p>Here comes the login page</p>
+    <div class="login-container">
+        <div class="login-header">
+            <h1>Welcome Back</h1>
+            <p>Please enter your credentials to access your account</p>
+        </div>
+
+        <% if (locals.error) { %>
+            <div class="error-message">
+                <%= error %>
+            </div>
+        <% } %>
+
+        <% if (locals.success) { %>
+            <div class="success-message">
+                <%= success %>
+            </div>
+        <% } %>
+
+        <form action="/login" method="POST">
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            </div>
+
+            <div class="form-options">
+                <div class="remember-me">
+                    <input type="checkbox" id="remember" name="remember" value="true">
+                    <label for="remember">Remember me</label>
+                </div>
+                <a href="#" class="forgot-password" onclick="showForgotPassword()">Forgot password?</a>
+            </div>
+
+            <button type="submit" class="login-btn">Log In</button>
+        </form>
+
+        <div class="signup-link">
+            Don't have an account? <a href="/signup">Sign up</a>
+        </div>
+    </div>
+
+    <!-- Forgot Password Modal (Simple implementation) -->
+    <script>
+        function showForgotPassword() {
+            const email = prompt("Please enter your email address:");
+            if (email) {
+                // Create a form to submit the forgot password request
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = '/forgot-password';
+                form.style.display = 'none';
+                
+                const emailInput = document.createElement('input');
+                emailInput.name = 'email';
+                emailInput.value = email;
+                
+                form.appendChild(emailInput);
+                document.body.appendChild(form);
+                form.submit();
+            }
+        }
+    </script>
 </body>
 </html>
