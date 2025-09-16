@@ -49,61 +49,119 @@ class sim():
             "PAVAN"
         ]
 
-    def simulate_failure(self,fail_train="MAA", fail_time="15:00", shunting_delay=15,criterea=None,brandingpriority=[]):
+    # def simulate_failure(self,failures, shunting_delay=15,criterea=None,brandingpriority=[]):
+    #     updated_rows = []
+    #     replacement_log = []
+    
+        
+    #     standby_state = None
+    #     active_state = None
+        
+    #     for _, row in self.df.iterrows():
+    #         time_slot = row["Time"]
+    #         # active = row["Active_Trains"].copy()
+    #         # standby = row["Standby_Trains"].copy()
+    #         active = active_state.copy() if active_state is not None else row["Active_Trains"].copy()
+    #         standby = standby_state.copy() if standby_state is not None else row["Standby_Trains"].copy()
+
+    #         for failure in failures:
+    #             fail_train = failure["train"]
+    #             fail_time = failure["time"]
+
+
+    #         if time_slot == fail_time and fail_train in active:
+    #             # remove the failed train
+    #             active.remove(fail_train)
+                
+    #             if standby:
+    #                 if criterea == 'milage': 
+    #                     replacement = standby.pop(0)  # take first standby
+    #                     active.append(replacement)
+    #                     replacement_log.append({
+    #                         "Time": time_slot,
+    #                         "Failed": fail_train,
+    #                         "Replacement": replacement,
+    #                     })
+    #                 if criterea == 'branding':
+    #                     t1 = [self.TRAIN_NAMES.index(i) for i in standby]
+    #                     t2 = [brandingpriority[i] for i in t1]
+    #                     keyval = self.TRAIN_NAMES[t1[t2.index(max(t2))]]
+    #                     standby.remove(keyval)  # take first standby
+    #                     active.append(keyval)
+    #                     replacement_log.append({
+    #                         "Time": time_slot,
+    #                         "Failed": fail_train,
+    #                         "Replacement": keyval,
+    #                     })
+
+
+    #         active_state = active
+    #         standby_state = standby
+
+    #         updated_rows.append({
+    #             "Time": time_slot,
+    #             "Active_Trains": active,
+    #             "Standby_Trains": standby
+    #         })
+    #     updated_df = pd.DataFrame(updated_rows)
+    #     self.df=updated_df
+    #     replacement_df_report = pd.DataFrame(replacement_log)
+    #     return updated_df, replacement_df_report
+    def simulate_failure(self, failures, criterea="milage", brandingpriority=None):
+        """
+        failures: list of dicts [{"train": "PADMA", "time": "15:00"}, ...]
+        criterea: 'milage' or 'branding'
+        """
         updated_rows = []
         replacement_log = []
-        for i in range(2):
-            fail_train=random.choice(random.choice(df['Active_Trains']))
-            print(fail_train)
-            
-            standby_state = None
-            active_state = None
-            
-            for _, row in self.df.iterrows():
-                time_slot = row["Time"]
-                # active = row["Active_Trains"].copy()
-                # standby = row["Standby_Trains"].copy()
-                active = active_state.copy() if active_state is not None else row["Active_Trains"].copy()
-                standby = standby_state.copy() if standby_state is not None else row["Standby_Trains"].copy()
+
+        for _, row in self.df.iterrows():
+            time_slot = row["Time"]
+            active = row["Active_Trains"].copy()
+            standby = row["Standby_Trains"].copy()
+
+            # Check all failures scheduled at this time slot
+            for failure in failures:
+                fail_train = failure["train"]
+                fail_time = failure["time"]
 
                 if time_slot == fail_time and fail_train in active:
                     # remove the failed train
                     active.remove(fail_train)
-                    
+
                     if standby:
-                        if criterea == 'milage': 
-                            replacement = standby.pop(0)  # take first standby
-                            active.append(replacement)
-                            replacement_log.append({
-                                "Time": time_slot,
-                                "Failed": fail_train,
-                                "Replacement": replacement,
-                            })
-                        if criterea == 'branding':
+                        if criterea == "milage":
+                            replacement = standby.pop(0)
+
+                        elif criterea == "branding" and brandingpriority:
                             t1 = [self.TRAIN_NAMES.index(i) for i in standby]
                             t2 = [brandingpriority[i] for i in t1]
-                            keyval = self.TRAIN_NAMES[t1[t2.index(max(t2))]]
-                            standby.remove(keyval)  # take first standby
-                            active.append(keyval)
-                            replacement_log.append({
-                                "Time": time_slot,
-                                "Failed": fail_train,
-                                "Replacement": keyval,
-                            })
+                            replacement = self.TRAIN_NAMES[t1[t2.index(max(t2))]]
+                            standby.remove(replacement)
 
+                        else:
+                            replacement = standby.pop(0)
 
-                active_state = active
-                standby_state = standby
+                        active.append(replacement)
+                        replacement_log.append({
+                            "Time": time_slot,
+                            "Failed": fail_train,
+                            "Replacement": replacement
+                        })
 
-                updated_rows.append({
-                    "Time": time_slot,
-                    "Active_Trains": active,
-                    "Standby_Trains": standby
-                })
+            # Update timetable row after handling all failures for this time
+            updated_rows.append({
+                "Time": time_slot,
+                "Active_Trains": active,
+                "Standby_Trains": standby
+            })
 
         updated_df = pd.DataFrame(updated_rows)
-        replacement_df_report = pd.DataFrame(replacement_log)
-        return updated_df, replacement_df_report
+        self.df = updated_df
+        replacement_df = pd.DataFrame(replacement_log)
+
+        return updated_df, replacement_df
+
 
 # class SimulationAPIView(APIView):
 #      """Django APIView that accepts JSON input with action """
@@ -174,6 +232,10 @@ if __name__=='__main__':
     print(df.to_string(index=False))
     obj2=sim(df=df)
     print('failure')
-    a,b=obj2.simulate_failure(criterea='branding',brandingpriority=branding_priority)
+    failures = [
+    {"train": "PADMA", "time": "14:00"},
+    {"train": "YAMUNA", "time": "15:00"},
+    ]
+    a,b=obj2.simulate_failure(failures=failures,criterea='branding',brandingpriority=branding_priority)
     print(a.to_string(index=False))
     print(b.to_string(index=False))
