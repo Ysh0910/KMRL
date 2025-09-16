@@ -75,7 +75,7 @@ class GA():
         for i, action in enumerate(individual):
             if action != "SERVICE":
                 # Higher branding_priority → smaller penalty
-                penalty += (4 - self.branding_priority[i]) * 50  
+                penalty += (6 - self.branding_priority[i]) * 50  
 
 
         # Constraint 6: mileage balancing

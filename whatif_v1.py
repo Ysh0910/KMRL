@@ -14,7 +14,7 @@ NUM_TRAINS=25
 # Example external data (would come from depot systems in real life)
 fitness_certificates = {i: random.choice([True, True, True, False]) for i in range(NUM_TRAINS)}
 job_cards = {i: random.choice(["COMPLETED","COMPLETED","INPROGRESS"]) for i in range(NUM_TRAINS)}
-branding_priority = {i: random.randint(0, 3) for i in range(NUM_TRAINS)}
+branding_priority = {i: random.randint(0, 5) for i in range(NUM_TRAINS)}
 current_mileage = {i: random.randint(10000, 50000) for i in range(NUM_TRAINS)}
 class sim():
     def __init__(self,df):
@@ -49,7 +49,7 @@ class sim():
             "PAVAN"
         ]
 
-    def simulate_failure(self,fail_train="MAARUT", fail_time="15:00", shunting_delay=15,criterea=None):
+    def simulate_failure(self,fail_train="MAARUT", fail_time="15:00", shunting_delay=15,criterea=None,brandingpriority=[]):
         updated_rows = []
         replacement_log = []
         fail_train=random.choice(random.choice(df['Active_Trains']))
@@ -80,7 +80,7 @@ class sim():
                         })
                     if criterea == 'branding':
                         t1 = [self.TRAIN_NAMES.index(i) for i in standby]
-                        t2 = [branding_priority[i] for i in t1]
+                        t2 = [brandingpriority[i] for i in t1]
                         keyval = self.TRAIN_NAMES[t1[t2.index(max(t2))]]
                         standby.remove(keyval)  # take first standby
                         active.append(keyval)
@@ -137,7 +137,19 @@ class SimulationAPIView(APIView):
                 }, status=status.HTTP_200_OK)
             
             if action == 'simulate':
-                
+                action = request.data.get("action")
+                fail_train = request.data.get("fail_train", None)
+                fail_time = request.data.get("fail_time", None)
+                criteria = request.data.get("criteria", None)
+                df=request.data['time_table']
+                branding_priority = request.data["branding_priority"]
+
+                obj2=sim(df=df)
+                a,b = obj2.simulate_failure(fail_train=fail_train,fail_time=fail_time,criteria=criteria,brandingpriority=branding_priority)
+            return Response({
+                    "time_table": a,
+                    "report":b
+                }, status=status.HTTP_200_OK)    
 
         except KeyError as e:
             return Response(
@@ -154,7 +166,9 @@ if __name__=='__main__':
     obj=GA(fitness_certificates=fitness_certificates,job_cards=job_cards,branding_priority=branding_priority,current_mileage=current_mileage)
     obj.GA_setup()
     best_plan, score = obj.run_ga()
-    print(best_plan)
+    print('SERVICE',best_plan.count('SERVICE'),'STANDBY',best_plan.count('STANDBY'),'MAINTENANCE',best_plan.count('MAINTENANCE'))
+    for i in range(len(best_plan)):
+        print(obj.TRAIN_NAMES[i],best_plan[i],fitness_certificates[i],job_cards[i],current_mileage[i],branding_priority[i])
     df=obj.time_table(best_plan)
     print(df.to_string(index=False))
     obj2=sim(df=df)
