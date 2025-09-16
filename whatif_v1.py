@@ -4,7 +4,9 @@ from deap import base, creator, tools
 from datetime import date
 import pandas as pd
 from optimization_algorithm import GA
-import time
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.views import APIView
 
 NUM_TRAINS=25
 # Example external data (would come from depot systems in real life)
