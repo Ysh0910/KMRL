@@ -3,9 +3,12 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
 from .serializers import *
+from django.views import View
 from .models import *
 from rest_framework.permissions import IsAuthenticated
 import csv
+import requests
+from django.shortcuts import render
 # Create your views here.
 
   
@@ -112,3 +115,8 @@ class SendMileage(APIView):
     def get(self, request, *args, **kwargs):
         serializer = MileageSendSerializer(Mileage.objects.all(), many = True)
         return Response(serializer.data)
+    
+class Activate(View):
+    def get(self, request, ud, token, *args, **kwargs):
+        requests.post('http://localhost:8000/auth/users/activation/', data = {'uid':ud, 'token':token})
+        return render(request, 'accounts/verfication_successfull.html', context={})

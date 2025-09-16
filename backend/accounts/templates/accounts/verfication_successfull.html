@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Verification — Success</title>
+  <!-- Handwritten-ish font + neutral sans for small text -->
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Montserrat:wght@300;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg1: #fef6e4;
+      --bg2: #fff3f0;
+      --card: rgba(255,255,255,0.9);
+      --accent: #3b82f6;
+      --ink: #2b2b2b;
+    }
+    html,body{height:100%;}
+    body{
+      margin:0;display:grid;place-items:center;min-height:100vh;
+      background: radial-gradient(1200px 600px at 10% 10%, #fff9e6 0%, transparent 15%),
+                  radial-gradient(1000px 500px at 90% 90%, #fff0f3 0%, transparent 15%),
+                  linear-gradient(135deg,var(--bg1),var(--bg2));
+      font-family: "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      color:var(--ink);
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    }
+    .card{
+      width:min(720px,92vw);
+      background:var(--card);
+      border-radius:18px;
+      box-shadow: 0 20px 50px rgba(43,43,43,0.12), inset 0 -1px 0 rgba(0,0,0,0.03);
+      padding:48px 40px;
+      display:flex;flex-direction:column;align-items:center;gap:18px;position:relative;overflow:hidden;
+      border: 1px solid rgba(43,43,43,0.04);
+    }
+    .paper-stroke{
+      position:absolute;inset:0;pointer-events:none;mix-blend-mode:multiply;opacity:0.06;
+      background-image:linear-gradient(transparent 0 6px, rgba(0,0,0,0.02) 6px);
+      background-size:100% 6px;
+      transform:rotate(-1.2deg) scale(1.02);
+    }
+    h1{
+      margin:0;font-family:"Dancing Script", cursive;font-size:48px;line-height:1.02;
+      letter-spacing:0.6px;color:var(--ink);
+      text-align:center;
+    }
+    p.sub{
+      margin:0;font-size:15px;color:rgba(43,43,43,0.75);text-align:center;
+    }
+    .hr{
+      width:140px;height:6px;border-radius:999px;background:linear-gradient(90deg,var(--accent),#8b5cf6);
+      box-shadow:0 6px 20px rgba(59,130,246,0.16);
+    }
+    /* little confetti flourish */
+    .confetti{position:absolute;top:-20px;right:-10px;opacity:0.9}
+    .confetti span{display:block;width:8px;height:8px;border-radius:2px;margin:2px;transform:rotate(30deg)}
+    @media (max-width:480px){h1{font-size:36px;padding:0 6px}}
+  </style>
+</head>
+<body>
+  <div class="card" role="status" aria-live="polite">
+    <div class="paper-stroke" aria-hidden="true"></div>
+    <div class="confetti" aria-hidden="true">
+      <!-- simple SVG confetti -->
+      <svg width="96" height="64" viewBox="0 0 96 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+        <rect x="6" y="6" width="6" height="6" rx="1" fill="#F97316" />
+        <rect x="24" y="2" width="8" height="8" rx="2" fill="#60A5FA" />
+        <rect x="48" y="8" width="5" height="5" rx="1" fill="#34D399" />
+        <rect x="72" y="4" width="7" height="7" rx="2" fill="#F472B6" />
+      </svg>
+    </div>
+
+    <h1>verification successfull</h1>
+    <div class="hr" aria-hidden="true"></div>
+    <p class="sub">please go back to login</p>
+  </div>
+</body>
+</html>
