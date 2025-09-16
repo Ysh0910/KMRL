@@ -120,43 +120,26 @@ class SimulationAPIView(APIView):
      """Django APIView that accepts JSON input with action """
      def post(self, request, *args, **kwargs):
         try:
+
+            # fitness_certificates = request.data["fitness_certificates"]
+            # job_cards = request.data["job_cards"]
+            # branding_priority = request.data["branding_priority"]
+            # current_mileage = request.data["current_mileage"]
+            random.seed(time.time())
+            np.random.seed(int(time.time()))
+            fitness_certificates = {i: random.choice([True, True, True, False]) for i in range(NUM_TRAINS)}
+            job_cards = {i: random.choice(["COMPLETED","COMPLETED","INPROGRESS"]) for i in range(NUM_TRAINS)}
+            branding_priority = {i: random.randint(0, 3) for i in range(NUM_TRAINS)}
+            current_mileage = {i: random.randint(10000, 50000) for i in range(NUM_TRAINS)}
+            obj=GA(fitness_certificates=fitness_certificates,job_cards=job_cards,branding_priority=branding_priority,current_mileage=current_mileage)
+            obj.GA_setup()
+            best_plan, score = obj.run_ga()
+            df=obj.time_table(best_plan)
             action = request.data.get("action")
-
-            if action == 'generate table':
-                # fitness_certificates = request.data["fitness_certificates"]
-                # job_cards = request.data["job_cards"]
-                # branding_priority = request.data["branding_priority"]
-                # current_mileage = request.data["current_mileage"]
-                random.seed(time.time())
-                np.random.seed(int(time.time()))
-                fitness_certificates = {i: random.choice([True, True, True, False]) for i in range(NUM_TRAINS)}
-                job_cards = {i: random.choice(["COMPLETED","COMPLETED","INPROGRESS"]) for i in range(NUM_TRAINS)}
-                branding_priority = {i: random.randint(0, 3) for i in range(NUM_TRAINS)}
-                current_mileage = {i: random.randint(10000, 50000) for i in range(NUM_TRAINS)}
-                obj=GA(fitness_certificates=fitness_certificates,job_cards=job_cards,branding_priority=branding_priority,current_mileage=current_mileage)
-                obj.GA_setup()
-                best_plan, score = obj.run_ga()
-                df=obj.time_table(best_plan)
-                payload = {
-                            "fitness_certificates": fitness_certificates,
-                            "job_cards": job_cards,
-                            "branding_priority": branding_priority,
-                            "current_mileage": current_mileage
-                        }
-                return Response({
-                    "time_table": df,
-                    'payload':payload,
-                }, status=status.HTTP_200_OK)
-            
-            if action == 'simulate':
-                action = request.data.get("action")
-                failures = request.data.get("failures", [])
-                criteria = request.data.get("criteria", None)
-                df=request.data['time_table']
-                branding_priority = request.data["branding_priority"]
-
-                obj2=sim(df=df)
-                a,b = obj2.simulate_failure(failures=failures,criteria=criteria,brandingpriority=branding_priority)
+            failures = request.data.get("failures", [])
+            criteria = request.data.get("criteria", None)
+            obj2=sim(df=df)
+            a,b = obj2.simulate_failure(failures=failures,criteria=criteria,brandingpriority=branding_priority)
             return Response({
                     "time_table": a,
                     "report":b
