@@ -3,50 +3,9 @@ import numpy as np
 from deap import base, creator, tools
 from datetime import date
 import pandas as pd
-# from rest_framework.response import Response
-# from rest_framework import status
-# from rest_framework.views import APIView
-
-# ----- 1. Problem Setup -----
-NUM_TRAINS = 25
-ACTIONS = ["SERVICE", "STANDBY", "MAINTENANCE"]
-TRAIN_NAMES = [
-    "KRISHNA",
-    "TAPTI",
-    "NILA",
-    "SARAYU",
-    "ARUTH",
-    "VAIGAI",
-    "JHANAVI",
-    "DHWANIL",
-    "BHAVANI",
-    "PADMA",
-    "MANDAKINI",
-    "YAMUNA",
-    "PERIYAR",
-    "KABANI",
-    "VAAYU",
-    "KAVERI",
-    "SHIRIYA",
-    "PAMPA",
-    "NARMADA",
-    "MAHE",
-    "MAARUT",
-    "SABARMATHI",
-    "GODHAVARI",
-    "GANGA",
-    "PAVAN"
-]
-
-# # Example external data (would come from depot systems in real life)
-
-
-
-fitness_certificates = {0: True, 1: True, 2: True, 3: True, 4: True, 5: False, 6: True, 7: True, 8: False, 9: True, 10: True, 11: True, 12: False, 13: True, 14: True, 15: True, 16: False, 17: True, 18: False, 19: True, 20: True, 21: True, 22: True, 23: True, 24: False}
-job_cards = {0: 'COMPLETED', 1: 'INPROGRESS', 2: 'COMPLETED', 3: 'INPROGRESS', 4: 'COMPLETED', 5: 'COMPLETED', 6: 'COMPLETED', 7: 'COMPLETED', 8: 'COMPLETED', 9: 'COMPLETED', 10: 'INPROGRESS', 11: 'COMPLETED', 12: 'INPROGRESS', 13: 'COMPLETED', 14: 'INPROGRESS', 15: 'COMPLETED', 16: 'COMPLETED', 17: 'COMPLETED', 18: 'COMPLETED', 19: 'COMPLETED', 20: 'COMPLETED', 21: 'COMPLETED', 22: 'INPROGRESS', 23: 'INPROGRESS', 24: 'COMPLETED'}
-branding_priority = {0: 2, 1: 3, 2: 3, 3: 3, 4: 1, 5: 3, 6: 3, 7: 0, 8: 3, 9: 3, 10: 0, 11: 3, 12: 0, 13: 1, 14: 2, 15: 1, 16: 1, 17: 0, 18: 1, 19: 0, 20: 3, 21: 2, 22: 0, 23: 2, 24: 1}
-current_mileage = {0: 11794, 1: 14108, 2: 34759, 3: 43713, 4: 24540, 5: 46170, 6: 20618, 7: 44674, 8: 38474, 9: 25519, 10: 14670, 11: 43083, 12: 46581, 13: 16176, 14: 14787, 15: 40948, 16: 12268, 17: 40026, 18: 42357, 19: 20693, 20: 25369, 21: 32165, 22: 43456, 23: 43912, 24: 44504}
-
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.views import APIView
 class GA():
     def __init__(self,fitness_certificates,job_cards,branding_priority,current_mileage):
         self.fitness_certificates = fitness_certificates
@@ -95,10 +54,11 @@ class GA():
     # ----- 2. Fitness Function -----
     def evaluate(self,individual):
         service_count = sum(1 for action in individual if action == "SERVICE")
+        
         penalty = 0
         reward = 0
         # Constraint 1: must have at least 15 trains in service
-        if service_count < 8:
+        if service_count > 8:
             penalty += (8 - service_count) * 100
 
         # Constraint 2: fitness certificate check
@@ -127,11 +87,10 @@ class GA():
                 mileage_after.append(self.current_mileage[i])
         penalty += np.var(mileage_after) * 0.01
 
-
         for i, action in enumerate(individual):
             if action == "MAINTENANCE" and self.fitness_certificates[i] == False and self.job_cards[i] == "INPROGRESS":
                 reward += 100
-        
+            
         rf=0
         for i, action in enumerate(individual):
             if action == "MAINTENANCE":
@@ -189,7 +148,7 @@ class GA():
         best = tools.selBest(pop, 1)[0]
         return best, best.fitness.values
 
-    def time_table(self,best_plan:list):
+    def time_table(self,best_plain:list):
         l=[]
         for i in range(len(best_plan)):
             if best_plan[i] == 'SERVICE' or  best_plan[i] == 'STANDBY':
@@ -202,12 +161,6 @@ class GA():
         active = service_pool[:8]
         standby = standby_pool + service_pool[8:]
 
-        while len(active)<8:
-            temp=standby.pop()
-            active.append(temp)
-            if len(standby)<2:
-                break
-            
         day=date.today()
         if day.weekday()==6:
             slots = pd.date_range("06:00", "22:30", freq="60min").strftime("%H:%M").tolist()
@@ -229,34 +182,56 @@ class GA():
                             standby.append((tid,"STANDBY",fit,job,brand,m))
                             active[idx] = (replacement[0],"SERVICE",replacement[2],replacement[3],replacement[4],replacement[5])
 
-        # for idx, (tid,_,fit,job,brand,m) in enumerate(active): 
-        #     print(self.TRAIN_NAMES[idx],m)
-        # for idx, (tid,_,fit,job,brand,m) in enumerate(standby): 
-        #     print(self.TRAIN_NAMES[idx],m)
+        for idx, (tid,_,fit,job,brand,m) in enumerate(active): 
+            print(self.TRAIN_NAMES[idx],m)
+        for idx, (tid,_,fit,job,brand,m) in enumerate(standby): 
+            print(self.TRAIN_NAMES[idx],m)
         # ----- Output -----
         df = pd.DataFrame(timetable, columns=["Time", "Active_Trains","Standby_Trains"])
         return df
-    
-if __name__ == "__main__":
 
-    fitness_certificates = {i: random.choice([True, True, True, False]) for i in range(NUM_TRAINS)}
-    job_cards = {i: random.choice(["COMPLETED","COMPLETED","INPROGRESS"]) for i in range(NUM_TRAINS)}
-    branding_priority = {i: random.randint(0, 3) for i in range(NUM_TRAINS)}
-    current_mileage = {i: random.randint(10000, 50000) for i in range(NUM_TRAINS)}
-    
-    # fitness_certificates = {0: True, 1: True, 2: True, 3: True, 4: True, 5: False, 6: True, 7: True, 8: False, 9: True, 10: True, 11: True, 12: False, 13: True, 14: True, 15: True, 16: False, 17: True, 18: False, 19: True, 20: True, 21: True, 22: True, 23: True, 24: False}
-    # job_cards = {0: 'COMPLETED', 1: 'INPROGRESS', 2: 'COMPLETED', 3: 'INPROGRESS', 4: 'COMPLETED', 5: 'COMPLETED', 6: 'COMPLETED', 7: 'COMPLETED', 8: 'COMPLETED', 9: 'COMPLETED', 10: 'INPROGRESS', 11: 'COMPLETED', 12: 'INPROGRESS', 13: 'COMPLETED', 14: 'INPROGRESS', 15: 'COMPLETED', 16: 'COMPLETED', 17: 'COMPLETED', 18: 'COMPLETED', 19: 'COMPLETED', 20: 'COMPLETED', 21: 'COMPLETED', 22: 'INPROGRESS', 23: 'INPROGRESS', 24: 'COMPLETED'}
-    # branding_priority = {0: 2, 1: 3, 2: 3, 3: 3, 4: 1, 5: 3, 6: 3, 7: 0, 8: 3, 9: 3, 10: 0, 11: 3, 12: 0, 13: 1, 14: 2, 15: 1, 16: 1, 17: 0, 18: 1, 19: 0, 20: 3, 21: 2, 22: 0, 23: 2, 24: 1}
-    # current_mileage = {0: 11794, 1: 14108, 2: 34759, 3: 43713, 4: 24540, 5: 46170, 6: 20618, 7: 44674, 8: 38474, 9: 25519, 10: 14670, 11: 43083, 12: 46581, 13: 16176, 14: 14787, 15: 40948, 16: 12268, 17: 40026, 18: 42357, 19: 20693, 20: 25369, 21: 32165, 22: 43456, 23: 43912, 24: 44504}
-    
-    random.seed(42)
-    np.random.seed(42)
+class TrainScheduleAPIView(APIView):
+     """Django APIView that accepts JSON input with fitness_certificates, 
+        job_cards, branding_priority, and current_mileage."""
+     def post(self, request, *args, **kwargs):
+        # Extract input JSON
+        try:
+            fitness_certificates = request.data["fitness_certificates"]
+            job_cards = request.data["job_cards"]
+            branding_priority = request.data["branding_priority"]
+            current_mileage = request.data["current_mileage"]
+        except KeyError as e:
+            return Response(
+                {"error": f"Missing field {str(e)}"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        fitness_certificates = {int(k): v for k, v in fitness_certificates.items()}
+        job_cards = {int(k): v for k, v in job_cards.items()}
+        branding_priority = {int(k): v for k, v in branding_priority.items()}
+        current_mileage = {int(k): v for k, v in current_mileage.items()}
+
+        obj=GA(fitness_certificates=fitness_certificates,job_cards=job_cards,branding_priority=branding_priority,current_mileage=current_mileage)
+        obj.GA_setup()
+        best_plan, score = obj.run_ga()
+        df=obj.time_table(best_plan) 
+
+        return Response({
+            "best_schedule": df,
+        }, status=status.HTTP_200_OK)
+
+if __name__=='__main__':
+    fitness_certificates = {0: True, 1: True, 2: True, 3: True, 4: True, 5: False, 6: True, 7: True, 8: False, 9: True, 10: True, 11: True, 12: False, 13: True, 14: True, 15: True, 16: False, 17: True, 18: False, 19: True, 20: True, 21: True, 22: True, 23: True, 24: False}
+    job_cards = {0: 'COMPLETED', 1: 'INPROGRESS', 2: 'COMPLETED', 3: 'INPROGRESS', 4: 'COMPLETED', 5: 'COMPLETED', 6: 'COMPLETED', 7: 'COMPLETED', 8: 'COMPLETED', 9: 'COMPLETED', 10: 'INPROGRESS', 11: 'COMPLETED', 12: 'INPROGRESS', 13: 'COMPLETED', 14: 'INPROGRESS', 15: 'COMPLETED', 16: 'COMPLETED', 17: 'COMPLETED', 18: 'COMPLETED', 19: 'COMPLETED', 20: 'COMPLETED', 21: 'COMPLETED', 22: 'INPROGRESS', 23: 'INPROGRESS', 24: 'COMPLETED'}
+    branding_priority = {0: 2, 1: 3, 2: 3, 3: 3, 4: 1, 5: 3, 6: 3, 7: 0, 8: 3, 9: 3, 10: 0, 11: 3, 12: 0, 13: 1, 14: 2, 15: 1, 16: 1, 17: 0, 18: 1, 19: 0, 20: 3, 21: 2, 22: 0, 23: 2, 24: 1}
+    current_mileage = {0: 11794, 1: 14108, 2: 34759, 3: 43713, 4: 24540, 5: 46170, 6: 20618, 7: 44674, 8: 38474, 9: 25519, 10: 14670, 11: 43083, 12: 46581, 13: 16176, 14: 14787, 15: 40948, 16: 12268, 17: 40026, 18: 42357, 19: 20693, 20: 25369, 21: 32165, 22: 43456, 23: 43912, 24: 44504}
     obj=GA(fitness_certificates=fitness_certificates,job_cards=job_cards,branding_priority=branding_priority,current_mileage=current_mileage)
     obj.GA_setup()
     best_plan, score = obj.run_ga()
-    df=obj.time_table(best_plan=best_plan)
+    # df=obj.time_table(best_plan)
+    print(best_plan)
     print('SERVICE',best_plan.count('SERVICE'),'STANDBY',best_plan.count('STANDBY'),'MAINTENANCE',best_plan.count('MAINTENANCE'))
-    # for i in range(len(best_plan)):
-    #     print(TRAIN_NAMES[i],best_plan[i],fitness_certificates[i],job_cards[i],current_mileage[i])
-    # print(score)
-    print(df.to_string(index=False))
+    print(score)
+    # print(df.to_string(index=False))
+    
+    
