@@ -1,0 +1,310 @@
+{
+  "fitness_certificates": [
+    {
+      "Train-1": "False"
+    },
+    {
+      "Train-2": "False"
+    },
+    {
+      "Train-3": "False"
+    },
+    {
+      "Train-4": "False"
+    },
+    {
+      "Train-5": "False"
+    },
+    {
+      "Train-6": "False"
+    },
+    {
+      "Train-7": "False"
+    },
+    {
+      "Train-8": "False"
+    },
+    {
+      "Train-9": "False"
+    },
+    {
+      "Train-10": "False"
+    },
+    {
+      "Train-11": "False"
+    },
+    {
+      "Train-12": "False"
+    },
+    {
+      "Train-13": "False"
+    },
+    {
+      "Train-14": "False"
+    },
+    {
+      "Train-15": "False"
+    },
+    {
+      "Train-16": "False"
+    },
+    {
+      "Train-17": "False"
+    },
+    {
+      "Train-18": "False"
+    },
+    {
+      "Train-19": "False"
+    },
+    {
+      "Train-20": "False"
+    },
+    {
+      "Train-21": "False"
+    },
+    {
+      "Train-22": "False"
+    },
+    {
+      "Train-23": "False"
+    },
+    {
+      "Train-24": "False"
+    },
+    {
+      "Train-25": "False"
+    }
+  ],
+  "job_card_status": [
+    {
+      "Train-24": "Completed"
+    },
+    {
+      "Train-23": "Pending"
+    },
+    {
+      "Train-22": "Completed"
+    },
+    {
+      "Train-21": "In Progress"
+    },
+    {
+      "Train-20": "Completed"
+    },
+    {
+      "Train-25": "Completed"
+    },
+    {
+      "Train-18": "Pending"
+    },
+    {
+      "Train-17": "Completed"
+    },
+    {
+      "Train-16": "In Progress"
+    },
+    {
+      "Train-15": "Completed"
+    },
+    {
+      "Train-14": "In Progress"
+    },
+    {
+      "Train-13": "Completed"
+    },
+    {
+      "Train-12": "Completed"
+    },
+    {
+      "Train-11": "Completed"
+    },
+    {
+      "Train-10": "Completed"
+    },
+    {
+      "Train-9": "Completed"
+    },
+    {
+      "Train-8": "In Progress"
+    },
+    {
+      "Train-7": "Completed"
+    },
+    {
+      "Train-6": "Completed"
+    },
+    {
+      "Train-2": "Completed"
+    },
+    {
+      "Train-3": "Completed"
+    },
+    {
+      "Train-4": "Pending"
+    },
+    {
+      "Train-5": "Completed"
+    },
+    {
+      "Train-19": "In Progress"
+    },
+    {
+      "Train-1": "Pending"
+    }
+  ],
+  "branding_priorities": [
+    {
+      "Train-1": 0
+    },
+    {
+      "Train-2": 3
+    },
+    {
+      "Train-3": 0
+    },
+    {
+      "Train-4": 3
+    },
+    {
+      "Train-5": 3
+    },
+    {
+      "Train-6": 2
+    },
+    {
+      "Train-7": 0
+    },
+    {
+      "Train-8": 0
+    },
+    {
+      "Train-9": 2
+    },
+    {
+      "Train-10": 3
+    },
+    {
+      "Train-11": 2
+    },
+    {
+      "Train-12": 2
+    },
+    {
+      "Train-13": 0
+    },
+    {
+      "Train-14": 2
+    },
+    {
+      "Train-15": 3
+    },
+    {
+      "Train-16": 0
+    },
+    {
+      "Train-17": 0
+    },
+    {
+      "Train-18": 0
+    },
+    {
+      "Train-19": 3
+    },
+    {
+      "Train-20": 3
+    },
+    {
+      "Train-21": 3
+    },
+    {
+      "Train-22": 3
+    },
+    {
+      "Train-23": 4
+    },
+    {
+      "Train-24": 4
+    },
+    {
+      "Train-25": 5
+    }
+  ],
+  "mileage": [
+    {
+      "Train-1": 120450
+    },
+    {
+      "Train-2": 264390
+    },
+    {
+      "Train-3": 128450
+    },
+    {
+      "Train-4": 254100
+    },
+    {
+      "Train-5": 312000
+    },
+    {
+      "Train-6": 105600
+    },
+    {
+      "Train-7": 198320
+    },
+    {
+      "Train-8": 420500
+    },
+    {
+      "Train-9": 156800
+    },
+    {
+      "Train-10": 289750
+    },
+    {
+      "Train-11": 132400
+    },
+    {
+      "Train-12": 372100
+    },
+    {
+      "Train-13": 210600
+    },
+    {
+      "Train-14": 118900
+    },
+    {
+      "Train-15": 299400
+    },
+    {
+      "Train-16": 241500
+    },
+    {
+      "Train-17": 364800
+    },
+    {
+      "Train-18": 98000
+    },
+    {
+      "Train-19": 430700
+    },
+    {
+      "Train-20": 149200
+    },
+    {
+      "Train-21": 276500
+    },
+    {
+      "Train-22": 343900
+    },
+    {
+      "Train-23": 125430
+    },
+    {
+      "Train-24": 214780
+    },
+    {
+      "Train-25": 389210
+    }
+  ]
+}

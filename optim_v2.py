@@ -191,9 +191,13 @@ class GA():
         return df
 
 class TrainScheduleAPIView(APIView):
-     """Django APIView that accepts JSON input with fitness_certificates, 
-        job_cards, branding_priority, and current_mileage."""
-     def post(self, request, *args, **kwargs):
+    """Django APIView that accepts JSON input with fitness_certificates, 
+        job_cards, branding_priority, and current_mileage."""  
+    
+    def str_to_bool(s):
+        return s.lower() in ("yes", "true", "t", "1")  
+
+    def post(self, request, *args, **kwargs):
         # Extract input JSON
         try:
             fitness_certificates = request.data["fitness_certificates"]
@@ -206,7 +210,7 @@ class TrainScheduleAPIView(APIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
         
-        fitness_certificates = {int(k): v for k, v in fitness_certificates.items()}
+        fitness_certificates = {int(k): v.lower() in ("yes", "true", "t", "1") for k, v in fitness_certificates.items()}
         job_cards = {int(k): v for k, v in job_cards.items()}
         branding_priority = {int(k): v for k, v in branding_priority.items()}
         current_mileage = {int(k): v for k, v in current_mileage.items()}

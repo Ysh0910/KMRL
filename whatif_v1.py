@@ -49,103 +49,96 @@ class sim():
             "PAVAN"
         ]
 
-    def simulate_failure(self,fail_train="MAARUT", fail_time="15:00", shunting_delay=15,criterea=None,brandingpriority=[]):
+    def simulate_failure(self, failures, criterea="milage", brandingpriority=None):
+        """
+        failures: list of dicts [{"train": "PADMA", "time": "15:00"}, ...]
+        criterea: 'milage' or 'branding'
+        """
         updated_rows = []
         replacement_log = []
-        fail_train=random.choice(random.choice(df['Active_Trains']))
-        print(fail_train)
-        
-        standby_state = None
-        active_state = None
-        
+
+        # Keep running state of active & standby (carry forward changes)
+        active = None
+        standby = None
+
         for _, row in self.df.iterrows():
             time_slot = row["Time"]
-            # active = row["Active_Trains"].copy()
-            # standby = row["Standby_Trains"].copy()
-            active = active_state.copy() if active_state is not None else row["Active_Trains"].copy()
-            standby = standby_state.copy() if standby_state is not None else row["Standby_Trains"].copy()
 
-            if time_slot == fail_time and fail_train in active:
-                # remove the failed train
-                active.remove(fail_train)
-                
-                if standby:
-                    if criterea == 'milage': 
-                        replacement = standby.pop(0)  # take first standby
+            # At the very first row, initialize with current schedule
+            if active is None:
+                active = row["Active_Trains"].copy()
+                standby = row["Standby_Trains"].copy()
+            else:
+                # Carry forward previous state
+                active = active.copy()
+                standby = standby.copy()
+
+            # Check all failures scheduled at this time slot
+            for failure in failures:
+                fail_train = failure["train"]
+                fail_time = failure["time"]
+
+                if time_slot == fail_time and fail_train in active:
+                    # remove the failed train
+                    active.remove(fail_train)
+
+                    if standby:
+                        if criterea == "milage":
+                            replacement = standby.pop(0)
+
+                        elif criterea == "branding" and brandingpriority:
+                            t1 = [self.TRAIN_NAMES.index(i) for i in standby]
+                            t2 = [brandingpriority[i] for i in t1]
+                            replacement = self.TRAIN_NAMES[t1[t2.index(max(t2))]]
+                            standby.remove(replacement)
+
+                        else:
+                            replacement = standby.pop(0)
+
                         active.append(replacement)
                         replacement_log.append({
                             "Time": time_slot,
                             "Failed": fail_train,
-                            "Replacement": replacement,
-                        })
-                    if criterea == 'branding':
-                        t1 = [self.TRAIN_NAMES.index(i) for i in standby]
-                        t2 = [brandingpriority[i] for i in t1]
-                        keyval = self.TRAIN_NAMES[t1[t2.index(max(t2))]]
-                        standby.remove(keyval)  # take first standby
-                        active.append(keyval)
-                        replacement_log.append({
-                            "Time": time_slot,
-                            "Failed": fail_train,
-                            "Replacement": keyval,
+                            "Replacement": replacement
                         })
 
-
-            active_state = active
-            standby_state = standby
-
+            # Save updated row for this time slot
             updated_rows.append({
                 "Time": time_slot,
-                "Active_Trains": active,
-                "Standby_Trains": standby
+                "Active_Trains": active.copy(),
+                "Standby_Trains": standby.copy()
             })
 
         updated_df = pd.DataFrame(updated_rows)
-        replacement_df_report = pd.DataFrame(replacement_log)
-        return updated_df, replacement_df_report
+        self.df = updated_df
+        replacement_df = pd.DataFrame(replacement_log)
+
+        return updated_df, replacement_df
+
 
 class SimulationAPIView(APIView):
      """Django APIView that accepts JSON input with action """
      def post(self, request, *args, **kwargs):
         try:
-            action = request.data.get("action")
 
-            if action == 'generate table':
-                # fitness_certificates = request.data["fitness_certificates"]
-                # job_cards = request.data["job_cards"]
-                # branding_priority = request.data["branding_priority"]
-                # current_mileage = request.data["current_mileage"]
-                random.seed(time.time())
-                np.random.seed(int(time.time()))
-                fitness_certificates = {i: random.choice([True, True, True, False]) for i in range(NUM_TRAINS)}
-                job_cards = {i: random.choice(["COMPLETED","COMPLETED","INPROGRESS"]) for i in range(NUM_TRAINS)}
-                branding_priority = {i: random.randint(0, 3) for i in range(NUM_TRAINS)}
-                current_mileage = {i: random.randint(10000, 50000) for i in range(NUM_TRAINS)}
-                obj=GA(fitness_certificates=fitness_certificates,job_cards=job_cards,branding_priority=branding_priority,current_mileage=current_mileage)
-                obj.GA_setup()
-                best_plan, score = obj.run_ga()
-                df=obj.time_table(best_plan)
-                payload = {
-                            "fitness_certificates": fitness_certificates,
-                            "job_cards": job_cards,
-                            "branding_priority": branding_priority,
-                            "current_mileage": current_mileage
-                        }
-                return Response({
-                    "time_table": df,
-                    'payload':payload,
-                }, status=status.HTTP_200_OK)
-            
-            if action == 'simulate':
-                action = request.data.get("action")
-                fail_train = request.data.get("fail_train", None)
-                fail_time = request.data.get("fail_time", None)
-                criteria = request.data.get("criteria", None)
-                df=request.data['time_table']
-                branding_priority = request.data["branding_priority"]
-
-                obj2=sim(df=df)
-                a,b = obj2.simulate_failure(fail_train=fail_train,fail_time=fail_time,criteria=criteria,brandingpriority=branding_priority)
+            # fitness_certificates = request.data["fitness_certificates"]
+            # job_cards = request.data["job_cards"]
+            # branding_priority = request.data["branding_priority"]
+            # current_mileage = request.data["current_mileage"]
+            random.seed(time.time())
+            np.random.seed(int(time.time()))
+            fitness_certificates = {i: random.choice([True, True, True, False]) for i in range(NUM_TRAINS)}
+            job_cards = {i: random.choice(["COMPLETED","COMPLETED","INPROGRESS"]) for i in range(NUM_TRAINS)}
+            branding_priority = {i: random.randint(0, 3) for i in range(NUM_TRAINS)}
+            current_mileage = {i: random.randint(10000, 50000) for i in range(NUM_TRAINS)}
+            obj=GA(fitness_certificates=fitness_certificates,job_cards=job_cards,branding_priority=branding_priority,current_mileage=current_mileage)
+            obj.GA_setup()
+            best_plan, score = obj.run_ga()
+            df=obj.time_table(best_plan)
+            failures = request.data.get("failures", [])
+            criteria = request.data.get("criteria", None)
+            obj2=sim(df=df)
+            a,b = obj2.simulate_failure(failures=failures,criteria=criteria,brandingpriority=branding_priority)
             return Response({
                     "time_table": a,
                     "report":b
@@ -173,6 +166,10 @@ if __name__=='__main__':
     print(df.to_string(index=False))
     obj2=sim(df=df)
     print('failure')
-    a,b=obj2.simulate_failure(criterea='branding')
+    failures = [
+    {"train": "PADMA", "time": "14:00"},
+    {"train": "YAMUNA", "time": "15:00"},
+    ]
+    a,b=obj2.simulate_failure(failures=failures,criterea='branding',brandingpriority=branding_priority)
     print(a.to_string(index=False))
     print(b.to_string(index=False))

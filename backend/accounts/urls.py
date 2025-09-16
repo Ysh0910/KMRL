@@ -2,6 +2,7 @@ from .models import TestImage
 from django.urls import path
 from .views import *
 from .optim_v2 import TrainScheduleAPIView
+from .data_pipeline import *
 app_name = 'accounts'
 
 urlpatterns =[
@@ -14,7 +15,8 @@ urlpatterns =[
     path('branding/', SendB.as_view(), name="send_branding"),
     path('mileage/', SendMileage.as_view(), name = 'send_mileage'),
     path('activate/<str:ud>/<str:token>', Activate.as_view(), name = "activate"),
-    path('postmodeldata/', PostModelData.as_view(), name = "post_model_data")
+    path('postmodeldata/', PostModelData.as_view(), name = "post_model_data"),
+    path('something/', Pipline.as_view(), name = "get_predictions")
     #path('upload/fitness', )
 ]
 
