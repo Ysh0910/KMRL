@@ -117,34 +117,33 @@ def process_data(all_data):
     # 1. Process Fitness Certificates
     fitness_data = all_data.get('fitness_certificates', [])
     for cert in fitness_data:
-        status = True
+        status = "True"
         try:
             # Check validity date
             validity_date = datetime.strptime(cert['expiry_date'], '%d-%m-%Y').date()
             if validity_date < today:
-                status = False
+                status = "False"
             
             # Check boolean fields if validity is ok
             if status:
                 if not (cert['braking'].lower() == 'true' and \
                         cert['signal'].lower() == 'true' and \
                         cert['structural_integrity'].lower() == 'true'):
-                    status = False
+                    status = "False"
         except (ValueError, KeyError) as e:
             print(f"Skipping fitness record due to error: {e} - Record: {cert}")
             continue
 
         processed_output["fitness_certificates"].append({
-            "train_id": cert.get("train_id"),
-            "status": status
+            cert.get("train_id"):status 
         })
 
     # 2. Process Job Card Status
     job_card_data = all_data.get('job_card_status', [])
     for job in job_card_data:
         processed_output["job_card_status"].append({
-            "train_id": job.get("train"),
-            "status": job.get("status")
+            job.get("train"): job.get("status")
+            
         })
 
     # 3. Process Branding Priorities
@@ -187,8 +186,8 @@ def process_data(all_data):
             print(f"Skipping branding record due to error: {e} - Record: {brand}")
         
         processed_output["branding_priorities"].append({
-            "train_id": brand.get("train"),
-            "score": score
+             brand.get("train"):score
+            
         })
 
     # 4. Process Mileage
@@ -197,8 +196,9 @@ def process_data(all_data):
         try:
             mileage_float = float(item.get('total_kilometers', 0))
             processed_output["mileage"].append({
-                "train_id": item.get("train"),
-                "total_kilometers": int(mileage_float)
+
+               item.get("train"):int(mileage_float)
+                
             })
         except (ValueError, KeyError) as e:
             print(f"Skipping mileage record due to error: {e} - Record: {item}")
