@@ -129,3 +129,15 @@ class StableDepartment(models.Model):
 
 class TestImage(models.Model):
     image = models.ImageField(upload_to = 'test_images/')
+
+
+class Mileage(models.Model):
+    train = models.ForeignKey(Train, on_delete = models.CASCADE, related_name = "milage_records")
+    total_kilometers = models.DecimalField(null=True, max_digits=10, decimal_places=2)
+    kilometers_ran_since_last_maintenance = models.DecimalField(null=True, max_digits=10, decimal_places=2)
+    average_daily_kilometeres = models.DecimalField(null=True, max_digits=10, decimal_places=2)
+    total_mileage_for_the_period = models.DecimalField(null=True, max_digits=10, decimal_places=2)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
