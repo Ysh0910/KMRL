@@ -95,20 +95,22 @@
                             <td class="health-score">
                                 <div class="progress-bar">
                                     <div class="progress-fill high" style="width: 92%"></div>
-                                </div>
-                                <span>92%</span>
-                            </td>
-                            <td>15 Aug 2023</td>
-                            <td class="actions"><button>View Details</button></td>
-                        </tr>
-                        <tr>
-                            <td>TR-119</td>
-                            <td><span class="status-indicator status-maintenance"></span> Maintenance</td>
-                            <td class="health-score">
-                                <div class="progress-bar">
-                                    <div class="progress-fill medium" style="width: 65%"></div>
-                                </div>
-                                <span>65%</span>
+                                <% mileage.forEach(train => { %>
+                                <tr>
+                                    <td><%= train.train %></td>
+                                    <td><span class="status-indicator status-operational"></span> Operational</td>
+                                    <td class="health-score">
+                                        <div class="progress-bar">
+                                            <div class="progress-fill high" style="width: 100%"></div>
+                                        </div>
+                                        <span>100%</span>
+                                    </td>
+                                    <td>-</td>
+                                    <td>
+                                        <button class="btn btn-primary btn-sm">Details</button>
+                                    </td>
+                                </tr>
+                                <% }) %>
                             </td>
                             <td>22 Jul 2023</td>
                             <td class="actions"><button>View Details</button></td>
