@@ -1,6 +1,4 @@
-
 import requests
-import csv
 import json
 import time
 import os
@@ -12,42 +10,42 @@ PIPELINE_CONFIG = {
   "input": {
     "endpoints": [
       {
-        "name": "data_source_1",
-        "url": "https://localhost:8000/fitnesss_certificates",
+        "name": "fitness_certificates",
+        "url": "http://localhost:8000/fitness_certificates",
         "method": "GET",
         "headers": {
-          "Accept": "text/csv"
+          "Accept": "application/json"
         }
       },
       {
-        "name": "data_source_2",
-        "url": "https://localhost:8000/joboards",
+        "name": "job_card_status",
+        "url": "http://localhost:8000/joboards",
         "method": "GET",
         "headers": {
-          "Accept": "text/csv"
+          "Accept": "application/json"
         }
       },
       {
-        "name": "data_source_3",
-        "url": "https://localhost:8000/branding",
+        "name": "branding_priorities",
+        "url": "http://localhost:8000/branding",
         "method": "GET",
         "headers": {
-          "Accept": "text/csv"
+          "Accept": "application/json"
         }
       },
       {
-        "name": "data_source_4",
-        "url": "https://localhost:8000/mileage",
+        "name": "mileage",
+        "url": "http://localhost:8000/mileage",
         "method": "GET",
         "headers": {
-          "Accept": "text/csv"
+          "Accept": "application/json"
         }
       }
     ]
   },
   "output": {
     "destination_api": {
-      "url": "https://localhost:8000/postmodeldata",
+      "url": "http://localhost:8000/postmodeldata",
       "method": "POST",
       "headers": {
         "Content-Type": "application/json"
@@ -62,8 +60,8 @@ PIPELINE_CONFIG = {
   }
 }
 
-def fetch_csv_data(endpoint):
-    """Fetches CSV data from a single API endpoint with retries."""
+def fetch_json_data(endpoint):
+    """Fetches JSON data from a single API endpoint with retries."""
     url = endpoint["url"]
     headers = endpoint["headers"]
     method = endpoint["method"]
@@ -74,7 +72,7 @@ def fetch_csv_data(endpoint):
         try:
             response = requests.request(method, url, headers=headers, timeout=10)
             response.raise_for_status()  # Raise an exception for bad status codes
-            return response.text
+            return response.json()
         except requests.exceptions.RequestException as e:
             if PIPELINE_CONFIG["error_handling"]["log_errors"]:
                 print(f"Error fetching data from {url} (attempt {attempt + 1}/{attempts}): {e}")
@@ -83,18 +81,10 @@ def fetch_csv_data(endpoint):
             else:
                 print(f"Failed to fetch data from {url} after {attempts} attempts.")
                 return None
-
-def parse_csv(csv_data):
-    """Parses CSV data from a string into a list of dictionaries."""
-    if not csv_data:
-        return []
-    try:
-        reader = csv.DictReader(csv_data.strip().splitlines())
-        return [row for row in reader]
-    except csv.Error as e:
-        if PIPELINE_CONFIG["error_handling"]["log_errors"]:
-            print(f"Error parsing CSV data: {e}")
-        return []
+        except json.JSONDecodeError as e:
+            if PIPELINE_CONFIG["error_handling"]["log_errors"]:
+                print(f"Error parsing JSON data from {url}: {e}")
+            return None
 
 def process_data(all_data):
     """
@@ -108,25 +98,21 @@ def process_data(all_data):
     }
     today = datetime.now().date()
 
-    # NOTE: This assumes the fetched data keys match these names.
-    # The names come from the user's description of the data.
-    # e.g., all_data['fitness_certificates'] contains the fitness data.
-
     # 1. Process Fitness Certificates
     fitness_data = all_data.get('fitness_certificates', [])
     for cert in fitness_data:
         status = True
         try:
             # Check validity date
-            validity_date = datetime.strptime(cert['validity'], '%Y-%m-%d').date()
+            validity_date = datetime.strptime(cert['expiry_date'], '%d-%m-%Y').date()
             if validity_date < today:
                 status = False
             
             # Check boolean fields if validity is ok
             if status:
                 if not (cert['braking'].lower() == 'true' and \
-                        cert['signaling'].lower() == 'true' and \
-                        cert['structural'].lower() == 'true'):
+                        cert['signal'].lower() == 'true' and \
+                        cert['structural_integrity'].lower() == 'true'):
                     status = False
         except (ValueError, KeyError) as e:
             print(f"Skipping fitness record due to error: {e} - Record: {cert}")
@@ -141,7 +127,7 @@ def process_data(all_data):
     job_card_data = all_data.get('job_card_status', [])
     for job in job_card_data:
         processed_output["job_card_status"].append({
-            "train_id": job.get("train_id"),
+            "train_id": job.get("train"),
             "status": job.get("status")
         })
 
@@ -169,7 +155,7 @@ def process_data(all_data):
                     final_score = 1
 
                 processed_output["branding_priorities"].append({
-                    "train_id": brand.get("trainid"),
+                    "train_id": brand.get("train"),
                     "score": int(final_score)
                 })
         except (ValueError, KeyError) as e:
@@ -180,15 +166,15 @@ def process_data(all_data):
     mileage_data = all_data.get('mileage', [])
     for item in mileage_data:
         try:
-            mileage_float = float(item.get('mileage', 0))
+            mileage_float = float(item.get('total_kilometers', 0))
             processed_output["mileage"].append({
-                "train_id": item.get("train_id"),
-                "mileage": int(mileage_float)
+                "train_id": item.get("train"),
+                "total_kilometers": int(mileage_float)
             })
         except (ValueError, KeyError) as e:
             print(f"Skipping mileage record due to error: {e} - Record: {item}")
             continue
-            
+    print(processed_output)
     return processed_output
 
 def send_to_ml_api(data):
@@ -242,14 +228,14 @@ def run_pipeline():
     
     for endpoint in endpoints:
         print(f"Fetching data from: {endpoint['name']}")
-        csv_data = fetch_csv_data(endpoint)
-        if csv_data:
-            parsed_data = parse_csv(csv_data)
-            all_fetched_data[endpoint['name']] = parsed_data
+        json_data = fetch_json_data(endpoint)
+        if json_data:
+            all_fetched_data[endpoint['name']] = json_data
 
     if not all_fetched_data:
         print("No data fetched. Exiting pipeline.")
         return
+    #print(all_fetched_data)
 
     print("Processing data...")
     processed_data = process_data(all_fetched_data)
@@ -257,7 +243,7 @@ def run_pipeline():
     if not processed_data:
         print("No data to send. Exiting pipeline.")
         return
-
+    #print(processed_data)
     print("Sending data to ML model API...")
     success = send_to_ml_api(processed_data)
 
