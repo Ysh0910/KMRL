@@ -248,9 +248,10 @@ class PostModelData(APIView):
     def post(self, request, *args, **kwargs):
         serializer = ModelChacheSerializer(data = request.data, many = True)
         if serializer.is_valid():
+            serializer.save()
             return Response({"message":"data sent successfully"})
         return Response(serializer.errors, status = 400)
     
     def get(self, request):
-        serializer = ModelChacheSerializer(ModelChache.objects.all(), many = True)
+        serializer = ModelChacheSerializer(ModelChache.objects.all()[:25], many = True)
         return Response(serializer.data)
