@@ -120,3 +120,14 @@ class Activate(View):
     def get(self, request, ud, token, *args, **kwargs):
         requests.post('http://localhost:8000/auth/users/activation/', data = {'uid':ud, 'token':token})
         return render(request, 'accounts/verfication_successfull.html', context={})
+    
+class PostModelData(APIView):
+    def post(self, request, *args, **kwargs):
+        serializer = ModelChacheSerializer(data = request.data, many = True)
+        if serializer.is_valid():
+            return Response({"message":"data sent successfully"})
+        return Response(serializer.errors, status = 400)
+    
+    def get(self, request):
+        serializer = ModelChacheSerializer(ModelChache.objects.all(), many = True)
+        return Response(serializer.data)

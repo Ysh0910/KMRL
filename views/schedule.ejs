@@ -169,35 +169,25 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>TR-07</td>
-                                    <td><span class="status-indicator status-service">Service</span></td>
-                                    <td>A1</td>
-                                    <td>12,450 km</td>
-                                    <td>High</td>
-                                    <td>Completed</td>
-                                    <td>Aug 25, 2023</td>
-                                    <td class="action-buttons">
-                                        <button class="btn btn-secondary btn-sm"><i class="fas fa-exchange-alt"></i> Reassign</button>
-                                        <button class="btn btn-warning btn-sm"><i class="fas fa-comment"></i> Comment</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>TR-12</td>
-                                    <td><span class="status-indicator status-service">Service</span></td>
-                                    <td>A2</td>
-                                    <td>23,780 km</td>
-                                    <td>Medium</td>
-                                    <td>Completed</td>
-                                    <td>Aug 20, 2023</td>
-                                    <td class="action-buttons">
-                                        <button class="btn btn-secondary btn-sm"><i class="fas fa-exchange-alt"></i> Reassign</button>
-                                        <button class="btn btn-warning btn-sm"><i class="fas fa-comment"></i> Comment</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>TR-09</td>
-                                    <td><span class="status-indicator status-service">Service</span></td>
+                                <% if (predictions && predictions.best_schedule && predictions.best_schedule.Active_Trains) { %>
+                                    <% predictions.best_schedule.Time.forEach((time, idx) => { %>
+                                        <% predictions.best_schedule.Active_Trains[idx].forEach(train => { %>
+                                            <tr>
+                                                <td><%= train %></td>
+                                                <td><span class="status-indicator status-service">Service</span></td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td><%= time %></td>
+                                                <td class="action-buttons">
+                                                    <button class="btn btn-secondary btn-sm"><i class="fas fa-exchange-alt"></i> Reassign</button>
+                                                    <button class="btn btn-warning btn-sm"><i class="fas fa-comment"></i> Comment</button>
+                                                </td>
+                                            </tr>
+                                        <% }) %>
+                                    <% }) %>
+                                <% } %>
                                     <td>B1</td>
                                     <td>32,100 km</td>
                                     <td>Low</td>

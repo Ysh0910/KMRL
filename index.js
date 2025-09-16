@@ -174,11 +174,25 @@ app.post("/forgot-password", async (req, res) => {
 // });
 
 app.get('/dashboard', (req,res)=> {
-    res.render('dashboard.ejs');
+        axios.get(`${API_BASE_URL}/fitness_certificates/`)
+            .then(response => {
+                res.render('dashboard.ejs', { fitnessCertificates: response.data });
+            })
+            .catch(error => {
+                console.error('Error fetching fitness certificates:', error.message);
+                res.render('dashboard.ejs', { fitnessCertificates: [] });
+            });
 });
 
 app.get('/trains', (req, res) => {
-    res.render('trains.ejs');
+        axios.get(`${API_BASE_URL}/mileage/`)
+            .then(response => {
+                res.render('trains.ejs', { mileage: response.data });
+            })
+            .catch(error => {
+                console.error('Error fetching mileage:', error.message);
+                res.render('trains.ejs', { mileage: [] });
+            });
 });
 app.get('/reports', (req, res) => {
     res.render('reports.ejs');
@@ -187,27 +201,83 @@ app.get('/settings', (req, res) => {
     res.render('settings.ejs');
 });
 
-app.get('/service', requireAuth, (req, res) => {
+app.get('/service',  (req, res) => {
     res.render('service.ejs');
 });
 
-app.get('/standby', requireAuth, (req, res) => {
+app.get('/standby',  (req, res) => {
     res.render('standby.ejs');
 });
 
-app.get("/maintenance", requireAuth, (req, res) => {
-    res.render("maintenance.ejs");
+app.get("/maintenance",  (req, res) => {
+        axios.get(`${API_BASE_URL}/joboards/`)
+            .then(response => {
+                res.render("maintenance.ejs", { jobCards: response.data });
+            })
+            .catch(error => {
+                console.error('Error fetching job cards:', error.message);
+                res.render("maintenance.ejs", { jobCards: [] });
+            });
 });
 
-app.get("/alerts", requireAuth, (req, res) => {
+app.get("/alerts",  (req, res) => {
     res.render("alerts.ejs");
 });
 
-app.get("/schedule", requireAuth, (req, res) => {
-    res.render("schedule.ejs");
+app.get("/schedule", (req, res) => {
+            axios.post(`${API_BASE_URL}/getpredictions/`)
+                .then(response => {
+                    res.render("schedule.ejs", { predictions: response.data });
+                })
+                .catch(error => {
+                    console.error('Error fetching predictions:', error.message);
+                    res.render("schedule.ejs", { predictions: {} });
+                });
+//             axios.post(`${API_BASE_URL}/getpredictions/`, {
+//   fitness_certificates: {
+//     "0": true, "1": true, "2": true, "3": true, "4": true,
+//     "5": false, "6": true, "7": true, "8": false, "9": true,
+//     "10": true, "11": true, "12": false, "13": true, "14": true,
+//     "15": true, "16": false, "17": true, "18": false, "19": true,
+//     "20": true, "21": true, "22": true, "23": true, "24": false
+//   },
+//   job_cards: {
+//     "0": "COMPLETED", "1": "INPROGRESS", "2": "COMPLETED", "3": "INPROGRESS", "4": "COMPLETED",
+//     "5": "COMPLETED", "6": "COMPLETED", "7": "COMPLETED", "8": "COMPLETED", "9": "COMPLETED",
+//     "10": "INPROGRESS", "11": "COMPLETED", "12": "INPROGRESS", "13": "COMPLETED", "14": "INPROGRESS",
+//     "15": "COMPLETED", "16": "COMPLETED", "17": "COMPLETED", "18": "COMPLETED", "19": "COMPLETED",
+//     "20": "COMPLETED", "21": "COMPLETED", "22": "INPROGRESS", "23": "INPROGRESS", "24": "COMPLETED"
+//   },
+//   branding_priority: {
+//     "0": 2, "1": 3, "2": 3, "3": 3, "4": 1,
+//     "5": 3, "6": 3, "7": 0, "8": 3, "9": 3,
+//     "10": 0, "11": 3, "12": 0, "13": 1, "14": 2,
+//     "15": 1, "16": 1, "17": 0, "18": 1, "19": 0,
+//     "20": 3, "21": 2, "22": 0, "23": 2, "24": 1
+//   },
+//   current_mileage: {
+//     "0": 11794, "1": 14108, "2": 34759, "3": 43713, "4": 24540,
+//     "5": 46170, "6": 20618, "7": 44674, "8": 38474, "9": 25519,
+//     "10": 14670, "11": 43083, "12": 46581, "13": 16176, "14": 14787,
+//     "15": 40948, "16": 12268, "17": 40026, "18": 42357, "19": 20693,
+//     "20": 25369, "21": 32165, "22": 43456, "23": 43912, "24": 44504
+//   }
+// })
+
+});
+// API endpoint for dashboard AJAX fetch
+app.get('/dashboard-data', (req, res) => {
+    axios.get(`${API_BASE_URL}/fitness_certificates/`)
+        .then(response => {
+            res.json(response.data);
+        })
+        .catch(error => {
+            console.error('Error fetching fitness certificates:', error.message);
+            res.status(500).json([]);
+        });
 });
 
-app.get("/staff", requireAuth, (req, res) => {
+app.get("/staff", (req, res) => {
     res.render("staff.ejs");
 });
 

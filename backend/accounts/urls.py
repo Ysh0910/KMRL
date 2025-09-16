@@ -14,6 +14,7 @@ urlpatterns =[
     path('branding/', SendB.as_view(), name="send_branding"),
     path('mileage/', SendMileage.as_view(), name = 'send_mileage'),
     path('activate/<str:ud>/<str:token>', Activate.as_view(), name = "activate"),
+    path('postmodeldata/', PostModelData.as_view(), name = "post_model_data")
     #path('upload/fitness', )
 ]
 
