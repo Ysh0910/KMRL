@@ -167,6 +167,7 @@
                     <div class="tab">Sensor Data</div>
                     <div class="tab">Service History</div>
                     <div class="tab">Job Cards</div>
+                    <div class="tab">Branding</div>
                 </div>
 
                 <div class="metrics">
@@ -186,6 +187,49 @@
                         <div class="metric-title">Energy Consumption</div>
                         <div class="metric-value">3.2 kWh/km</div>
                     </div>
+                </div>
+
+                <!-- Branding Information -->
+                <div class="branding-info">
+                    <h3>Branding Contract Details</h3>
+                    <% 
+                    if (selectedTrain) {
+                        const trainBranding = brandingData.find(b => b.train === selectedTrain);
+                        if (trainBranding) { 
+                            const endDate = new Date(trainBranding.end_date);
+                            const today = new Date();
+                        const isActive = endDate > today;
+                    %>
+                        <div class="branding-metrics">
+                            <div class="metric-card">
+                                <div class="metric-title">Contract Status</div>
+                                <div class="metric-value <%= isActive ? 'active' : 'expired' %>">
+                                    <%= isActive ? 'Active' : 'Expired' %>
+                                </div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-title">Revenue</div>
+                                <div class="metric-value">₹<%= parseFloat(trainBranding.revenue).toLocaleString() %></div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-title">Impressions</div>
+                                <div class="metric-value"><%= parseFloat(trainBranding.impressions).toLocaleString() %></div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-title">Contract Period</div>
+                                <div class="metric-value"><%= trainBranding.start_date %> to <%= trainBranding.end_date %></div>
+                            </div>
+                        </div>
+                    <% } else { %>
+                        <div class="no-branding-message">
+                            <p>No active branding contract for this train.</p>
+                        </div>
+                    <% } 
+                    } else { %>
+                        <div class="no-branding-message">
+                            <p>No train data available.</p>
+                        </div>
+                    <% } %>
                 </div>
 
                 <h3>Open Job Cards</h3>

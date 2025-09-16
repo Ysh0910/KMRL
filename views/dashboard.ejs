@@ -33,8 +33,8 @@
             <div class="nav-right">
                 <div class="user-profile">
                     <div class="user-info">
-                        <div class="user-name">Admin User</div>
-                        <div class="user-role">System Administrator</div>
+                        <div class="user-name"><%= user ? user.name : 'Guest' %></div>
+                        <div class="user-role"><%= user ? user.email : 'No email' %></div>
                     </div>
                     <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" class="user-photo">
                 </div>
@@ -97,6 +97,37 @@
                     <span><%= expiredCount %> trains with expired certificates</span>
                 </div>
 
+                <!-- Branding Revenue Summary -->
+                <div class="summary-stats">
+                    <% 
+                        var totalRevenue = 0;
+                        var totalImpressions = 0;
+                        var activeContracts = 0;
+                        var today = new Date();
+                        
+                        brandingData.forEach(contract => {
+                            const endDate = new Date(contract.end_date);
+                            if (endDate > today) {
+                                totalRevenue += parseFloat(contract.revenue);
+                                totalImpressions += parseFloat(contract.impressions);
+                                activeContracts++;
+                            }
+                        });
+                    %>
+                    <div class="stat-item">
+                        <h3>Active Branding Contracts</h3>
+                        <p><%= activeContracts %></p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>Total Revenue</h3>
+                        <p>₹<%= totalRevenue.toLocaleString(undefined, {maximumFractionDigits: 2}) %></p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>Total Impressions</h3>
+                        <p><%= totalImpressions.toLocaleString() %></p>
+                    </div>
+                </div>
+
                 <button class="generate-schedule-btn">
                     <i class="fas fa-calendar-alt"></i> Generate Schedule
                 </button>
@@ -135,59 +166,66 @@
                                     }
                                     %><span class="<%= statusClass %>"><%= status %></span></td>
                                 <td><%= fitnessCertificates[i].expiry_date %></td>
-                                <td><%= fitnessCertificates[i].signal %> / <%= fitnessCertificates[i].braking %> / <%= fitnessCertificates[i].structural_integrity %></td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <!-- <td>
-                                    <button class="btn btn-primary">Details</button>
-                                </td> -->
+                                <td>
+                                    <% 
+                                    const checkStatus = {
+                                        signal: fitnessCertificates[i].signal,
+                                        braking: fitnessCertificates[i].braking,
+                                        structural: fitnessCertificates[i].structural_integrity
+                                    };
+                                    const failCount = Object.values(checkStatus).filter(status => status === 'Fail').length;
+                                    const passCount = Object.values(checkStatus).filter(status => status === 'Pass').length;
+                                    
+                                    if (failCount > 0) { %>
+                                        <span class="status-maintenance"><%= failCount %> Issues</span>
+                                    <% } else { %>
+                                        <span class="status-service">All Clear</span>
+                                    <% } %>
+                                    <span class="job-details" style="font-size: 0.8em; color: #666;">
+                                        (Signal: <%= checkStatus.signal === 'Pass' ? '✓' : '✗' %>,
+                                        Braking: <%= checkStatus.braking === 'Pass' ? '✓' : '✗' %>,
+                                        Structural: <%= checkStatus.structural === 'Pass' ? '✓' : '✗' %>)
+                                    </span>
+                                </td>
+                                <td><%
+                                    const brandingContract = brandingData.find(b => b.train === fitnessCertificates[i].train_id);
+                                    if (brandingContract) {
+                                        const endDate = new Date(brandingContract.end_date);
+                                        const today = new Date();
+                                        if (endDate > today) {
+                                            %>Active til <%= brandingContract.end_date %><%
+                                        } else {
+                                            %>Expired<%
+                                        }
+                                    } else {
+                                        %>No Contract<%
+                                    }
+                                %></td>
+                                <td><% 
+                                    if (brandingContract) {
+                                        const revenue = parseFloat(brandingContract.revenue);
+                                        if (revenue > 15000) {
+                                            %>High<%
+                                        } else if (revenue > 10000) {
+                                            %>Medium<%
+                                        } else {
+                                            %>Low<%
+                                        }
+                                    } else {
+                                        %>-<%
+                                    }
+                                %></td>
+                                <td><%
+                                    const trainMileage = mileage ? mileage.find(m => m.train === fitnessCertificates[i].train_id) : null;
+                                    if (trainMileage && trainMileage.total_kilometers) {
+                                        const kmValue = parseFloat(trainMileage.total_kilometers);
+                                        %><%= kmValue.toLocaleString() %> km<%
+                                    } else {
+                                        %>-<%
+                                    }
+                                %></td>
                             </tr>
                             <% } %>
-                        <!-- <tr>
-                            <td>Train-12</td>
-                            <td><span class="status-standby">Standby</span></td>
-                            <td>Expired</td>
-                            <td>1 Pending</td>
-                            <td>High</td>
-                            <td>High</td>
-                            <td>500 km</td>
-                            <td>Completed</td>
-                            <td><i class="fas fa-ellipsis-v"></i></td>
-                        </tr>
-                        <tr>
-                            <td>Train-05</td>
-                            <td><span class="status-standby">Standby</span></td>
-                            <td>Expired</td>
-                            <td>3 Open</td>
-                            <td>Medium</td>
-                            <td>Low</td>
-                            <td>100 km</td>
-                            <td>Due</td>
-                            <td><i class="fas fa-ellipsis-v"></i></td>
-                        </tr>
-                        <tr>
-                            <td>Train-14</td>
-                            <td><span class="status-maintenance">Maintenance</span></td>
-                            <td>Valid til 10/22</td>
-                            <td>Completed</td>
-                            <td>Low</td>
-                            <td>High</td>
-                            <td>550 km</td>
-                            <td>Completed</td>
-                            <td><i class="fas fa-ellipsis-v"></i></td>
-                        </tr>
-                        <tr>
-                            <td>Train-18</td>
-                            <td><span class="status-service">Service</span></td>
-                            <td>Valid til 11/05</td>
-                            <td>1 Pending</td>
-                            <td>High</td>
-                            <td>Medium</td>
-                            <td>100 km</td>
-                            <td>Due</td>
-                            <td><i class="fas fa-ellipsis-v"></i></td>
-                        </tr> -->
                     </tbody>
                 </table>
             </section>
