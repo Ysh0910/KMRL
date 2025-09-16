@@ -1,0 +1,326 @@
+{
+  "fitness_certificates": [
+    {
+      "train_id": "Train-1",
+      "status": false
+    },
+    {
+      "train_id": "Train-2",
+      "status": false
+    },
+    {
+      "train_id": "Train-3",
+      "status": false
+    },
+    {
+      "train_id": "Train-4",
+      "status": false
+    },
+    {
+      "train_id": "Train-5",
+      "status": false
+    },
+    {
+      "train_id": "Train-6",
+      "status": false
+    },
+    {
+      "train_id": "Train-7",
+      "status": false
+    },
+    {
+      "train_id": "Train-8",
+      "status": false
+    },
+    {
+      "train_id": "Train-9",
+      "status": false
+    },
+    {
+      "train_id": "Train-10",
+      "status": false
+    },
+    {
+      "train_id": "Train-11",
+      "status": false
+    },
+    {
+      "train_id": "Train-12",
+      "status": false
+    },
+    {
+      "train_id": "Train-13",
+      "status": false
+    },
+    {
+      "train_id": "Train-14",
+      "status": false
+    },
+    {
+      "train_id": "Train-15",
+      "status": false
+    },
+    {
+      "train_id": "Train-16",
+      "status": false
+    },
+    {
+      "train_id": "Train-17",
+      "status": false
+    },
+    {
+      "train_id": "Train-18",
+      "status": false
+    },
+    {
+      "train_id": "Train-19",
+      "status": false
+    },
+    {
+      "train_id": "Train-20",
+      "status": false
+    },
+    {
+      "train_id": "Train-21",
+      "status": false
+    },
+    {
+      "train_id": "Train-22",
+      "status": false
+    },
+    {
+      "train_id": "Train-23",
+      "status": false
+    },
+    {
+      "train_id": "Train-24",
+      "status": false
+    },
+    {
+      "train_id": "Train-25",
+      "status": false
+    }
+  ],
+  "job_card_status": [
+    {
+      "train_id": "Train-24",
+      "status": "Completed"
+    },
+    {
+      "train_id": "Train-23",
+      "status": "Pending"
+    },
+    {
+      "train_id": "Train-22",
+      "status": "Completed"
+    },
+    {
+      "train_id": "Train-21",
+      "status": "In Progress"
+    },
+    {
+      "train_id": "Train-20",
+      "status": "Completed"
+    },
+    {
+      "train_id": "Train-25",
+      "status": "Completed"
+    },
+    {
+      "train_id": "Train-18",
+      "status": "Pending"
+    },
+    {
+      "train_id": "Train-17",
+      "status": "Completed"
+    },
+    {
+      "train_id": "Train-16",
+      "status": "In Progress"
+    },
+    {
+      "train_id": "Train-15",
+      "status": "Completed"
+    },
+    {
+      "train_id": "Train-14",
+      "status": "In Progress"
+    },
+    {
+      "train_id": "Train-13",
+      "status": "Completed"
+    },
+    {
+      "train_id": "Train-12",
+      "status": "Completed"
+    },
+    {
+      "train_id": "Train-11",
+      "status": "Completed"
+    },
+    {
+      "train_id": "Train-10",
+      "status": "Completed"
+    },
+    {
+      "train_id": "Train-9",
+      "status": "Completed"
+    },
+    {
+      "train_id": "Train-8",
+      "status": "In Progress"
+    },
+    {
+      "train_id": "Train-7",
+      "status": "Completed"
+    },
+    {
+      "train_id": "Train-6",
+      "status": "Completed"
+    },
+    {
+      "train_id": "Train-2",
+      "status": "Completed"
+    },
+    {
+      "train_id": "Train-3",
+      "status": "Completed"
+    },
+    {
+      "train_id": "Train-4",
+      "status": "Pending"
+    },
+    {
+      "train_id": "Train-5",
+      "status": "Completed"
+    },
+    {
+      "train_id": "Train-19",
+      "status": "In Progress"
+    },
+    {
+      "train_id": "Train-1",
+      "status": "Pending"
+    }
+  ],
+  "branding_priorities": [
+    {
+      "train_id": "Train-2",
+      "score": 0
+    },
+    {
+      "train_id": "Train-7",
+      "score": 0
+    },
+    {
+      "train_id": "Train-18",
+      "score": 0
+    },
+    {
+      "train_id": "Train-24",
+      "score": 0
+    }
+  ],
+  "mileage": [
+    {
+      "train_id": "Train-1",
+      "total_kilometers": 120450
+    },
+    {
+      "train_id": "Train-2",
+      "total_kilometers": 264390
+    },
+    {
+      "train_id": "Train-3",
+      "total_kilometers": 128450
+    },
+    {
+      "train_id": "Train-4",
+      "total_kilometers": 254100
+    },
+    {
+      "train_id": "Train-5",
+      "total_kilometers": 312000
+    },
+    {
+      "train_id": "Train-6",
+      "total_kilometers": 105600
+    },
+    {
+      "train_id": "Train-7",
+      "total_kilometers": 198320
+    },
+    {
+      "train_id": "Train-8",
+      "total_kilometers": 420500
+    },
+    {
+      "train_id": "Train-9",
+      "total_kilometers": 156800
+    },
+    {
+      "train_id": "Train-10",
+      "total_kilometers": 289750
+    },
+    {
+      "train_id": "Train-11",
+      "total_kilometers": 132400
+    },
+    {
+      "train_id": "Train-12",
+      "total_kilometers": 372100
+    },
+    {
+      "train_id": "Train-13",
+      "total_kilometers": 210600
+    },
+    {
+      "train_id": "Train-14",
+      "total_kilometers": 118900
+    },
+    {
+      "train_id": "Train-15",
+      "total_kilometers": 299400
+    },
+    {
+      "train_id": "Train-16",
+      "total_kilometers": 241500
+    },
+    {
+      "train_id": "Train-17",
+      "total_kilometers": 364800
+    },
+    {
+      "train_id": "Train-18",
+      "total_kilometers": 98000
+    },
+    {
+      "train_id": "Train-19",
+      "total_kilometers": 430700
+    },
+    {
+      "train_id": "Train-20",
+      "total_kilometers": 149200
+    },
+    {
+      "train_id": "Train-21",
+      "total_kilometers": 276500
+    },
+    {
+      "train_id": "Train-22",
+      "total_kilometers": 343900
+    },
+    {
+      "train_id": "Train-23",
+      "total_kilometers": 125430
+    },
+    {
+      "train_id": "Train-24",
+      "total_kilometers": 214780
+    },
+    {
+      "train_id": "Train-25",
+      "total_kilometers": 389210
+    }
+  ]
+}
