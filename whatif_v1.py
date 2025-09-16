@@ -3,6 +3,7 @@ import numpy as np
 from deap import base, creator, tools
 from datetime import date
 import pandas as pd
+import json
 from optimization_algorithm import GA
 from rest_framework.response import Response
 from rest_framework import status
@@ -101,9 +102,44 @@ class sim():
             })
 
         updated_df = pd.DataFrame(updated_rows)
-        replacement_df = pd.DataFrame(replacement_log)
-        return updated_df, replacement_df
-    
+        replacement_df_report = pd.DataFrame(replacement_log)
+        return updated_df, replacement_df_report
+
+class SimulationAPIView(APIView):
+     """Django APIView that accepts JSON input with action """
+     def post(self, request, *args, **kwargs):
+        try:
+            action = request.data.get("action")
+
+            if action == 'generate table':
+                # fitness_certificates = request.data["fitness_certificates"]
+                # job_cards = request.data["job_cards"]
+                # branding_priority = request.data["branding_priority"]
+                # current_mileage = request.data["current_mileage"]
+                fitness_certificates = {i: random.choice([True, True, True, False]) for i in range(NUM_TRAINS)}
+                job_cards = {i: random.choice(["COMPLETED","COMPLETED","INPROGRESS"]) for i in range(NUM_TRAINS)}
+                branding_priority = {i: random.randint(0, 3) for i in range(NUM_TRAINS)}
+                current_mileage = {i: random.randint(10000, 50000) for i in range(NUM_TRAINS)}
+                obj=GA(fitness_certificates=fitness_certificates,job_cards=job_cards,branding_priority=branding_priority,current_mileage=current_mileage)
+                obj.GA_setup()
+                best_plan, score = obj.run_ga()
+                df=obj.time_table(best_plan)
+                payload = {
+                            "fitness_certificates": fitness_certificates,
+                            "job_cards": job_cards,
+                            "branding_priority": branding_priority,
+                            "current_mileage": current_mileage
+                        }
+                return Response({
+                    "time_table": df,
+
+                }, status=status.HTTP_200_OK)
+
+        except KeyError as e:
+            return Response(
+                {"error": f"Missing field {str(e)}"},
+                status=status.HTTP_400_BAD_REQUEST
+            )    
     
 
 if __name__=='__main__':
@@ -111,8 +147,6 @@ if __name__=='__main__':
     # random.seed(time.time())
     # np.random.seed(int(time.time()))
     # Seed with current system time
-    random.seed(42)
-    np.random.seed(42)
     obj=GA(fitness_certificates=fitness_certificates,job_cards=job_cards,branding_priority=branding_priority,current_mileage=current_mileage)
     obj.GA_setup()
     best_plan, score = obj.run_ga()
