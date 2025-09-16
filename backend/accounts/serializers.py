@@ -38,7 +38,7 @@ class MaintenanceSendSerializer(serializers.ModelSerializer):
 class BrandingContractSerializer(serializers.ModelSerializer):
     class Meta:
         model = BrandingContract
-        fields = ['id', 'start_date', 'end_date','revenue', 'impressions']
+        fields = ['id','train', 'start_date', 'end_date','revenue', 'impressions']
 
 class MileageSendSerializer(serializers.ModelSerializer):
     class Meta:
