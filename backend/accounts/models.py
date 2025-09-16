@@ -140,4 +140,14 @@ class Mileage(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
+        ordering = ['-created_at'] 
+
+class ModelChache(models.Model):
+    fitness_certificates = models.BooleanField(null=True)
+    job_cards = models.CharField(max_length=20, null=True)
+    branding_priority = models.IntegerField(null=True)
+    current_mileage = models.DecimalField(null=True, decimal_places=2, max_digits=16)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
         ordering = ['-created_at']
