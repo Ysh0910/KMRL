@@ -1,0 +1,225 @@
+{
+  "fitness_certificates": [],
+  "job_card_status": [
+    {
+      "train_id": "Train-24",
+      "status": "Completed"
+    },
+    {
+      "train_id": "Train-23",
+      "status": "Pending"
+    },
+    {
+      "train_id": "Train-22",
+      "status": "Completed"
+    },
+    {
+      "train_id": "Train-21",
+      "status": "In Progress"
+    },
+    {
+      "train_id": "Train-20",
+      "status": "Completed"
+    },
+    {
+      "train_id": "Train-25",
+      "status": "Completed"
+    },
+    {
+      "train_id": "Train-18",
+      "status": "Pending"
+    },
+    {
+      "train_id": "Train-17",
+      "status": "Completed"
+    },
+    {
+      "train_id": "Train-16",
+      "status": "In Progress"
+    },
+    {
+      "train_id": "Train-15",
+      "status": "Completed"
+    },
+    {
+      "train_id": "Train-14",
+      "status": "In Progress"
+    },
+    {
+      "train_id": "Train-13",
+      "status": "Completed"
+    },
+    {
+      "train_id": "Train-12",
+      "status": "Completed"
+    },
+    {
+      "train_id": "Train-11",
+      "status": "Completed"
+    },
+    {
+      "train_id": "Train-10",
+      "status": "Completed"
+    },
+    {
+      "train_id": "Train-9",
+      "status": "Completed"
+    },
+    {
+      "train_id": "Train-8",
+      "status": "In Progress"
+    },
+    {
+      "train_id": "Train-7",
+      "status": "Completed"
+    },
+    {
+      "train_id": "Train-6",
+      "status": "Completed"
+    },
+    {
+      "train_id": "Train-2",
+      "status": "Completed"
+    },
+    {
+      "train_id": "Train-3",
+      "status": "Completed"
+    },
+    {
+      "train_id": "Train-4",
+      "status": "Pending"
+    },
+    {
+      "train_id": "Train-5",
+      "status": "Completed"
+    },
+    {
+      "train_id": "Train-19",
+      "status": "In Progress"
+    },
+    {
+      "train_id": "Train-1",
+      "status": "Pending"
+    }
+  ],
+  "branding_priorities": [
+    {
+      "train_id": null,
+      "score": 0
+    },
+    {
+      "train_id": null,
+      "score": 0
+    },
+    {
+      "train_id": null,
+      "score": 0
+    },
+    {
+      "train_id": null,
+      "score": 0
+    }
+  ],
+  "mileage": [
+    {
+      "train_id": null,
+      "mileage": 0
+    },
+    {
+      "train_id": null,
+      "mileage": 0
+    },
+    {
+      "train_id": null,
+      "mileage": 0
+    },
+    {
+      "train_id": null,
+      "mileage": 0
+    },
+    {
+      "train_id": null,
+      "mileage": 0
+    },
+    {
+      "train_id": null,
+      "mileage": 0
+    },
+    {
+      "train_id": null,
+      "mileage": 0
+    },
+    {
+      "train_id": null,
+      "mileage": 0
+    },
+    {
+      "train_id": null,
+      "mileage": 0
+    },
+    {
+      "train_id": null,
+      "mileage": 0
+    },
+    {
+      "train_id": null,
+      "mileage": 0
+    },
+    {
+      "train_id": null,
+      "mileage": 0
+    },
+    {
+      "train_id": null,
+      "mileage": 0
+    },
+    {
+      "train_id": null,
+      "mileage": 0
+    },
+    {
+      "train_id": null,
+      "mileage": 0
+    },
+    {
+      "train_id": null,
+      "mileage": 0
+    },
+    {
+      "train_id": null,
+      "mileage": 0
+    },
+    {
+      "train_id": null,
+      "mileage": 0
+    },
+    {
+      "train_id": null,
+      "mileage": 0
+    },
+    {
+      "train_id": null,
+      "mileage": 0
+    },
+    {
+      "train_id": null,
+      "mileage": 0
+    },
+    {
+      "train_id": null,
+      "mileage": 0
+    },
+    {
+      "train_id": null,
+      "mileage": 0
+    },
+    {
+      "train_id": null,
+      "mileage": 0
+    },
+    {
+      "train_id": null,
+      "mileage": 0
+    }
+  ]
+}
