@@ -66,18 +66,17 @@ class FitnessUploadView(APIView):
 class SendFitnessCertificates(APIView):
     def get(self, request, *args, **kwargs):
         objs = []
-        reader = csv.DictReader(open('new_branding_priorities.csv'))
+        reader = csv.DictReader(open('new_mileage_balancing.csv'))
         for row in reader:
-            objs.append(BrandingContract(
+            objs.append(Mileage(
                 train = Train(train_id = row['Train ID']),
-                branding_firm = row['Advertiser'],
-                start_date = row['Contract Start Date'],
-                end_date = row['Contract End Date'],
-                revenue = row['Revenue per Day/Run'],
-                impressions = row['Impressions per Run'],
+                total_kilometers = row['Total Kilometers'],
+                kilometers_ran_since_last_maintenance = row['Kilometers Since Last Maintenance'],
+                average_daily_kilometeres = row['Average Daily Kilometers'],
+                total_mileage_for_the_period = row['Target Mileage for the period']
             ))
-        BrandingContract.objects.bulk_create(objs)
-        return Response({'message':'Bcertificates uploaded succesfully'})
+        Mileage.objects.bulk_create(objs)
+        return Response({'message':'Mcertificates uploaded succesfully'})
 
 # class FeedTrains(APIView):
 #     def get(self, request, *args, **kwargs):
@@ -107,4 +106,9 @@ class SendMaintenance(APIView):
 class SendB(APIView):
     def get(self, request, *args, **kwargs):
         serializer = BrandingContractSerializer(BrandingContract.objects.all(), many = True)
+        return Response(serializer.data)
+    
+class SendMileage(APIView):
+    def get(self, request, *args, **kwargs):
+        serializer = MileageSendSerializer(Mileage.objects.all(), many = True)
         return Response(serializer.data)
