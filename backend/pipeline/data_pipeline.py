@@ -206,8 +206,25 @@ def process_data(all_data):
     print(processed_output)
     return processed_output
 
+def transform_train_data(data):
+    result = []
+    # assume all keys have same index set (0..24)
+    for key in data["fitness_certificates"].keys():
+        row = {
+            "train_id": int(key),  # or f"Train-{key}" if you want string IDs
+            "fitness_certificates": data["fitness_certificates"].get(key),
+            "job_cards": data["job_cards"].get(key),
+            "branding_priority": data["branding_priority"].get(key),
+            "current_mileage": data["current_mileage"].get(key),
+        }
+        result.append(row)
+    return result
+
 def send_to_ml_api(data):
     try:
+        print("\n\nim am sending this data\n\n")
+        data = transform_train_data(data)
+        print(data)
         print(requests.post(PIPELINE_CONFIG["output"]["destination_api"]["url"], json=data))
         print("Data sent to ML model API.")
         return True
