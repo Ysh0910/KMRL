@@ -17,10 +17,11 @@
                     <span>KMRL</span>
                 </div>
                 <ul class="nav-menu">
-                    <li><a href="/dashboard" class="active"><i class="fas fa-chart-line"></i> Dashboard</a></li>
-                    <li><a href="/trains"><i class="fas fa-train"></i> Trains</a></li>
-                    <li><a href="/reports"><i class="fas fa-chart-bar"></i> Reports</a></li>
-                    <li><a href="/settings"><i class="fas fa-cog"></i> Settings</a></li>
+                    <li><a href="http://localhost:3000/dashboard" class="nav-link active" data-page="dashboard"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+                    <li><a href="http://localhost:3000/service" class="nav-link" data-page="service"><i class="fas fa-cogs"></i> Service</a></li>
+                    <li><a href="http://localhost:3000/maintenance" class="nav-link" data-page="maintenance"><i class="fas fa-tools"></i> Maintenance</a></li>
+                    <li><a href="http://localhost:3000/alerts" class="nav-link" data-page="alerts"><i class="fas fa-bell"></i> Alerts</a></li>
+                    <li><a href="http://localhost:3000/fitness" class="nav-link" data-page="fitness"><i class="fas fa-certificate"></i> Fitness</a></li>
                 </ul>
             </div>
             
@@ -45,10 +46,13 @@
         <!-- Sidebar -->
         <aside class="sidebar">
             <ul class="sidebar-menu">
-                <li><a href="/service"><i class="fas fa-cogs"></i> Service</a></li>
-                <li><a href="/standby"><i class="fas fa-pause-circle"></i> Standby</a></li>
-                <li><a href="/maintenance"><i class="fas fa-tools"></i> Maintenance</a></li>
-                <li><a href="/alerts"><i class="fas fa-bell"></i> Alerts</a></li>
+                <li><a href="http://localhost:3000/service" class="sidebar-link" data-page="service"><i class="fas fa-cogs"></i> Service</a></li>
+                <li><a href="http://localhost:3000/standby" class="sidebar-link" data-page="standby"><i class="fas fa-pause-circle"></i> Standby</a></li>
+                <li><a href="http://localhost:3000/maintenance" class="sidebar-link" data-page="maintenance"><i class="fas fa-tools"></i> Maintenance</a></li>
+                <li><a href="http://localhost:3000/alerts" class="sidebar-link" data-page="alerts"><i class="fas fa-bell"></i> Alerts</a></li>
+                <li><a href="http://localhost:3000/fitness" class="sidebar-link" data-page="fitness"><i class="fas fa-certificate"></i> Fitness Certificates</a></li>
+                <li><a href="http://localhost:3000/schedule" class="sidebar-link" data-page="schedule"><i class="fas fa-calendar-alt"></i> Schedule</a></li>
+                <li><a href="http://localhost:3000/staff" class="sidebar-link" data-page="staff"><i class="fas fa-users"></i> Staff</a></li>
             </ul>
         </aside>
 
@@ -97,11 +101,12 @@
                             <th>Branding</th>
                             <th>Priority</th>
                             <th>Mileage</th>
-                            <th>Cleaning</th>
+                            <!-- <th>Cleaning</th> -->
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
+                        <% for(let i=0; i<5; i++) { %>
                         <tr>
                             <td>Train-07</td>
                             <td><span class="status-service">Service</span></td>
@@ -110,10 +115,11 @@
                             <td>High</td>
                             <td>Medium</td>
                             <td>400 km</td>
-                            <td>Due</td>
+                            <!-- <td>Due</td> -->
                             <td><i class="fas fa-ellipsis-v"></i></td>
                         </tr>
-                        <tr>
+                        <% } %>
+                        <!-- <tr>
                             <td>Train-12</td>
                             <td><span class="status-standby">Standby</span></td>
                             <td>Expired</td>
@@ -156,7 +162,7 @@
                             <td>100 km</td>
                             <td>Due</td>
                             <td><i class="fas fa-ellipsis-v"></i></td>
-                        </tr>
+                        </tr> -->
                     </tbody>
                 </table>
             </section>

@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KMRL - Fitness Certificate Input</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/inputpage_style.css">
+</head>
+<body>
+    <!-- Header Navigation -->
+    <header>
+        <nav>
+            <div class="nav-left">
+                <div class="logo">
+                    <i class="fas fa-subway"></i>
+                    <span>KMRL</span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="http://localhost:3000/dashboard" class="nav-link" data-page="dashboard"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+                    <li><a href="http://localhost:3000/service" class="nav-link" data-page="service"><i class="fas fa-cogs"></i> Service</a></li>
+                    <li><a href="http://localhost:3000/maintenance" class="nav-link" data-page="maintenance"><i class="fas fa-tools"></i> Maintenance</a></li>
+                    <li><a href="http://localhost:3000/alerts" class="nav-link" data-page="alerts"><i class="fas fa-bell"></i> Alerts</a></li>
+                    <li><a href="http://localhost:3000/fitness" class="nav-link active" data-page="fitness"><i class="fas fa-certificate"></i> Fitness</a></li>
+                </ul>
+            </div>
+            
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <!-- User Profile Section -->
+            <div class="nav-right">
+                <div class="user-profile">
+                    <div class="user-info">
+                        <div class="user-name">Admin User</div>
+                        <div class="user-role">System Administrator</div>
+                    </div>
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" class="user-photo">
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="main-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <ul class="sidebar-menu">
+                <li><a href="http://localhost:3000/service" class="sidebar-link" data-page="service"><i class="fas fa-cogs"></i> Service</a></li>
+                <li><a href="http://localhost:3000/standby" class="sidebar-link" data-page="standby"><i class="fas fa-pause-circle"></i> Standby</a></li>
+                <li><a href="http://localhost:3000/maintenance" class="sidebar-link" data-page="maintenance"><i class="fas fa-tools"></i> Maintenance</a></li>
+                <li><a href="http://localhost:3000/alerts" class="sidebar-link" data-page="alerts"><i class="fas fa-bell"></i> Alerts</a></li>
+                <li><a href="http://localhost:3000/fitness" class="sidebar-link active" data-page="fitness"><i class="fas fa-certificate"></i> Fitness Certificates</a></li>
+                <li><a href="http://localhost:3000/schedule" class="sidebar-link" data-page="schedule"><i class="fas fa-calendar-alt"></i> Schedule</a></li>
+                <li><a href="http://localhost:3000/staff" class="sidebar-link" data-page="staff"><i class="fas fa-users"></i> Staff</a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-header">
+                <h1 class="page-title"><i class="fas fa-certificate"></i> Fitness Certificate Input</h1>
+                <div class="action-buttons">
+                    <button class="btn"><i class="fas fa-list"></i> View All Certificates</button>
+                </div>
+            </div>
+
+            <div class="container">
+                <form id="fitnessForm">
+                    <div class="form-container">
+                        <div class="form-section">
+                            <h2><i class="fas fa-train"></i> Train Information</h2>
+                            
+                            <div class="form-group">
+                                <label for="trainId">Train ID</label>
+                                <input type="text" id="trainId" name="trainId" placeholder="Enter Train ID (e.g., TR-07)" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="issueDate">Issue Date</label>
+                                <input type="date" id="issueDate" name="issueDate" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="expiryDate">Expiry Date</label>
+                                <input type="date" id="expiryDate" name="expiryDate" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="inspector">Inspector Name</label>
+                                <input type="text" id="inspector" name="inspector" placeholder="Enter inspector's name">
+                            </div>
+                        </div>
+                        
+                        <div class="form-section">
+                            <h2><i class="fas fa-tasks"></i> Certificate Details</h2>
+                            
+                            <div class="form-group">
+                                <label>System Checks</label>
+                                <div class="checkbox-group">
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="rollingStock" name="rollingStock">
+                                        <label for="rollingStock">Rolling Stock</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="signalling" name="signalling">
+                                        <label for="signalling">Signalling</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="telecom" name="telecom">
+                                        <label for="telecom">Telecom</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="brakes" name="brakes">
+                                        <label for="brakes">Brake System</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="doors" name="doors">
+                                        <label for="doors">Door Operations</label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Certificate Status</label>
+                                <select id="certificateStatus">
+                                    <option value="valid">Valid</option>
+                                    <option value="expired">Expired</option>
+                                    <option value="pending">Pending Review</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Upload Certificate Image</label>
+                                <div class="upload-area" id="uploadArea">
+                                    <div class="upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+                                    <div class="upload-text">Click to upload or drag and drop</div>
+                                    <button type="button" class="btn"><i class="fas fa-file-image"></i> Select File</button>
+                                    <input type="file" id="certificateImage" name="certificateImage" accept="image/*" style="display: none;">
+                                </div>
+                                <div class="preview-container" id="previewContainer">
+                                    <img id="imagePreview" src="#" alt="Certificate preview">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="actions">
+                        <button type="reset" class="btn btn-secondary"><i class="fas fa-times"></i> Clear</button>
+                        <button type="submit" class="btn"><i class="fas fa-check"></i> Submit Certificate</button>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Recent Certificates Section -->
+            <div class="container">
+                <h2><i class="fas fa-history"></i> Recently Added Certificates</h2>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Train ID</th>
+                                <th>Issue Date</th>
+                                <th>Expiry Date</th>
+                                <th>Status</th>
+                                <th>Inspector</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>TR-12</td>
+                                <td>2023-08-01</td>
+                                <td>2023-11-01</td>
+                                <td><span class="status-indicator status-valid">Valid</span></td>
+                                <td>Robert Johnson</td>
+                            </tr>
+                            <tr>
+                                <td>TR-07</td>
+                                <td>2023-07-15</td>
+                                <td>2023-10-15</td>
+                                <td><span class="status-indicator status-valid">Valid</span></td>
+                                <td>Sarah Williams</td>
+                            </tr>
+                            <tr>
+                                <td>TR-18</td>
+                                <td>2023-06-20</td>
+                                <td>2023-08-20</td>
+                                <td><span class="status-indicator status-expired">Expired</span></td>
+                                <td>Michael Chen</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const uploadArea = document.getElementById('uploadArea');
+            const fileInput = document.getElementById('certificateImage');
+            const previewContainer = document.getElementById('previewContainer');
+            const imagePreview = document.getElementById('imagePreview');
+            
+            // Set today's date as default for issue date
+            const today = new Date();
+            const formattedDate = today.toISOString().split('T')[0];
+            document.getElementById('issueDate').value = formattedDate;
+            
+            // Set expiry date to 3 months from now
+            const expiryDate = new Date();
+            expiryDate.setMonth(expiryDate.getMonth() + 3);
+            const formattedExpiry = expiryDate.toISOString().split('T')[0];
+            document.getElementById('expiryDate').value = formattedExpiry;
+            
+            // Handle click on upload area
+            uploadArea.addEventListener('click', function() {
+                fileInput.click();
+            });
+            
+            // Handle file selection
+            fileInput.addEventListener('change', function() {
+                if (this.files && this.files[0]) {
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(e) {
+                        imagePreview.src = e.target.result;
+                        previewContainer.style.display = 'block';
+                    }
+                    
+                    reader.readAsDataURL(this.files[0]);
+                }
+            });
+            
+            // Allow drag and drop
+            uploadArea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                uploadArea.style.borderColor = '#3498db';
+                uploadArea.style.backgroundColor = '#f0f8ff';
+            });
+            
+            uploadArea.addEventListener('dragleave', function() {
+                uploadArea.style.borderColor = '#ddd';
+                uploadArea.style.backgroundColor = '';
+            });
+            
+            uploadArea.addEventListener('drop', function(e) {
+                e.preventDefault();
+                uploadArea.style.borderColor = '#ddd';
+                uploadArea.style.backgroundColor = '';
+                
+                if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+                    fileInput.files = e.dataTransfer.files;
+                    
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(e) {
+                        imagePreview.src = e.target.result;
+                        previewContainer.style.display = 'block';
+                    }
+                    
+                    reader.readAsDataURL(e.dataTransfer.files[0]);
+                }
+            });
+            
+            // Form submission
+            document.getElementById('fitnessForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Fitness certificate submitted successfully!');
+                // Here you would typically send the data to a server
+            });
+            
+            // Mobile menu toggle
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            if (mobileMenuBtn && navMenu) {
+                mobileMenuBtn.addEventListener('click', function() {
+                    navMenu.style.display = navMenu.style.display === 'flex' ? 'none' : 'flex';
+                    navMenu.style.flexDirection = 'column';
+                    navMenu.style.position = 'absolute';
+                    navMenu.style.top = '70px';
+                    navMenu.style.left = '0';
+                    navMenu.style.right = '0';
+                    navMenu.style.backgroundColor = '#2c3e50';
+                    navMenu.style.padding = '10px';
+                    navMenu.style.gap = '5px';
+                    navMenu.style.zIndex = '1000';
+                });
+            }
+        });
+    </script>
+</body>
+</html>
