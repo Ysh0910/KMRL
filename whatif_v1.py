@@ -3,6 +3,7 @@ import numpy as np
 from deap import base, creator, tools
 from datetime import date
 import pandas as pd
+import time
 import json
 from optimization_algorithm import GA
 from rest_framework.response import Response
@@ -76,7 +77,6 @@ class sim():
                             "Time": time_slot,
                             "Failed": fail_train,
                             "Replacement": replacement,
-                            "Delay": f"{shunting_delay} mins"
                         })
                     if criterea == 'branding':
                         t1 = [self.TRAIN_NAMES.index(i) for i in standby]
@@ -87,8 +87,7 @@ class sim():
                         replacement_log.append({
                             "Time": time_slot,
                             "Failed": fail_train,
-                            "Replacement": replacement,
-                            "Delay": f"{shunting_delay} mins"
+                            "Replacement": keyval,
                         })
 
 
@@ -116,6 +115,8 @@ class SimulationAPIView(APIView):
                 # job_cards = request.data["job_cards"]
                 # branding_priority = request.data["branding_priority"]
                 # current_mileage = request.data["current_mileage"]
+                random.seed(time.time())
+                np.random.seed(int(time.time()))
                 fitness_certificates = {i: random.choice([True, True, True, False]) for i in range(NUM_TRAINS)}
                 job_cards = {i: random.choice(["COMPLETED","COMPLETED","INPROGRESS"]) for i in range(NUM_TRAINS)}
                 branding_priority = {i: random.randint(0, 3) for i in range(NUM_TRAINS)}
@@ -132,8 +133,11 @@ class SimulationAPIView(APIView):
                         }
                 return Response({
                     "time_table": df,
-
+                    'payload':payload,
                 }, status=status.HTTP_200_OK)
+            
+            if action == 'simulate':
+                
 
         except KeyError as e:
             return Response(
@@ -144,12 +148,13 @@ class SimulationAPIView(APIView):
 
 if __name__=='__main__':
     # Seed with current system time
-    # random.seed(time.time())
-    # np.random.seed(int(time.time()))
+    random.seed(time.time())
+    np.random.seed(int(time.time()))
     # Seed with current system time
     obj=GA(fitness_certificates=fitness_certificates,job_cards=job_cards,branding_priority=branding_priority,current_mileage=current_mileage)
     obj.GA_setup()
     best_plan, score = obj.run_ga()
+    print(best_plan)
     df=obj.time_table(best_plan)
     print(df.to_string(index=False))
     obj2=sim(df=df)
