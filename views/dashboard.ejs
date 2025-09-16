@@ -53,6 +53,9 @@
                 <li><a href="http://localhost:3000/fitness" class="sidebar-link" data-page="fitness"><i class="fas fa-certificate"></i> Fitness Certificates</a></li>
                 <li><a href="http://localhost:3000/schedule" class="sidebar-link" data-page="schedule"><i class="fas fa-calendar-alt"></i> Schedule</a></li>
                 <li><a href="http://localhost:3000/staff" class="sidebar-link" data-page="staff"><i class="fas fa-users"></i> Staff</a></li>
+                <li><a href="http://localhost:3000/trains" class="sidebar-link" data-page="trains"><i class="fas fa-train"></i> Trains</a></li>
+                <li><a href="http://localhost:3000/reports" class="sidebar-link" data-page="reports"><i class="fas fa-chart-bar"></i> Reports</a></li>
+                <li><a href="http://localhost:3000/settings" class="sidebar-link" data-page="settings"><i class="fas fa-cog"></i> Settings</a></li>
             </ul>
         </aside>
 
@@ -63,23 +66,35 @@
                 <h2><i class="fas fa-calendar-check"></i> Tonight's Summary</h2>
                 
                 <div class="summary-stats">
+                    <% 
+                        var validCount = 0;
+                        var expiredCount = 0;
+                        var today = new Date();
+                        for (var i = 0; i < fitnessCertificates.length; i++) {
+                            var fc = fitnessCertificates[i];
+                            var parts = fc.expiry_date.split('-');
+                            var expiry = new Date(parts[2], parts[1] - 1, parts[0]);
+                            if (expiry > today) validCount++;
+                            else expiredCount++;
+                        }
+                    %>
                     <div class="stat-item">
                         <h3>Total Trainsets</h3>
-                        <p>25</p>
+                        <p><%= fitnessCertificates.length %></p>
                     </div>
                     <div class="stat-item">
-                        <h3>Planned</h3>
-                        <p>18</p>
+                        <h3>Valid Certificates</h3>
+                        <p><%= validCount %></p>
                     </div>
                     <div class="stat-item">
-                        <h3>Maintenance</h3>
-                        <p>2</p>
+                        <h3>Expired Certificates</h3>
+                        <p><%= expiredCount %></p>
                     </div>
                 </div>
 
                 <div class="alert-item">
                     <span class="alert-icon">⚠️</span>
-                    <span>3 trains with expired certificates</span>
+                    <span><%= expiredCount %> trains with expired certificates</span>
                 </div>
 
                 <button class="generate-schedule-btn">
@@ -102,23 +117,33 @@
                             <th>Priority</th>
                             <th>Mileage</th>
                             <!-- <th>Cleaning</th> -->
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% for(let i=0; i<5; i++) { %>
-                        <tr>
-                            <td>Train-07</td>
-                            <td><span class="status-service">Service</span></td>
-                            <td>Valid til 09/15</td>
-                            <td>2 Open</td>
-                            <td>High</td>
-                            <td>Medium</td>
-                            <td>400 km</td>
-                            <!-- <td>Due</td> -->
-                            <td><i class="fas fa-ellipsis-v"></i></td>
-                        </tr>
-                        <% } %>
+                            <% for (var i = 0; i < fitnessCertificates.length; i++) { %>
+                            <tr>
+                                <td><%= fitnessCertificates[i].train_id %></td>
+                                <td><%
+                                    var status;
+                                    var statusClass;
+                                    if (fitnessCertificates[i].signal === 'Pass' && fitnessCertificates[i].braking === 'Pass' && fitnessCertificates[i].structural_integrity === 'Pass') {
+                                        status = 'Service';
+                                        statusClass = 'status-service';
+                                    } else if (fitnessCertificates[i].signal === 'Fail' || fitnessCertificates[i].braking === 'Fail' || fitnessCertificates[i].structural_integrity === 'Fail') {
+                                        status = 'Maintenance';
+                                        statusClass = 'status-maintenance';
+                                    } else {
+                                        status = 'Attention';
+                                        statusClass = 'status-standby';
+                                    }
+                                    %><span class="<%= statusClass %>"><%= status %></span></td>
+                                <td><%= fitnessCertificates[i].expiry_date %></td>
+                                <td><%= fitnessCertificates[i].signal %> / <%= fitnessCertificates[i].braking %> / <%= fitnessCertificates[i].structural_integrity %></td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <!-- <td>
+                                    <button class="btn btn-primary">Details</button>
+                                </td> -->
+                            </tr>
+                            <% } %>
                         <!-- <tr>
                             <td>Train-12</td>
                             <td><span class="status-standby">Standby</span></td>
