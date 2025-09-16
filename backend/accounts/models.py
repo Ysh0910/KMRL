@@ -143,8 +143,8 @@ class Mileage(models.Model):
         ordering = ['-created_at'] 
 
 class ModelChache(models.Model):
-    train = models.ForeignKey(Train, on_delete=models.CASCADE, related_name="model_chache_records")
-    fitness_certificates = models.BooleanField(null=True)
+    train_id = models.ForeignKey(Train, on_delete = models.CASCADE,default = "", related_name = 'model_chache')
+    fitness_certificates = models.CharField(max_length=20, null=True)
     job_cards = models.CharField(max_length=20, null=True)
     branding_priority = models.IntegerField(null=True)
     current_mileage = models.DecimalField(null=True, decimal_places=2, max_digits=16)
