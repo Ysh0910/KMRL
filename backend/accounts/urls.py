@@ -12,7 +12,8 @@ urlpatterns =[
     path('fitness_certificates/', SendFitnessCeritificates.as_view(), name = "send_fitness_certificates"),
     path('joboards/', SendMaintenance.as_view(), name="send_maintenance"),
     path('branding/', SendB.as_view(), name="send_branding"),
-    path('mileage/', SendMileage.as_view(), name = 'send_mileage')
+    path('mileage/', SendMileage.as_view(), name = 'send_mileage'),
+    path('activate/<str:ud>/<str:token>', Activate.as_view(), name = "activate")
     #path('upload/fitness', )
 ]
 
